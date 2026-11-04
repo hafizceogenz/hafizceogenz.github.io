@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penang Explorer - Mutiara Timur</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <!-- Bendera Pulau Pinang -->
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Penang_%28Malaysia%29.svg" alt="Bendera Penang" class="nav-flag">
+                <div class="logo-text">
+                    <h1>PENANG<span class="highlight-blue">EXPLORER</span></h1>
+                    <p>MUTIARA TIMUR</p>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Utama</a></li>
+                <li><a href="#destinasi">Destinasi</a></li>
+                <li><a href="#tentang">Tentang Penang</a></li>
+                <li><a href="#agensi" class="btn-primary nav-btn">Pautan Rasmi</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-tag">
+                <i class="fa-solid fa-map-location-dot"></i> TEROKAI WARISAN & KEINDAHAN ALAM
+            </div>
+            <h1 class="hero-title">Temui Pesona<br><span>Pulau Pinang</span></h1>
+            <p class="hero-subtitle">
+                Dari warisan bersejarah Georgetown ke keindahan pantai Batu Ferringhi, serta syurga makanan jalanan bertaraf dunia.
+            </p>
+            <div class="hero-buttons">
+                <a href="#destinasi" class="btn-primary"><i class="fa-solid fa-arrow-down"></i> Mula Teroka</a>
+                <a href="#tentang" class="btn-outline">Ketahui Lebih Lanjut</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Destinasi Section -->
+    <section id="destinasi" class="destinasi-section">
+        <div class="section-header">
+            <h2>Pilih Destinasi Impian Anda</h2>
+            <p>Tapis mengikut kategori tarikan kegemaran anda di sekitar Pulau Mutiara.</p>
+        </div>
+
+        <div class="search-filter-container">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Cari lokasi (cth: Georgetown, Batu Ferringhi, Kek Lok Si)...">
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active"><i class="fa-solid fa-border-all"></i> Semua</button>
+                <button class="filter-btn"><i class="fa-solid fa-umbrella-beach"></i> Pantai</button>
+                <button class="filter-btn"><i class="fa-solid fa-monument"></i> Warisan & Sejarah</button>
+                <button class="filter-btn"><i class="fa-solid fa-utensils"></i> Makanan</button>
+                <button class="filter-btn"><i class="fa-solid fa-leaf"></i> Alam Semulajadi</button>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1596401057630-3652a353b3b4?auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge badge-blue">Pantai</span>
+                </div>
+                <div class="card-content">
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Batu Ferringhi</p>
+                    <h3>Pantai Batu Ferringhi</h3>
+                    <p class="desc">Syurga pantai popular dengan aktiviti sukan air yang meriah dan pasar malam yang sibuk.</p>
+                    <a href="#" class="btn-outline-blue w-100"><i class="fa-solid fa-circle-info"></i> Maklumat Lanjut</a>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1620608579893-68d1fbe0900b?auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge badge-yellow">Warisan</span>
+                </div>
+                <div class="card-content">
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Georgetown</p>
+                    <h3>Georgetown Heritage</h3>
+                    <p class="desc">Bandar warisan dunia UNESCO dengan seni bina kolonial unik dan lukisan jalanan (street art) ikonik.</p>
+                    <a href="#" class="btn-outline-blue w-100"><i class="fa-solid fa-circle-info"></i> Maklumat Lanjut</a>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge badge-green">Alam Semulajadi</span>
+                </div>
+                <div class="card-content">
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Ayer Itam</p>
+                    <h3>Bukit Bendera</h3>
+                    <p class="desc">Nikmati pemandangan panorama dari puncak bukit tertua menggunakan kereta api kabel bersejarah.</p>
+                    <a href="#" class="btn-outline-blue w-100"><i class="fa-solid fa-circle-info"></i> Maklumat Lanjut</a>
+                </div>
+            </div>
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1590458117765-a86d8b671190?auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge badge-yellow">Sejarah</span>
+                </div>
+                <div class="card-content">
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Ayer Itam</p>
+                    <h3>Kek Lok Si Temple</h3>
+                    <p class="desc">Kuil Buddha terbesar di Malaysia yang tersergam indah, dihiasi dengan ribuan lampu ketika perayaan.</p>
+                    <a href="#" class="btn-outline-blue w-100"><i class="fa-solid fa-circle-info"></i> Maklumat Lanjut</a>
+                </div>
+            </div>
+            <!-- Card 5 -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1626804475297-41609ea004eb?auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge badge-red">Makanan</span>
+                </div>
+                <div class="card-content">
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Gurney Drive / Chulia St</p>
+                    <h3>Syurga Makanan</h3>
+                    <p class="desc">Merasai keenakan Char Kuey Teow, Nasi Kandar, dan Laksa Penang yang diiktiraf di seluruh dunia.</p>
+                    <a href="#" class="btn-outline-blue w-100"><i class="fa-solid fa-circle-info"></i> Maklumat Lanjut</a>
+                </div>
+            </div>
+            <!-- Card 6 -->
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1572978018335-5cc857143e1d?auto=format&fit=crop&w=800&q=80');">
+                    <span class="badge badge-blue">Ikonik</span>
+                </div>
+                <div class="card-content">
+                    <p class="location"><i class="fa-solid fa-location-dot"></i> Selat Melaka</p>
+                    <h3>Jambatan Pulau Pinang</h3>
+                    <p class="desc">Mercu tanda kejuruteraan kebanggaan negara yang menghubungkan Seberang Perai dan bahagian pulau.</p>
+                    <a href="#" class="btn-outline-blue w-100"><i class="fa-solid fa-circle-info"></i> Maklumat Lanjut</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="tentang" class="about-section">
+        <div class="about-container">
+            <div class="about-text">
+                <h4 class="section-subtitle">KEUNIKAN PULAU PINANG</h4>
+                <h2>Mengapa Penang Syurga Pelancongan?</h2>
+                <p>Pulau Pinang merupakan gabungan sempurna antara pemodenan dan pengekalan warisan. Terkenal sebagai "Mutiara Timur", ia menawarkan kepelbagaian etnik, seni bina kolonial yang dipelihara rapi, alam semulajadi yang menghijau, serta budaya makanan yang tiada tandingan di Asia Tenggara.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <h3>UNESCO</h3>
+                        <p>Tapak Warisan Dunia</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>Top 10</h3>
+                        <p>Destinasi Makanan Asia</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>833m</h3>
+                        <p>Puncak Bukit Bendera</p>
+                    </div>
+                    <div class="stat-box">
+                        <h3>13.5km</h3>
+                        <p>Panjang Jambatan Penang</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=800&q=80" alt="Pemandangan Penang">
+                <div class="quote-box">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <p>"Sebuah pulau di mana warisan, budaya, dan cita rasa bersatu membentuk memori yang indah."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pautan Agensi Section -->
+    <section id="agensi" class="agency-section">
+        <div class="form-container">
+            <div class="form-header">
+                <h4>PAUTAN RASMI</h4>
+                <h2>Agensi Kerajaan & Pelancongan</h2>
+                <p>Sila layari portal rasmi di bawah untuk maklumat perkhidmatan, perancangan perjalanan, dan info terkini dari pihak berkuasa tempatan.</p>
+            </div>
+            
+            <div class="agency-grid">
+                <a href="https://www.penang.gov.my/" target="_blank" class="agency-card">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <h3>Kerajaan Negeri</h3>
+                    <p>Portal Rasmi Kerajaan Negeri Pulau Pinang</p>
+                </a>
+                <a href="https://mypenang.gov.my/" target="_blank" class="agency-card">
+                    <i class="fa-solid fa-plane-departure"></i>
+                    <h3>Penang Global Tourism</h3>
+                    <p>Laman Rasmi Panduan Pelancongan Penang</p>
+                </a>
+                <a href="https://www.mbpp.gov.my/" target="_blank" class="agency-card">
+                    <i class="fa-solid fa-city"></i>
+                    <h3>MBPP</h3>
+                    <p>Majlis Bandaraya Pulau Pinang</p>
+                </a>
+                <a href="https://www.mbsp.gov.my/" target="_blank" class="agency-card">
+                    <i class="fa-solid fa-map-location"></i>
+                    <h3>MBSP</h3>
+                    <p>Majlis Bandaraya Seberang Perai</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Flag_of_Penang_%28Malaysia%29.svg" alt="Bendera Penang" class="footer-flag">
+                    <div class="logo-text-footer">
+                        <h2>PENANG EXPLORER</h2>
+                        <p>MUTIARA TIMUR</p>
+                    </div>
+                </div>
+                <p class="footer-desc">Inisiatif paparan destinasi menarik di Pulau Pinang untuk mempromosikan keindahan alam semulajadi, warisan, dan kebudayaan tempatan ke mata dunia.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Pautan Pantas</h3>
+                <ul>
+                    <li><a href="#">Utama</a></li>
+                    <li><a href="#destinasi">Destinasi Menarik</a></li>
+                    <li><a href="#tentang">Tentang Penang</a></li>
+                    <li><a href="#agensi">Portal Rasmi</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Dibangunkan Oleh</h3>
+                <p class="developer-info">Hafiz Ziqri</p>
+                <p class="developer-sub">Penang Explorer Project<br>Untuk GitHub Pages</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
