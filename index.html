@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ms" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hafiz Ziqri | Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#ea580c', /* Burnt orange */
+                        brandDark: '#c2410c',
+                        darkBg: '#0f172a',
+                        cardDark: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        html { scroll-behavior: smooth; }
+        body { transition: background-color 0.3s ease, color 0.3s ease; }
+        
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-darkBg dark:text-slate-100 selection:bg-brand selection:text-white">
+    
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass top-0 transition-all duration-300 shadow-sm dark:shadow-none">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0 font-extrabold text-2xl tracking-tighter">
+                    <a href="#home">
+                        Hafiz<span class="text-brand">Ziqri.</span>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-brand transition-colors px-3 py-2 rounded-md font-semibold">Utama</a>
+                        <a href="#about" class="hover:text-brand transition-colors px-3 py-2 rounded-md font-semibold">Profil</a>
+                        <a href="#projects" class="hover:text-brand transition-colors px-3 py-2 rounded-md font-semibold">Projek Lab</a>
+                    </div>
+                </div>
+                <div>
+                    <button id="theme-toggle" class="p-2 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 focus:outline-none hover:ring-2 ring-brand transition-all">
+                        <i id="theme-icon" class="fas fa-sun w-5 h-5 flex items-center justify-center"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 px-4 min-h-screen flex items-center justify-center flex-col text-center relative overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-brand rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"></div>
+
+        <div class="z-10" data-aos="fade-up" data-aos-duration="1000">
+            <div class="relative inline-block mb-8">
+                <img src="https://ui-avatars.com/api/?name=Hafiz+Ziqri&background=ea580c&color=fff&size=150&font-size=0.33" alt="Hafiz Ziqri" class="rounded-full mx-auto border-4 border-brand shadow-xl shadow-brand/20">
+                <div class="absolute -bottom-2 -right-2 bg-white dark:bg-cardDark p-2 rounded-full shadow-lg">
+                    <span class="text-2xl">👨‍💻</span>
+                </div>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-4 tracking-tight">Hai, saya <span class="text-brand">Hafiz</span> 👋</h1>
+            <p class="text-xl md:text-2xl mb-8 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-light">
+                <span class="font-semibold text-slate-800 dark:text-slate-200">Economics (Energy) @ UNITEN</span> <br/> 
+                Pengasas & Pembangun yang membina pergerakan belia, inovasi, dan alat digital.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#projects" class="bg-brand hover:bg-brandDark text-white px-8 py-3 rounded-full font-bold transition-all transform hover:-translate-y-1 shadow-lg shadow-brand/30 flex items-center justify-center gap-2">
+                    <i class="fas fa-rocket"></i> Lihat Projek Lab
+                </a>
+                <a href="mailto:m.ziqrionlyone@gmail.com" class="border-2 border-slate-300 dark:border-slate-700 hover:border-brand dark:hover:border-brand px-8 py-3 rounded-full font-bold transition-all hover:text-brand flex items-center justify-center gap-2 bg-white/50 dark:bg-slate-800/50">
+                    <i class="fas fa-envelope"></i> Hubungi Saya
+                </a>
+            </div>
+            
+            <div class="flex gap-6 justify-center mt-12 text-2xl">
+                <a href="https://instagram.com/hafizceogenz" target="_blank" class="text-slate-400 hover:text-brand transition-colors transform hover:scale-110"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@hafizceogenz" target="_blank" class="text-slate-400 hover:text-brand transition-colors transform hover:scale-110"><i class="fab fa-tiktok"></i></a>
+                <a href="https://github.com/hafizceogenz" target="_blank" class="text-slate-400 hover:text-brand transition-colors transform hover:scale-110"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-4 bg-white dark:bg-cardDark transition-colors duration-300">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-5xl font-black mb-16 text-center" data-aos="fade-up">Profil <span class="text-brand">Saya</span></h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h3 class="text-2xl font-bold mb-4">Founder yang mendokumentasi perjalanan.</h3>
+                    <p class="text-lg mb-6 leading-relaxed text-slate-600 dark:text-slate-400">
+                        Penerima Biasiswa YTN PRIME dan Pengerusi Persatuan Belia Cendekia Holistik. Meminati teknologi, kelestarian (sustainability), dan pemerkasaan belia. Dari membina <strong class="text-slate-900 dark:text-white">Geng Volunteers</strong> hingga mendevelop <strong class="text-slate-900 dark:text-white">Lulus.ai</strong>, saya fokus membina impak yang holistik.
+                    </p>
+                    
+                    <div class="space-y-4 font-medium text-slate-700 dark:text-slate-300">
+                        <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
+                            <div class="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center text-brand text-xl shrink-0"><i class="fas fa-graduation-cap"></i></div>
+                            <div>Economics (Energy) (Honours) <br/><span class="text-sm text-slate-500">Universiti Tenaga Nasional (UNITEN)</span></div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
+                            <div class="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center text-brand text-xl shrink-0"><i class="fas fa-users"></i></div>
+                            <div>Pengerusi, Cendekia Holistik <br/><span class="text-sm text-slate-500">Project Lead, Geng Volunteers</span></div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-800 p-4 rounded-xl">
+                            <div class="w-12 h-12 bg-brand/10 rounded-full flex items-center justify-center text-brand text-xl shrink-0"><i class="fas fa-medal"></i></div>
+                            <div>Pencapaian <br/><span class="text-sm text-slate-500">Dean's List 2025-2026 (CGPA 4.00) & 6 Emas Inovasi</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                    <div class="glass p-8 rounded-3xl text-center border-t-4 border-brand hover:-translate-y-2 transition-transform shadow-sm">
+                        <h3 class="text-4xl font-black text-brand mb-2">1.2k+</h3>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Ahli Komuniti GV</p>
+                    </div>
+                    <div class="glass p-8 rounded-3xl text-center border-t-4 border-brand hover:-translate-y-2 transition-transform shadow-sm">
+                        <h3 class="text-4xl font-black text-brand mb-2">461+</h3>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Sukarelawan Aktif</p>
+                    </div>
+                    <div class="glass p-8 rounded-3xl text-center border-t-4 border-brand hover:-translate-y-2 transition-transform shadow-sm">
+                        <h3 class="text-4xl font-black text-brand mb-2">14</h3>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Projek Komuniti</p>
+                    </div>
+                    <div class="glass p-8 rounded-3xl text-center border-t-4 border-brand hover:-translate-y-2 transition-transform shadow-sm">
+                        <h3 class="text-4xl font-black text-brand mb-2">RM36K</h3>
+                        <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">Tajaan Dikumpul</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects / Labs -->
+    <section id="projects" class="py-24 px-4 bg-slate-50 dark:bg-darkBg transition-colors duration-300">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-black mb-4">Projek <span class="text-brand">Web & Data</span></h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Koleksi tugasan web development dan integrasi data yang memfokuskan kepada UI/UX premium dan maklumat interaktif.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Lab 1 -->
+                <div class="bg-white dark:bg-cardDark p-8 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand/10 rounded-full -z-0 transition-transform group-hover:scale-150 duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="text-brand text-5xl mb-6"><i class="fas fa-umbrella-beach"></i></div>
+                        <h3 class="text-2xl font-bold mb-3">Lab 1: Projek Pelancongan Pulau Pinang</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6 min-h-[80px]">Portal pelancongan estetik mempromosikan destinasi percutian, warisan budaya dan syurga makanan di Pulau Mutiara dengan animasi menawan.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-brand/10 text-brand rounded-full text-xs font-bold">HTML5</span>
+                            <span class="px-3 py-1 bg-brand/10 text-brand rounded-full text-xs font-bold">CSS3</span>
+                            <span class="px-3 py-1 bg-brand/10 text-brand rounded-full text-xs font-bold">Web Design</span>
+                        </div>
+                        
+                        <a href="lab1/index.html" class="inline-flex items-center justify-center w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-3 rounded-xl font-bold hover:bg-brand dark:hover:bg-brand hover:text-white transition-colors group-hover:shadow-lg">
+                            Buka Lab 1 <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Lab 2 -->
+                <div class="bg-white dark:bg-cardDark p-8 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-800" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-brand/10 rounded-full -z-0 transition-transform group-hover:scale-150 duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="text-brand text-5xl mb-6"><i class="fas fa-chart-pie"></i></div>
+                        <h3 class="text-2xl font-bold mb-3">Lab 2: Dashboard Populasi Malaysia</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6 min-h-[80px]">Papan pemuka (dashboard) dinamik bagi memvisualisasikan data dan statistik demografi rakyat Malaysia merentas negeri.</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <span class="px-3 py-1 bg-brand/10 text-brand rounded-full text-xs font-bold">Dashboard</span>
+                            <span class="px-3 py-1 bg-brand/10 text-brand rounded-full text-xs font-bold">Data Viz</span>
+                            <span class="px-3 py-1 bg-brand/10 text-brand rounded-full text-xs font-bold">JavaScript</span>
+                        </div>
+                        
+                        <a href="lab2/index.html" class="inline-flex items-center justify-center w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 py-3 rounded-xl font-bold hover:bg-brand dark:hover:bg-brand hover:text-white transition-colors group-hover:shadow-lg">
+                            Buka Lab 2 <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 text-center border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-cardDark">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-2xl font-black mb-6">Hafiz<span class="text-brand">Ziqri.</span></h2>
+            <div class="flex justify-center gap-4 mb-8">
+                <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML5"/>
+                <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3"/>
+                <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JS"/>
+            </div>
+            <p class="text-slate-500 mb-2 font-medium">&copy; 2026 Dibina oleh Hafiz Ziqri. Sedia untuk GitHub Pages.</p>
+            <p class="text-sm font-bold tracking-widest uppercase">Lead &middot; Learn &middot; Grow &nbsp;|&nbsp; <span class="text-brand">#DemiUmmah</span></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+        });
+
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const html = document.documentElement;
+
+        // Load preferences
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        } else {
+            html.classList.remove('dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        // Toggle action
+        themeToggleBtn.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            
+            // Add pop animation
+            themeIcon.classList.add('scale-50', 'opacity-0');
+            
+            setTimeout(() => {
+                if (html.classList.contains('dark')) {
+                    localStorage.theme = 'dark';
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                } else {
+                    localStorage.theme = 'light';
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                }
+                themeIcon.classList.remove('scale-50', 'opacity-0');
+            }, 150);
+        });
+    </script>
+</body>
+</html>
