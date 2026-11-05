@@ -6,6 +6,7 @@
 <title>Hafiz Ziqri · @hafizceogenz</title>
 <meta name="description" content="Founder yang mendokumentasikan perjalanan. Gerakan belia, venture dan alat digital oleh Hafiz Ziqri — Geng Volunteers, Geng Scholars, Persatuan Belia Cendekia Holistik.">
 <meta name="theme-color" content="#060608">
+<script>try{var th=localStorage.getItem("hz-theme");if(th==="light"||th==="dark")document.documentElement.setAttribute("data-theme",th);}catch(e){}</script>
 <meta property="og:title" content="Hafiz Ziqri · @hafizceogenz">
 <meta property="og:description" content="Founder yang mendokumentasikan perjalanan. Lead · Learn · Grow · #DemiUmmah">
 <meta property="og:type" content="website">
@@ -23,6 +24,7 @@
   --gold:#e8b84a; --gold2:#ffe19a; --green:#2fd18b;
   --spring:cubic-bezier(.34,1.42,.5,1);
   --ease:cubic-bezier(.22,.8,.24,1);
+  --btn:#e8b84a; --fill:rgba(255,255,255,.04); --glass:rgba(12,12,16,.78); --big1:#fff; --tagc:#cfcbc2; --shadow:rgba(0,0,0,.5); --grain:.05;
   --display:'Bricolage Grotesque','Plus Jakarta Sans',system-ui,sans-serif;
   --body:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
 }
@@ -34,10 +36,17 @@ a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 img,svg{display:block;max-width:100%}
 em{font-style:normal;color:var(--gold)}
+html[data-theme=light]{
+  --bg:#f6f3ec; --bg2:#efebe2; --card:#ffffff; --card2:#fbf9f4;
+  --line:rgba(30,24,10,.10); --line2:rgba(30,24,10,.2);
+  --text:#17140d; --muted:#5d584b; --dim:#8a8576;
+  --gold:#9a6a06; --gold2:#7a5204; --green:#12935f;
+  --fill:rgba(30,24,10,.045); --glass:rgba(255,255,255,.82); --big1:#17140d; --tagc:#4a4538; --shadow:rgba(60,45,10,.18); --grain:.035;
+}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
 section{scroll-margin-top:84px}
 .wrap{width:min(1160px,100% - 40px);margin-inline:auto}
-.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--grain);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 main,footer{position:relative;z-index:1}
 
 /* ============ DYNAMIC ISLAND ============ */
@@ -45,6 +54,7 @@ main,footer{position:relative;z-index:1}
 .backdrop.on{pointer-events:auto}
 .backdrop.dim{background:rgba(0,0,0,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 #island{
+  color:#f5f2ea;--gold:#e8b84a; --gold2:#ffe19a; --text:#f5f2ea; --muted:#a19d93; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16); --green:#2fd18b;
   --w:150px;--h:34px;--r:22px;
   position:fixed;z-index:1000;top:max(10px,env(safe-area-inset-top));left:50%;
   width:var(--w);height:var(--h);border-radius:var(--r);
@@ -56,7 +66,7 @@ main,footer{position:relative;z-index:1}
 }
 #island[data-state=idle]{--w:min(268px,calc(100vw - 170px));--h:44px;--r:24px}
 #island[data-state=live]{--w:min(372px,calc(100vw - 20px));--h:48px;--r:26px}
-#island[data-state=menu]{--w:min(468px,calc(100vw - 20px));--h:74px;--r:38px;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 1px rgba(232,184,74,.18),inset 0 1px 0 rgba(255,255,255,.1)}
+#island[data-state=menu]{--w:min(468px,calc(100vw - 20px));--h:152px;--r:36px;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 1px rgba(232,184,74,.18),inset 0 1px 0 rgba(255,255,255,.1)}
 #island[data-state=preview]{--w:min(1040px,calc(100vw - 20px));--h:min(calc(100dvh - 24px),720px);--r:32px;box-shadow:0 30px 90px rgba(0,0,0,.75),0 0 0 1px rgba(232,184,74,.22)}
 #island[data-state=live]::after,#island[data-state=idle]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 22px rgba(232,184,74,.08)}
 .v{position:absolute;inset:0;opacity:0;filter:blur(10px);transform:scale(.9);pointer-events:none;
@@ -87,8 +97,17 @@ main,footer{position:relative;z-index:1}
 .v-live p{font-size:12.5px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .v-live p span{color:var(--gold)}
 
-.v-menu{display:flex;align-items:center;justify-content:space-around;padding:0 10px;gap:2px}
-.v-menu a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px;border-radius:22px;font-size:10.5px;font-weight:600;color:var(--muted);transition:background .2s,color .2s,transform .3s var(--spring)}
+.v-menu{display:flex;flex-direction:column;justify-content:center;padding:6px 10px 8px;gap:4px}
+.mrow{display:flex;align-items:center;justify-content:space-around;gap:2px}
+.mlab{display:flex;align-items:center;gap:8px;padding:2px 10px 0;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim,#6f6c65)}
+.mlab::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1)}
+.mpills{display:flex;gap:6px;padding:0 2px}
+.pill{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 11px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:left;transition:background .2s,border-color .2s,transform .3s var(--spring)}
+.pill small{font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
+.pill b{font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;color:#f5f2ea}
+.pill:hover,.pill:focus-visible{background:rgba(232,184,74,.16);border-color:rgba(232,184,74,.5);transform:translateY(-2px)}
+.pill:active{transform:scale(.95)}
+.v-menu a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px;border-radius:22px;font-size:10.5px;font-weight:600;color:var(--muted);transition:background .2s,color .2s,transform .3s var(--spring)}
 .v-menu a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .v-menu a:hover,.v-menu a:focus-visible,.v-menu a.on{background:rgba(232,184,74,.14);color:var(--gold2)}
 .v-menu a:active{transform:scale(.92)}
@@ -98,7 +117,7 @@ main,footer{position:relative;z-index:1}
 .pv-bar .ttl{min-width:0;flex:1;display:flex;flex-direction:column;line-height:1.2}
 .pv-bar .ttl b{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pv-bar .ttl small{font-size:11px;color:var(--muted)}
-.pv-bar .btn-s{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:var(--gold);color:#1a1405;font-size:12px;font-weight:700;white-space:nowrap}
+.pv-bar .btn-s{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:var(--btn);color:#1a1405;font-size:12px;font-weight:700;white-space:nowrap}
 .pv-bar .btn-x{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.1);display:grid;place-items:center;flex:none;transition:background .2s,transform .3s var(--spring)}
 .pv-bar .btn-x:hover{background:rgba(255,255,255,.2);transform:rotate(90deg)}
 .pv-bar svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
@@ -108,9 +127,13 @@ main,footer{position:relative;z-index:1}
 .pv-load i{width:26px;height:26px;border-radius:50%;border:2.5px solid rgba(255,255,255,.14);border-top-color:var(--gold);animation:spin .8s linear infinite;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.langbtn{position:fixed;z-index:950;top:max(14px,calc(env(safe-area-inset-top) + 4px));right:14px;display:flex;border:1px solid var(--line2);background:rgba(10,10,14,.7);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:99px;padding:3px;font-size:11px;font-weight:700}
+.themebtn{position:fixed;z-index:950;top:max(14px,calc(env(safe-area-inset-top) + 4px));left:14px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2);background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:transform .4s var(--spring),border-color .3s}
+.themebtn:hover{transform:rotate(18deg) scale(1.08);border-color:var(--gold)}
+.themebtn svg{width:17px;height:17px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;grid-area:1/1;transition:opacity .3s,transform .5s var(--spring)}
+html[data-theme=light] .themebtn .sun,html:not([data-theme=light]) .themebtn .moon{opacity:0;transform:rotate(-90deg) scale(.4)}
+.langbtn{position:fixed;z-index:950;top:max(14px,calc(env(safe-area-inset-top) + 4px));right:14px;display:flex;border:1px solid var(--line2);background:var(--glass);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:99px;padding:3px;font-size:11px;font-weight:700}
 .langbtn span{padding:5px 9px;border-radius:99px;color:var(--muted);transition:.25s}
-.langbtn span.on{background:var(--gold);color:#1a1405}
+.langbtn span.on{background:var(--btn);color:#1a1405}
 
 /* ============ HERO ============ */
 .hero{position:relative;padding:150px 0 90px;overflow:hidden}
@@ -127,17 +150,17 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .btn{display:inline-flex;align-items:center;gap:9px;padding:15px 24px;border-radius:99px;font-weight:700;font-size:14.5px;transition:transform .35s var(--spring),box-shadow .3s,background .3s,border-color .3s}
 .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .btn:hover{transform:translateY(-3px)}
-.btn.pri{background:var(--gold);color:#1a1405;box-shadow:0 10px 30px rgba(232,184,74,.28)}
+.btn.pri{background:var(--btn);color:#1a1405;box-shadow:0 10px 30px rgba(232,184,74,.28)}
 .btn.pri:hover{box-shadow:0 16px 40px rgba(232,184,74,.42)}
-.btn.ghost{border:1px solid var(--line2);background:rgba(255,255,255,.03)}
+.btn.ghost{border:1px solid var(--line2);background:var(--fill)}
 .btn.ghost:hover{border-color:var(--gold);background:rgba(232,184,74,.07)}
 .handle{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap}
-.chip{padding:7px 13px;border-radius:99px;border:1px solid var(--line);font-size:12px;color:var(--muted);background:rgba(255,255,255,.02)}
+.chip{padding:7px 13px;border-radius:99px;border:1px solid var(--line);font-size:12px;color:var(--muted);background:var(--fill)}
 
 .photo-stage{position:relative;perspective:1000px;justify-self:center;width:min(400px,100%)}
-.photo{position:relative;aspect-ratio:4/5;border-radius:34px;overflow:hidden;border:1px solid var(--line2);background:#111 center/cover no-repeat;box-shadow:0 40px 80px rgba(0,0,0,.6),0 0 0 8px rgba(255,255,255,.025);transition:transform .25s var(--ease);transform-style:preserve-3d}
+.photo{position:relative;aspect-ratio:4/5;border-radius:34px;overflow:hidden;border:1px solid var(--line2);background:#111 center/cover no-repeat;box-shadow:0 40px 80px var(--shadow),0 0 0 8px var(--fill);transition:transform .25s var(--ease);transform-style:preserve-3d}
 .photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(6,6,8,.55),transparent 38%);}
-.badge{position:absolute;z-index:3;display:flex;align-items:center;gap:9px;padding:9px 14px 9px 10px;border-radius:99px;background:rgba(12,12,16,.78);border:1px solid var(--line2);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 14px 34px rgba(0,0,0,.45);animation:float 6s ease-in-out infinite}
+.badge{position:absolute;z-index:3;display:flex;align-items:center;gap:9px;padding:9px 14px 9px 10px;border-radius:99px;background:var(--glass);border:1px solid var(--line2);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);font-size:12px;font-weight:600;white-space:nowrap;box-shadow:0 14px 34px rgba(0,0,0,.45);animation:float 6s ease-in-out infinite}
 .badge i{width:26px;height:26px;border-radius:50%;background:rgba(232,184,74,.16);color:var(--gold);display:grid;place-items:center;font-style:normal;font-size:13px}
 .badge.b1{top:8%;left:-14%}
 .badge.b2{top:44%;right:-12%;animation-delay:-2s}
@@ -159,9 +182,9 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 
 /* projects */
-.proj{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.proj{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .pcard{position:relative;border:1px solid var(--line);border-radius:30px;background:linear-gradient(180deg,var(--card2),var(--card));overflow:hidden;display:flex;flex-direction:column;transition:transform .5s var(--spring),border-color .3s,box-shadow .4s}
-.pcard:hover{transform:translateY(-8px);border-color:rgba(232,184,74,.4);box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 0 1px rgba(232,184,74,.1)}
+.pcard:hover{transform:translateY(-8px);border-color:rgba(232,184,74,.4);box-shadow:0 30px 60px var(--shadow),0 0 0 1px rgba(232,184,74,.1)}
 .thumb{position:relative;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);cursor:pointer}
 .thumb svg{width:100%;height:100%;transition:transform .8s var(--ease)}
 .pcard:hover .thumb svg{transform:scale(1.05)}
@@ -169,10 +192,10 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .pcard:hover .thumb .hint,.thumb:focus-visible .hint{opacity:1;transform:translate(-50%,0)}
 .pbody{padding:26px 26px 28px;display:flex;flex-direction:column;gap:14px;flex:1}
 .plabel{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.pbody h3{font-size:30px;font-weight:800}
+.pbody h3{font-size:26px;font-weight:800}
 .pbody p{color:var(--muted);font-size:15px}
 .tags{display:flex;flex-wrap:wrap;gap:7px}
-.tags span{padding:5px 11px;border-radius:99px;background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:11.5px;color:#cfcbc2;font-weight:500}
+.tags span{padding:5px 11px;border-radius:99px;background:var(--fill);border:1px solid var(--line);font-size:11.5px;color:var(--tagc);font-weight:500}
 .pact{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:8px}
 .pact .btn{padding:12px 20px;font-size:13.5px}
 
@@ -181,11 +204,11 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .cell{border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,var(--card2),var(--card));padding:28px;position:relative;overflow:hidden;transition:border-color .3s,transform .4s var(--spring)}
 .cell:hover{border-color:rgba(232,184,74,.35);transform:translateY(-4px)}
 .cell .k{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.cell .big{font-family:var(--display);font-weight:800;font-size:clamp(44px,6vw,76px);line-height:1;letter-spacing:-.03em;margin:12px 0 8px;background:linear-gradient(180deg,#fff,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cell .big{font-family:var(--display);font-weight:800;font-size:clamp(44px,6vw,76px);line-height:1;letter-spacing:-.03em;margin:12px 0 8px;background:linear-gradient(180deg,var(--big1),var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .cell p{color:var(--muted);font-size:14.5px}
 .c-a{grid-column:span 7}.c-b{grid-column:span 5}.c-c{grid-column:span 4}.c-d{grid-column:span 4}.c-e{grid-column:span 4}
 .minis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
-.mini{padding:14px 14px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.mini{padding:14px 14px;border-radius:18px;background:var(--fill);border:1px solid var(--line)}
 .mini b{display:block;font-family:var(--display);font-size:26px;font-weight:800;color:var(--text)}
 .mini>span{font-size:12px;color:var(--muted)}
 .cell.glow::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(232,184,74,.22),transparent 65%)}
@@ -204,13 +227,13 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .site{position:relative;display:flex;flex-direction:column;gap:12px;padding:32px;border-radius:30px;border:1px solid var(--line);background:linear-gradient(135deg,var(--card2),var(--card));overflow:hidden;transition:transform .5s var(--spring),border-color .3s}
 .site::after{content:"↗";position:absolute;top:22px;right:26px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line2);font-size:20px;color:var(--gold);transition:.4s var(--spring)}
 .site:hover{transform:translateY(-6px);border-color:rgba(232,184,74,.45)}
-.site:hover::after{background:var(--gold);color:#1a1405;transform:rotate(45deg)}
+.site:hover::after{background:var(--btn);color:#1a1405;transform:rotate(45deg)}
 .site .url{font-size:13px;color:var(--gold);font-weight:600;word-break:break-all;padding-right:56px}
 .site h3{font-size:28px;font-weight:800}
 .site p{color:var(--muted);font-size:15px;max-width:44ch}
 .socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
 .soc{display:inline-flex;align-items:center;gap:9px;padding:12px 20px;border-radius:99px;border:1px solid var(--line2);font-size:13.5px;font-weight:600;transition:.35s var(--spring)}
-.soc:hover{background:var(--gold);color:#1a1405;border-color:var(--gold);transform:translateY(-3px)}
+.soc:hover{background:var(--btn);color:#1a1405;border-color:var(--btn);transform:translateY(-3px)}
 
 /* experiments + recognition */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -240,10 +263,12 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   .photo-stage{width:min(360px,86%)}
   .badge.b1{left:-6%}.badge.b2{right:-6%}.badge.b3{left:-4%}
   .proj,.sites,.two{grid-template-columns:1fr}
+  .proj{max-width:560px;margin-inline:auto}
   .eco{grid-template-columns:1fr 1fr}
   .c-a,.c-b,.c-c,.c-d,.c-e{grid-column:span 12}
   .sec{padding:76px 0}
 }
+@media (min-width:961px) and (max-width:1100px){.pbody{padding:20px}.pbody h3{font-size:22px}}
 @media (max-width:620px){
   .wrap{width:calc(100% - 32px)}
   .eco{grid-template-columns:1fr}
@@ -255,6 +280,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   .badge i{width:22px;height:22px;font-size:11px}
   .badge.b1{left:-3%}.badge.b2{right:-3%}.badge.b3{left:-2%}
   .v-menu a{font-size:9.5px}
+  .pill{padding:7px 8px}.pill b{font-size:10.5px}
   .site{padding:26px}
   .pbody{padding:22px}
 }
@@ -279,6 +305,8 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 7l9 6 9-6"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13.2A8.5 8.5 0 1 1 10.8 3a6.8 6.8 0 0 0 10.2 10.2z"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></symbol>
 </svg>
@@ -300,11 +328,19 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   </div>
 
   <nav class="v v-menu" data-view="menu" aria-label="Menu utama">
-    <a href="#utama" data-sec="utama"><svg><use href="#i-home"/></svg><span data-ms="Utama" data-en="Home">Utama</span></a>
-    <a href="#projek" data-sec="projek"><svg><use href="#i-grid"/></svg><span data-ms="Projek" data-en="Projects">Projek</span></a>
-    <a href="#impak" data-sec="impak"><svg><use href="#i-chart"/></svg><span data-ms="Impak" data-en="Impact">Impak</span></a>
-    <a href="#laman" data-sec="laman"><svg><use href="#i-globe"/></svg><span data-ms="Laman" data-en="Sites">Laman</span></a>
-    <a href="#hubungi" data-sec="hubungi"><svg><use href="#i-mail"/></svg><span data-ms="Hubungi" data-en="Contact">Hubungi</span></a>
+    <div class="mrow">
+      <a href="#utama" data-sec="utama"><svg><use href="#i-home"/></svg><span data-ms="Utama" data-en="Home">Utama</span></a>
+      <a href="#projek" data-sec="projek"><svg><use href="#i-grid"/></svg><span data-ms="Projek" data-en="Projects">Projek</span></a>
+      <a href="#impak" data-sec="impak"><svg><use href="#i-chart"/></svg><span data-ms="Impak" data-en="Impact">Impak</span></a>
+      <a href="#laman" data-sec="laman"><svg><use href="#i-globe"/></svg><span data-ms="Laman" data-en="Sites">Laman</span></a>
+      <a href="#hubungi" data-sec="hubungi"><svg><use href="#i-mail"/></svg><span data-ms="Hubungi" data-en="Contact">Hubungi</span></a>
+    </div>
+    <div class="mlab"><span data-ms="Folder projek · buka terus" data-en="Project folders · open live">Folder projek · buka terus</span></div>
+    <div class="mpills">
+      <button class="pill" data-src="lab1/maimaipenang_interactive_preview.html" data-title="MaiMaiPenang"><small>LAB 1</small><b>MaiMaiPenang</b></button>
+      <button class="pill" data-src="lab2/dashboard_enterprise_theme_switcher.html" data-title="Dashboard Demografi Malaysia"><small>LAB 2</small><b>Demografi MY</b></button>
+      <button class="pill" data-src="lab3/index.html" data-title="InapDesaJannah"><small>LAB 3</small><b>InapDesaJannah</b></button>
+    </div>
   </nav>
 
   <div class="v v-preview" data-view="preview">
@@ -320,6 +356,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   </div>
 </div>
 
+<button class="themebtn" id="theme" aria-label="Tukar mod terang / gelap"><svg class="sun"><use href="#i-sun"/></svg><svg class="moon"><use href="#i-moon"/></svg></button>
 <div class="langbtn" id="lang" role="group" aria-label="Bahasa"><span class="on" data-l="ms">BM</span><span data-l="en">EN</span></div>
 
 <main>
@@ -356,12 +393,12 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
     <div class="sec-h reveal">
       <span class="eyebrow" data-ms="Hasil projek" data-en="Project showcase">Hasil projek</span>
       <h2 data-ms="Bukan sekadar idea. <em>Boleh dibuka, boleh diuji.</em>" data-en="Not just ideas. <em>Open them, try them.</em>">Bukan sekadar idea. <em>Boleh dibuka, boleh diuji.</em></h2>
-      <p data-ms="Dua projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh." data-en="Two web projects I built. Tap Preview to see them live inside the island, or Open for full screen.">Dua projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh.</p>
+      <p data-ms="Tiga projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh. Folder projek juga ada dalam menu island di atas." data-en="Three web projects I built. Tap Preview to see them live inside the island, or Open for full screen. The project folders are also in the island menu above.">Tiga projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh. Folder projek juga ada dalam menu island di atas.</p>
     </div>
 
     <div class="proj">
-      <!-- ▼▼ UBAH NAMA FAIL DI SINI jika nama fail dalam repo berbeza ▼▼ -->
-      <article class="pcard reveal" data-src="maimaipenang_interactive_preview.html" data-title="MaiMaiPenang">
+      <!-- ▼▼ UBAH LALUAN FAIL DI SINI jika nama folder/fail dalam repo berbeza ▼▼ -->
+      <article class="pcard reveal" data-src="lab1/maimaipenang_interactive_preview.html" data-title="MaiMaiPenang">
         <div class="thumb" tabindex="0" role="button" aria-label="Pratonton MaiMaiPenang">
           <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0f2d52"/><stop offset="1" stop-color="#16467c"/></linearGradient></defs>
@@ -390,12 +427,12 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
           <div class="tags"><span>Tailwind CSS</span><span>JavaScript</span><span data-ms="Peta interaktif" data-en="Interactive map">Peta interaktif</span><span data-ms="Borang tempahan" data-en="Booking form">Borang tempahan</span></div>
           <div class="pact">
             <button class="btn pri js-preview"><svg><use href="#i-eye"/></svg><span data-ms="Pratonton" data-en="Preview">Pratonton</span></button>
-            <a class="btn ghost" href="maimaipenang_interactive_preview.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
+            <a class="btn ghost" href="lab1/maimaipenang_interactive_preview.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
           </div>
         </div>
       </article>
 
-      <article class="pcard reveal d1" data-src="dashboard_enterprise_theme_switcher.html" data-title="Dashboard Demografi Malaysia">
+      <article class="pcard reveal d1" data-src="lab2/dashboard_enterprise_theme_switcher.html" data-title="Dashboard Demografi Malaysia">
         <div class="thumb" tabindex="0" role="button" aria-label="Pratonton Dashboard Demografi Malaysia">
           <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
             <rect width="480" height="300" fill="#0b1220"/>
@@ -423,7 +460,37 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
           <div class="tags"><span>Chart.js</span><span>KPI</span><span data-ms="Penukar tema" data-en="Theme switcher">Penukar tema</span><span data-ms="Data 1970–2026" data-en="Data 1970–2026">Data 1970–2026</span></div>
           <div class="pact">
             <button class="btn pri js-preview"><svg><use href="#i-eye"/></svg><span data-ms="Pratonton" data-en="Preview">Pratonton</span></button>
-            <a class="btn ghost" href="dashboard_enterprise_theme_switcher.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
+            <a class="btn ghost" href="lab2/dashboard_enterprise_theme_switcher.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="pcard reveal d2" data-src="lab3/index.html" data-title="InapDesaJannah">
+        <div class="thumb" tabindex="0" role="button" aria-label="Pratonton InapDesaJannah">
+          <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs><linearGradient id="g3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c3a36"/><stop offset="1" stop-color="#0d1a19"/></linearGradient></defs>
+            <rect width="480" height="300" fill="url(#g3)"/>
+            <circle cx="400" cy="70" r="46" fill="#f2c46d" opacity=".9"/><circle cx="400" cy="70" r="74" fill="#f2c46d" opacity=".12"/>
+            <path d="M0 210 L90 140 L170 190 L260 120 L360 200 L480 150 V300 H0z" fill="#0a1413" opacity=".7"/>
+            <rect x="18" y="16" width="444" height="28" rx="14" fill="#fff" opacity=".1"/><rect x="32" y="26" width="70" height="8" rx="4" fill="#f2c46d"/>
+            <rect x="320" y="26" width="28" height="8" rx="4" fill="#fff" opacity=".5"/><rect x="358" y="26" width="28" height="8" rx="4" fill="#fff" opacity=".5"/><rect x="396" y="26" width="48" height="8" rx="4" fill="#f2c46d" opacity=".8"/>
+            <rect x="32" y="82" width="220" height="16" rx="8" fill="#fff"/><rect x="32" y="108" width="150" height="16" rx="8" fill="#f2c46d"/>
+            <rect x="32" y="138" width="240" height="7" rx="3.5" fill="#fff" opacity=".45"/><rect x="32" y="152" width="190" height="7" rx="3.5" fill="#fff" opacity=".45"/>
+            <rect x="32" y="206" width="416" height="62" rx="18" fill="#fff" opacity=".95"/>
+            <rect x="48" y="222" width="70" height="7" rx="3.5" fill="#1c3a36" opacity=".5"/><rect x="48" y="236" width="90" height="12" rx="4" fill="#1c3a36"/>
+            <rect x="170" y="222" width="70" height="7" rx="3.5" fill="#1c3a36" opacity=".5"/><rect x="170" y="236" width="90" height="12" rx="4" fill="#1c3a36"/>
+            <rect x="292" y="222" width="50" height="7" rx="3.5" fill="#1c3a36" opacity=".5"/><rect x="292" y="236" width="40" height="12" rx="4" fill="#1c3a36"/>
+            <rect x="366" y="218" width="68" height="34" rx="17" fill="#25d366"/>
+          </svg>
+          <span class="hint"><svg width="14" height="14" style="stroke:currentColor;fill:none;stroke-width:2.2"><use href="#i-eye"/></svg><span data-ms="Pratonton dalam island" data-en="Preview in island">Pratonton dalam island</span></span>
+        </div>
+        <div class="pbody">
+          <span class="plabel" data-ms="Projek 03 · Hospitaliti" data-en="Project 03 · Hospitality">Projek 03 · Hospitaliti</span>
+          <h3>InapDesaJannah</h3>
+          <p data-ms="Laman homestay eksklusif di Unipark Condominium, Kajang: 4 bilik tidur, 4 bilik air en-suite, kira-kira 5 minit ke UNITEN. Galeri, borang tempahan ke WhatsApp, chatbot dan mod gelap/terang." data-en="A premium homestay site at Unipark Condominium, Kajang: 4 bedrooms, 4 en-suite bathrooms, about 5 minutes from UNITEN. Gallery, WhatsApp booking form, chatbot and dark/light mode.">Laman homestay eksklusif di Unipark Condominium, Kajang: 4 bilik tidur, 4 bilik air en-suite, kira-kira 5 minit ke UNITEN. Galeri, borang tempahan ke WhatsApp, chatbot dan mod gelap/terang.</p>
+          <div class="tags"><span>6 <span data-ms="halaman" data-en="pages">halaman</span></span><span data-ms="Tempahan WhatsApp" data-en="WhatsApp booking">Tempahan WhatsApp</span><span>Chatbot</span><span data-ms="Gelap / Terang" data-en="Dark / Light">Gelap / Terang</span></div>
+          <div class="pact">
+            <button class="btn pri js-preview"><svg><use href="#i-eye"/></svg><span data-ms="Pratonton" data-en="Preview">Pratonton</span></button>
+            <a class="btn ghost" href="lab3/index.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
           </div>
         </div>
       </article>
@@ -601,10 +668,10 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   var S={
     ms:{sections:{utama:'Utama',projek:'Projek',impak:'Impak',ekosistem:'Platform',laman:'Laman & platform',eksperimen:'Eksperimen',hubungi:'Hubungi'},
         live:['Assalamualaikum, selamat datang','Geng Volunteers 2.0 · <span>461</span> sukarelawan sah','Terbuka untuk kerjasama & jemputan','Lead · Learn · Grow  <span>#DemiUmmah</span>'],
-        aria:'Buka menu', ttl:'Pratonton langsung'},
+        aria:'Buka menu', ttl:'Pratonton langsung', theme:{light:'Mod terang <span>aktif</span>',dark:'Mod gelap <span>aktif</span>'}},
     en:{sections:{utama:'Home',projek:'Projects',impak:'Impact',ekosistem:'Platforms',laman:'Sites & platforms',eksperimen:'Experiments',hubungi:'Contact'},
         live:['Assalamualaikum, welcome','Geng Volunteers 2.0 · <span>461</span> verified volunteers','Open to partnerships & invitations','Lead · Learn · Grow  <span>#DemiUmmah</span>'],
-        aria:'Open menu', ttl:'Live preview'}
+        aria:'Open menu', ttl:'Live preview', theme:{light:'Light mode <span>on</span>',dark:'Dark mode <span>on</span>'}}
   };
   function applyLang(l){
     lang=l; document.documentElement.lang=l;
@@ -617,6 +684,18 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   /* data-ms for elements whose default markup already is Malay: ensure dataset.ms exists */
   $$('[data-en]').forEach(function(el){ if(el.dataset.ms===undefined) el.dataset.ms=el.innerHTML; });
   $$('#lang span').forEach(function(s){ s.addEventListener('click',function(){ applyLang(s.dataset.l); }); });
+
+  /* ---------- Theme ---------- */
+  var root=document.documentElement, themeBtn=$('#theme'), metaTheme=$('meta[name=theme-color]');
+  function curTheme(){ return root.getAttribute('data-theme')==='light'?'light':'dark'; }
+  function setTheme(th,announce){
+    if(th==='light') root.setAttribute('data-theme','light'); else root.setAttribute('data-theme','dark');
+    if(metaTheme) metaTheme.setAttribute('content',th==='light'?'#f6f3ec':'#060608');
+    try{localStorage.setItem('hz-theme',th);}catch(e){}
+    if(announce&&typeof showLive==='function') showLive(S[lang].theme[th],2200);
+  }
+  themeBtn.addEventListener('click',function(){ setTheme(curTheme()==='light'?'dark':'light',true); });
+  setTheme(curTheme(),false);
 
   /* ---------- Island ---------- */
   var island=$('#island'), backdrop=$('#backdrop'), idleBtn=$('#idleBtn'), idleSub=$('#idleSub'), liveTxt=$('#liveTxt');
@@ -682,6 +761,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   }
   function closePreview(){ setState('idle'); quietUntil=Date.now()+5000; if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true}); }
   pvClose.addEventListener('click',closePreview);
+  $$('.pill').forEach(function(pl){ pl.addEventListener('click',function(){ openPreview(pl); }); });
   $$('.pcard').forEach(function(card){
     var go=function(){ openPreview(card); };
     $('.js-preview',card).addEventListener('click',go);
