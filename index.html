@@ -66,7 +66,7 @@ main,footer{position:relative;z-index:1}
 }
 #island[data-state=idle]{--w:min(268px,calc(100vw - 170px));--h:44px;--r:24px}
 #island[data-state=live]{--w:min(372px,calc(100vw - 20px));--h:48px;--r:26px}
-#island[data-state=menu]{--w:min(468px,calc(100vw - 20px));--h:152px;--r:36px;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 1px rgba(232,184,74,.18),inset 0 1px 0 rgba(255,255,255,.1)}
+#island[data-state=menu]{--w:min(580px,calc(100vw - 20px));--h:152px;--r:36px;box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 0 1px rgba(232,184,74,.18),inset 0 1px 0 rgba(255,255,255,.1)}
 #island[data-state=preview]{--w:min(1040px,calc(100vw - 20px));--h:min(calc(100dvh - 24px),720px);--r:32px;box-shadow:0 30px 90px rgba(0,0,0,.75),0 0 0 1px rgba(232,184,74,.22)}
 #island[data-state=live]::after,#island[data-state=idle]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 22px rgba(232,184,74,.08)}
 .v{position:absolute;inset:0;opacity:0;filter:blur(10px);transform:scale(.9);pointer-events:none;
@@ -101,7 +101,7 @@ main,footer{position:relative;z-index:1}
 .mrow{display:flex;align-items:center;justify-content:space-around;gap:2px}
 .mlab{display:flex;align-items:center;gap:8px;padding:2px 10px 0;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim,#6f6c65)}
 .mlab::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1)}
-.mpills{display:flex;gap:6px;padding:0 2px}
+.mpills{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 2px}
 .pill{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:7px 11px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:left;transition:background .2s,border-color .2s,transform .3s var(--spring)}
 .pill small{font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--gold)}
 .pill b{font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;color:#f5f2ea}
@@ -182,7 +182,7 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 
 /* projects */
-.proj{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.proj{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
 .pcard{position:relative;border:1px solid var(--line);border-radius:30px;background:linear-gradient(180deg,var(--card2),var(--card));overflow:hidden;display:flex;flex-direction:column;transition:transform .5s var(--spring),border-color .3s,box-shadow .4s}
 .pcard:hover{transform:translateY(-8px);border-color:rgba(232,184,74,.4);box-shadow:0 30px 60px var(--shadow),0 0 0 1px rgba(232,184,74,.1)}
 .thumb{position:relative;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);cursor:pointer}
@@ -192,10 +192,10 @@ h1{font-size:clamp(40px,7vw,84px);font-weight:800;margin:18px 0 22px}
 .pcard:hover .thumb .hint,.thumb:focus-visible .hint{opacity:1;transform:translate(-50%,0)}
 .pbody{padding:26px 26px 28px;display:flex;flex-direction:column;gap:14px;flex:1}
 .plabel{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.pbody h3{font-size:26px;font-weight:800}
+.pbody h3{font-size:28px;font-weight:800}
 .pbody p{color:var(--muted);font-size:15px}
 .tags{display:flex;flex-wrap:wrap;gap:7px}
-.tags span{padding:5px 11px;border-radius:99px;background:var(--fill);border:1px solid var(--line);font-size:11.5px;color:var(--tagc);font-weight:500}
+.tags>span{padding:5px 11px;border-radius:99px;background:var(--fill);border:1px solid var(--line);font-size:11.5px;color:var(--tagc);font-weight:500}
 .pact{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:8px}
 .pact .btn{padding:12px 20px;font-size:13.5px}
 
@@ -268,7 +268,6 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   .c-a,.c-b,.c-c,.c-d,.c-e{grid-column:span 12}
   .sec{padding:76px 0}
 }
-@media (min-width:961px) and (max-width:1100px){.pbody{padding:20px}.pbody h3{font-size:22px}}
 @media (max-width:620px){
   .wrap{width:calc(100% - 32px)}
   .eco{grid-template-columns:1fr}
@@ -280,7 +279,9 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   .badge i{width:22px;height:22px;font-size:11px}
   .badge.b1{left:-3%}.badge.b2{right:-3%}.badge.b3{left:-2%}
   .v-menu a{font-size:9.5px}
-  .pill{padding:7px 8px}.pill b{font-size:10.5px}
+  .pill{padding:7px 10px}.pill b{font-size:11px}
+  .mpills{grid-template-columns:1fr 1fr}
+  #island[data-state=menu]{--h:198px}
   .site{padding:26px}
   .pbody{padding:22px}
 }
@@ -340,6 +341,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
       <button class="pill" data-src="lab1/maimaipenang_interactive_preview.html" data-title="MaiMaiPenang"><small>LAB 1</small><b>MaiMaiPenang</b></button>
       <button class="pill" data-src="lab2/dashboard_enterprise_theme_switcher.html" data-title="Dashboard Demografi Malaysia"><small>LAB 2</small><b>Demografi MY</b></button>
       <button class="pill" data-src="lab3/index.html" data-title="InapDesaJannah"><small>LAB 3</small><b>InapDesaJannah</b></button>
+      <button class="pill" data-src="lab4/index.html" data-title="Portfolio Akademik · UNITEN"><small>LAB 4</small><b>Portfolio UNITEN</b></button>
     </div>
   </nav>
 
@@ -393,7 +395,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
     <div class="sec-h reveal">
       <span class="eyebrow" data-ms="Hasil projek" data-en="Project showcase">Hasil projek</span>
       <h2 data-ms="Bukan sekadar idea. <em>Boleh dibuka, boleh diuji.</em>" data-en="Not just ideas. <em>Open them, try them.</em>">Bukan sekadar idea. <em>Boleh dibuka, boleh diuji.</em></h2>
-      <p data-ms="Tiga projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh. Folder projek juga ada dalam menu island di atas." data-en="Three web projects I built. Tap Preview to see them live inside the island, or Open for full screen. The project folders are also in the island menu above.">Tiga projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh. Folder projek juga ada dalam menu island di atas.</p>
+      <p data-ms="Empat projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh. Folder projek juga ada dalam menu island di atas." data-en="Four web projects I built. Tap Preview to see them live inside the island, or Open for full screen. The project folders are also in the island menu above.">Empat projek web yang saya bina. Tekan Pratonton untuk lihat terus di dalam island, atau Buka untuk skrin penuh. Folder projek juga ada dalam menu island di atas.</p>
     </div>
 
     <div class="proj">
@@ -491,6 +493,38 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
           <div class="pact">
             <button class="btn pri js-preview"><svg><use href="#i-eye"/></svg><span data-ms="Pratonton" data-en="Preview">Pratonton</span></button>
             <a class="btn ghost" href="lab3/index.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </article>
+      <article class="pcard reveal d3" data-src="lab4/index.html" data-title="Portfolio Akademik · UNITEN">
+        <div class="thumb" tabindex="0" role="button" aria-label="Pratonton Portfolio Akademik UNITEN">
+          <svg viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="480" height="300" fill="#f1f5f9"/>
+            <rect width="480" height="40" fill="#fff"/><rect y="40" width="480" height="1.5" fill="#e2e8f0"/>
+            <rect x="18" y="10" width="46" height="20" rx="5" fill="#0C308B" opacity=".12"/><rect x="70" y="10" width="30" height="20" rx="5" fill="#F15A22" opacity=".18"/>
+            <rect x="110" y="17" width="74" height="7" rx="3.5" fill="#0C308B"/>
+            <g fill="#64748b"><rect x="270" y="18" width="30" height="6" rx="3"/><rect x="310" y="18" width="40" height="6" rx="3"/><rect x="360" y="18" width="50" height="6" rx="3"/></g><rect x="420" y="18" width="44" height="6" rx="3" fill="#F15A22"/>
+            <rect x="32" y="66" width="130" height="14" rx="7" fill="#F15A22" opacity=".15"/>
+            <rect x="32" y="92" width="230" height="17" rx="8" fill="#0f172a"/><rect x="32" y="118" width="170" height="17" rx="8" fill="#F15A22"/>
+            <rect x="32" y="148" width="250" height="7" rx="3.5" fill="#64748b" opacity=".6"/><rect x="32" y="162" width="210" height="7" rx="3.5" fill="#64748b" opacity=".6"/>
+            <rect x="32" y="182" width="106" height="28" rx="8" fill="#F15A22"/><rect x="146" y="182" width="106" height="28" rx="8" fill="none" stroke="#0C308B" stroke-width="2"/>
+            <rect x="318" y="62" width="120" height="132" rx="20" fill="url(#g4)" transform="rotate(3 378 128)"/>
+            <defs><linearGradient id="g4" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0C308B"/><stop offset="1" stop-color="#F15A22"/></linearGradient></defs>
+            <circle cx="378" cy="108" r="22" fill="#fff" opacity=".9"/><path d="M340 188c4-26 20-34 38-34s34 8 38 34z" fill="#fff" opacity=".9"/>
+            <rect y="232" width="480" height="68" fill="#fff"/>
+            <g><text x="60" y="262" font-family="Arial" font-weight="800" font-size="22" fill="#F15A22" text-anchor="middle">4.00</text><text x="180" y="262" font-family="Arial" font-weight="800" font-size="22" fill="#0C308B" text-anchor="middle">6x</text><text x="300" y="262" font-family="Arial" font-weight="800" font-size="22" fill="#F15A22" text-anchor="middle">14+</text><text x="420" y="262" font-family="Arial" font-weight="800" font-size="22" fill="#0C308B" text-anchor="middle">1,500+</text></g>
+            <g fill="#94a3b8"><rect x="36" y="274" width="48" height="5" rx="2.5"/><rect x="156" y="274" width="48" height="5" rx="2.5"/><rect x="276" y="274" width="48" height="5" rx="2.5"/><rect x="396" y="274" width="48" height="5" rx="2.5"/></g>
+          </svg>
+          <span class="hint"><svg width="14" height="14" style="stroke:currentColor;fill:none;stroke-width:2.2"><use href="#i-eye"/></svg><span data-ms="Pratonton dalam island" data-en="Preview in island">Pratonton dalam island</span></span>
+        </div>
+        <div class="pbody">
+          <span class="plabel" data-ms="Projek 04 · Portfolio Akademik" data-en="Project 04 · Academic Portfolio">Projek 04 · Portfolio Akademik</span>
+          <h3 data-ms="Portfolio UNITEN & YTN" data-en="UNITEN & YTN Portfolio">Portfolio UNITEN & YTN</h3>
+          <p data-ms="Laman portfolio 5 halaman bertema UNITEN dan YTN: Utama, Tentang Saya, Pengalaman & Projek, Penerbitan & Anugerah serta Hubungi. Ada penapis anugerah, borang hubungan dan mod gelap/terang." data-en="A 5-page portfolio themed on UNITEN and YTN: Home, About, Experience & Projects, Publications & Awards and Contact. Includes an awards filter, a contact form and dark/light mode.">Laman portfolio 5 halaman bertema UNITEN dan YTN: Utama, Tentang Saya, Pengalaman & Projek, Penerbitan & Anugerah serta Hubungi. Ada penapis anugerah, borang hubungan dan mod gelap/terang.</p>
+          <div class="tags"><span>Tailwind CSS</span><span>5 <span data-ms="halaman" data-en="pages">halaman</span></span><span data-ms="Tema UNITEN" data-en="UNITEN theme">Tema UNITEN</span><span data-ms="Gelap / Terang" data-en="Dark / Light">Gelap / Terang</span></div>
+          <div class="pact">
+            <button class="btn pri js-preview"><svg><use href="#i-eye"/></svg><span data-ms="Pratonton" data-en="Preview">Pratonton</span></button>
+            <a class="btn ghost" href="lab4/index.html" target="_blank" rel="noopener"><span data-ms="Buka projek" data-en="Open project">Buka projek</span><svg><use href="#i-arrow"/></svg></a>
           </div>
         </div>
       </article>
