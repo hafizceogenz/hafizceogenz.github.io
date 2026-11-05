@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hubungi | Muhammad Hafiz Ziqri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            uniten: {
+              orange: '#F15A22',
+              blue: '#0C308B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+  <!-- NAVBAR DENGAN LOGO UNITEN & YTN -->
+  <nav class="sticky top-0 z-50 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo UNITEN & YTN -->
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="flex items-center gap-2 bg-white dark:bg-slate-900/60 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUTkyI-Aq97dzPIaRPKp5D19XYqD6zU2Yb-yCVcMxjQUabgi2IpgaSuO3JXZnAkuOSO22WESd9qoF2Vl321vte2ocn0_U62QWuWJ9KK1gy4f6X0TPvYWcbGyg_CO8tzqGVf937lXTyfxaoe-llQIEgjw8ZQ2LV5l5giwG_DMUxykTqhNAJkcemD6B6LBbyNQrY3NYSO0Cxru4pB7nYtR4VQ0PoBOgIPiRfMXT83dCuA7JmmDykfS5I" alt="UNITEN Logo" class="h-9 w-auto object-contain">
+            <div class="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR9DoWGrIbcGxmIOLKp5gvtPIrSODTp9bozVlcEe3bhndTdPTO9-_-gDP6fylaTLCYSYJLximSoqEtL_AseOt-rvzFncBij_FTMfHyGv9h-WSR1Q4_uGC-T3ek4p91NZFwwziPskuiqIvz3hgACU8Djnv9Elg2U5XCetshMDVcIpzWIYCLOOoTeNIJZf6AC8oEf51CfO6VTvE6h4FqcXXc9a3zkDIueyPGeEd_wyxfWG5k3jS6t3GR" alt="Yayasan Tenaga Nasional Logo" class="h-8 w-auto object-contain">
+          </div>
+          <span class="font-bold text-lg text-uniten-blue dark:text-white hidden sm:inline">Hafiz Ziqri <span class="text-xs text-uniten-orange">@hafizceogenz</span></span>
+        </a>
+        <div class="hidden md:flex items-center space-x-6 font-semibold text-sm">
+          <a href="index.html" class="hover:text-uniten-orange">Utama</a>
+          <a href="about.html" class="hover:text-uniten-orange">Tentang Saya</a>
+          <a href="experience.html" class="hover:text-uniten-orange">Pengalaman & Projek</a>
+          <a href="publications.html" class="hover:text-uniten-orange">Penerbitan & Anugerah</a>
+          <a href="contact.html" class="text-uniten-orange font-bold border-b-2 border-uniten-orange pb-1">Hubungi</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700">
+            <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+            <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">Hubungi Saya</h1>
+      <p class="text-slate-500 dark:text-slate-400 mt-1">Terbuka untuk jemputan pengucapan awam, kerjasama gerakan belia, dan projek inovasi tenaga</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <!-- BORANG INTERAKTIF -->
+      <form id="contactForm" class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+          <i class="fas fa-paper-plane text-uniten-orange"></i> Hantar Mesej Terus
+        </h2>
+        <div>
+          <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">Nama Penuh</label>
+          <input type="text" id="name" required placeholder="Contoh: Ahmad Razif" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent focus:outline-none focus:border-uniten-orange transition-colors">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">Emel Perhubungan</label>
+          <input type="email" id="email" required placeholder="nama@organisasi.my" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent focus:outline-none focus:border-uniten-orange transition-colors">
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">Tujuan / Subjek</label>
+          <select id="subject" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-uniten-orange transition-colors">
+            <option>Kerjasama Gerakan Belia / Sukarelawan</option>
+            <option>Jemputan Ceramah / Keynote / Perkongsian Biasiswa</option>
+            <option>Tempahan Seni Reka / ZARC Works Enterprise</option>
+            <option>Urusan Akademik & Penyelidikan Tenaga</option>
+            <option>Lain-lain</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-1 text-slate-700 dark:text-slate-300">Mesej Ringkas</label>
+          <textarea id="message" rows="4" required placeholder="Terangkan butiran projek atau jemputan anda..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-transparent focus:outline-none focus:border-uniten-orange transition-colors"></textarea>
+        </div>
+        <button type="submit" class="w-full py-3.5 bg-uniten-orange text-white font-bold rounded-xl hover:bg-opacity-90 shadow-lg shadow-uniten-orange/30 transition-all">
+          Hantar Mesej Sekarang <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </form>
+
+      <!-- KAD MAKLUMAT HUBUNGI SEBENAR -->
+      <div class="space-y-6">
+        
+        <div class="bg-white dark:bg-slate-800 p-6 sm:p-7 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-lg text-uniten-orange mb-4 flex items-center gap-2">
+            <i class="fas fa-id-card"></i> Saluran Komunikasi Rasmi
+          </h3>
+          <div class="space-y-3.5 text-sm text-slate-600 dark:text-slate-300">
+            <p class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-uniten-blue/10 text-uniten-blue dark:text-blue-400 flex items-center justify-center"><i class="fas fa-envelope"></i></span>
+              <span><strong>Emel Rasmi:</strong> m.ziqrionlyone@gmail.com</span>
+            </p>
+            <p class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center"><i class="fas fa-phone"></i></span>
+              <span><strong>Telefon / WhatsApp:</strong> +60-108419136</span>
+            </p>
+            <p class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-600 flex items-center justify-center"><i class="fas fa-location-dot"></i></span>
+              <span><strong>Lokasi:</strong> Kepala Batas, Pulau Pinang / Kampus Putrajaya, UNITEN</span>
+            </p>
+            <p class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-purple-100 dark:bg-purple-950 text-purple-600 flex items-center justify-center"><i class="fab fa-instagram"></i></span>
+              <span><strong>Media Sosial:</strong> @hafizceogenz / @ziqrionlyone</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Kad Afiliasi & Penajaan -->
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">Afiliasi Institusi</span>
+          <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUTkyI-Aq97dzPIaRPKp5D19XYqD6zU2Yb-yCVcMxjQUabgi2IpgaSuO3JXZnAkuOSO22WESd9qoF2Vl321vte2ocn0_U62QWuWJ9KK1gy4f6X0TPvYWcbGyg_CO8tzqGVf937lXTyfxaoe-llQIEgjw8ZQ2LV5l5giwG_DMUxykTqhNAJkcemD6B6LBbyNQrY3NYSO0Cxru4pB7nYtR4VQ0PoBOgIPiRfMXT83dCuA7JmmDykfS5I" alt="UNITEN" class="h-10 w-auto object-contain">
+            <div class="h-8 w-px bg-slate-300 dark:bg-slate-700"></div>
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR9DoWGrIbcGxmIOLKp5gvtPIrSODTp9bozVlcEe3bhndTdPTO9-_-gDP6fylaTLCYSYJLximSoqEtL_AseOt-rvzFncBij_FTMfHyGv9h-WSR1Q4_uGC-T3ek4p91NZFwwziPskuiqIvz3hgACU8Djnv9Elg2U5XCetshMDVcIpzWIYCLOOoTeNIJZf6AC8oEf51CfO6VTvE6h4FqcXXc9a3zkDIueyPGeEd_wyxfWG5k3jS6t3GR" alt="Yayasan Tenaga Nasional" class="h-9 w-auto object-contain">
+            <div class="ml-auto text-right">
+              <span class="text-xs font-extrabold text-uniten-orange block">YTN PRIME</span>
+              <span class="text-[10px] text-slate-500">Kumpulan Biasiswa</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 py-6 text-center text-sm border-t border-slate-800">
+    <p>&copy; 2026 Muhammad Hafiz Ziqri. Berasaskan Tema UNITEN & YTN.</p>
+  </footer>
+
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Terima kasih! Mesej anda telah berjaya dihantar ke peti masuk Muhammad Hafiz Ziqri.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
