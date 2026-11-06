@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ms" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pemantauan Demografi Malaysia (Theme Dynamic Pro)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .card-panel {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
+</head>
+<body class="min-h-screen pb-12 flex flex-col bg-slate-50 text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-slate-200 bg-white/90 dark:border-slate-800 dark:bg-slate-900/90 sticky top-0 z-50 backdrop-blur-md shadow-sm">
+        <div class="max-w-[1600px] mx-auto px-6 py-4 flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-3 bg-gradient-to-tr from-blue-600 to-indigo-600 text-white rounded-xl shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-server text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-wide flex items-center gap-2">
+                        MALAYSIA DEMOGRAPHIC INTELLIGENCE <span class="bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 text-xs px-2.5 py-0.5 rounded-full border border-blue-500/30">PRO v3.5</span>
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Papan Pemuka Analitis Bersepadu dengan Mod Tema Cerah & Gelap</p>
+                </div>
+            </div>
+
+            <!-- Toolbar & Theme Switcher -->
+            <div class="flex items-center gap-3 flex-wrap">
+                <!-- Toggle Theme Button -->
+                <button onclick="toggleTheme()" class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors shadow-sm">
+                    <i id="themeIcon" class="fa-solid fa-moon text-indigo-500"></i>
+                    <span id="themeText">Mod Gelap</span>
+                </button>
+
+                <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-filter text-xs text-blue-500"></i>
+                    <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Etnik:</span>
+                    <select id="ethnicityFilter" onchange="updateInteractiveAnalytics()" class="bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-white px-2 py-1 rounded border border-slate-300 dark:border-slate-700 focus:outline-none">
+                        <option value="overall">Semua Etnik</option>
+                        <option value="bumi_malay">Bumiputera Melayu</option>
+                        <option value="chinese">Cina</option>
+                        <option value="bumi_other">Bumiputera Lain</option>
+                        <option value="indian">India</option>
+                        <option value="other_noncitizen">Bukan Warganegara</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <i class="fa-solid fa-calendar text-xs text-emerald-500"></i>
+                    <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Tahun:</span>
+                    <select id="yearFilter" onchange="updateInteractiveAnalytics()" class="bg-white dark:bg-slate-900 text-xs text-slate-800 dark:text-white px-2 py-1 rounded border border-slate-300 dark:border-slate-700 focus:outline-none">
+                        <option value="2026" selected>2026</option>
+                        <option value="2020">2020</option>
+                        <option value="2010">2010</option>
+                        <option value="2000">2000</option>
+                        <option value="1990">1990</option>
+                        <option value="1980">1980</option>
+                        <option value="1970">1970</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-[1600px] mx-auto px-6 mt-8 space-y-8 flex-1">
+
+        <!-- Executive KPI Matrix Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+            <!-- Card 1 -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-5 rounded-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Jumlah Populasi</p>
+                        <h3 id="kpiTotalPop" class="text-2xl font-black text-slate-900 dark:text-white mt-1">34.39M</h3>
+                    </div>
+                    <div class="p-2.5 bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400 rounded-lg">
+                        <i class="fa-solid fa-users text-base"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-trend-up"></i> <span id="kpiGrowthRate">+216.0% sejak 1970</span>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-5 rounded-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Tenaga Kerja (15-64)</p>
+                        <h3 id="kpiWorkforce" class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">24.22M</h3>
+                    </div>
+                    <div class="p-2.5 bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 rounded-lg">
+                        <i class="fa-solid fa-briefcase text-base"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    Kebergantungan: <span id="kpiDepRatio" class="text-slate-800 dark:text-white font-bold">42.0%</span>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-5 rounded-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Nisbah Jantina</p>
+                        <h3 id="kpiGenderRatio" class="text-2xl font-black text-sky-600 dark:text-sky-400 mt-1">110.1</h3>
+                    </div>
+                    <div class="p-2.5 bg-sky-50 text-sky-600 dark:bg-sky-500/10 dark:text-sky-400 rounded-lg">
+                        <i class="fa-solid fa-venus-mars text-base"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    110 Lelaki / 100 Wanita
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-5 rounded-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Warga Emas (65+)</p>
+                        <h3 id="kpiAgingIndex" class="text-2xl font-black text-amber-500 dark:text-amber-400 mt-1">8.37%</h3>
+                    </div>
+                    <div class="p-2.5 bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 rounded-lg">
+                        <i class="fa-solid fa-user-clock text-base"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Negara Menua
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-5 rounded-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Belia (0-14)</p>
+                        <h3 id="kpiYouth" class="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1">7.29M</h3>
+                    </div>
+                    <div class="p-2.5 bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400 rounded-lg">
+                        <i class="fa-solid fa-child text-base"></i>
+                    </div>
+                </div>
+                <div class="mt-3 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    Sumbangan: <span id="kpiYouthPct" class="text-slate-800 dark:text-white font-bold">21.2%</span> total
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 1: Complex Multi-View Analytics -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Chart 1: Macro Population & Multi-Ethnic Dynamics -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-6 rounded-2xl lg:col-span-2 flex flex-col justify-between">
+                <div class="flex flex-wrap justify-between items-center gap-2 mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-blue-500"></i> Trend Pertumbuhan Dinamik (1970 - 2026)
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Analisis perbandingan saiz populasi rentas etnik dan warganegara</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleTrendView('total')" id="btnTrendTotal" class="px-2.5 py-1 text-xs font-semibold rounded bg-blue-600 text-white border border-blue-500">Keseluruhan</button>
+                        <button onclick="toggleTrendView('breakdown')" id="btnTrendBreakdown" class="px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">Pecahan Etnik</button>
+                    </div>
+                </div>
+                <div class="relative h-80 w-full">
+                    <canvas id="macroTrendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Structural Age Shift -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                <div class="mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-emerald-500"></i> Peralihan Struktur Umur (1970 - 2026)
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Perubahan peratusan Belia, Pekerja & Warga Emas</p>
+                </div>
+                <div class="relative h-80 w-full">
+                    <canvas id="ageShiftChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 2: Advanced Demographic Deep-Dive -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Chart 3: Detailed Age Pyramid -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                <div class="mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-users-between-lines text-sky-500"></i> Piramid Umur Terperinci (2026)
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Struktur taburan 5-tahun (Lelaki vs Perempuan)</p>
+                </div>
+                <div class="relative h-80 w-full">
+                    <canvas id="detailedPyramidChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 4: Gender Gap -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                <div class="mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-scale-balanced text-purple-500"></i> Jurang Populasi Jantina (Lelaki - Perempuan)
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Lebihan populasi lelaki dalam juta mengikut tahun</p>
+                </div>
+                <div class="relative h-80 w-full">
+                    <canvas id="genderGapChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 5: Ethnic Donut -->
+            <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-6 rounded-2xl flex flex-col justify-between">
+                <div class="mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-amber-500"></i> Komposisi Etnik Terkini (2026)
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Sumbangan peratusan mengikut etnik</p>
+                </div>
+                <div class="relative h-80 w-full flex items-center justify-center">
+                    <canvas id="ethnicDonutChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 3: Strategic Projection & Scenario Simulation (2026 - 2060) -->
+        <div class="card-panel bg-white border-slate-200 shadow-md dark:bg-gradient-to-r dark:from-slate-900 dark:to-slate-900/50 dark:border-indigo-500/30 p-6 rounded-2xl border-l-4 border-l-indigo-600">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-atom text-indigo-500"></i> Simulator Unjuran Demografi DOSM (2060)
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Berdasarkan kaedah Komponen-Kohort rasmi dengan kadar kesuburan (TFR) perlahan.</p>
+                </div>
+                
+                <div class="flex items-center gap-4 bg-slate-100 dark:bg-slate-800/90 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700">
+                    <div class="text-right">
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400 block font-semibold uppercase">Tahun Dipilih</span>
+                        <span id="projYearDisplay" class="text-lg font-extrabold text-indigo-600 dark:text-indigo-400">2050</span>
+                    </div>
+                    <div class="h-8 w-[1px] bg-slate-300 dark:bg-slate-700"></div>
+                    <div>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400 block font-semibold uppercase">Unjuran Populasi</span>
+                        <span id="projPopDisplay" class="text-xl font-black text-slate-900 dark:text-white">41.79 Juta</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Control -->
+            <div class="bg-slate-50 dark:bg-slate-950/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <label class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-indigo-500"></i> Gelongsor Simulasi Masa:
+                    </label>
+                    <span class="text-xs text-indigo-600 dark:text-indigo-300 font-mono" id="sliderValueText">Tahun 2050</span>
+                </div>
+                <input id="projSlider" type="range" min="1970" max="2060" step="10" value="2050" class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-600" oninput="onSliderChange(this.value)">
+                <div class="flex justify-between text-[11px] text-slate-500 font-mono mt-2">
+                    <span>1970</span>
+                    <span>1990</span>
+                    <span>2010</span>
+                    <span class="text-blue-600 font-bold">2026</span>
+                    <span>2040</span>
+                    <span class="text-indigo-600 dark:text-indigo-400 font-bold">2050</span>
+                    <span>2060</span>
+                </div>
+            </div>
+
+            <div class="relative h-80 w-full">
+                <canvas id="projectionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Data Grid Table Section -->
+        <div class="card-panel bg-white border-slate-200 shadow-sm dark:bg-slate-900/70 dark:border-white/10 p-6 rounded-2xl">
+            <div class="flex justify-between items-center mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-table text-blue-500"></i> Jadual Ringkasan Statistik Demografi Dekad
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Jadual terperinci angka populasi dan nisbah penting</p>
+                </div>
+            </div>
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+                    <thead class="bg-slate-100 dark:bg-slate-800/80 text-slate-500 dark:text-slate-400 uppercase font-bold text-[10px] tracking-wider">
+                        <tr>
+                            <th class="p-3">Tahun</th>
+                            <th class="p-3">Jumlah Penduduk (Juta)</th>
+                            <th class="p-3">Lelaki (Juta)</th>
+                            <th class="p-3">Perempuan (Juta)</th>
+                            <th class="p-3">Belia (0-14 thn)</th>
+                            <th class="p-3">Pekerja (15-64 thn)</th>
+                            <th class="p-3">Warga Emas (65+ thn)</th>
+                            <th class="p-3">Nisbah Jantina</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 border-t border-slate-200 dark:border-slate-800 text-center py-6 text-xs text-slate-500">
+        <p>© 2026 Sistem Pemantauan Demografi Malaysia. Sokongan Mod Cerah & Gelap Dinamik.</p>
+    </footer>
+
+    <!-- JavaScript Data Logic & Theme Management -->
+    <script>
+        // Datasets
+        const trendData = [{"year": 1970, "pop": 10.88}, {"year": 1971, "pop": 11.16}, {"year": 1972, "pop": 11.44}, {"year": 1973, "pop": 11.72}, {"year": 1974, "pop": 12.0}, {"year": 1975, "pop": 12.3}, {"year": 1976, "pop": 12.59}, {"year": 1977, "pop": 12.9}, {"year": 1978, "pop": 13.2}, {"year": 1979, "pop": 13.52}, {"year": 1980, "pop": 13.88}, {"year": 1981, "pop": 14.26}, {"year": 1982, "pop": 14.65}, {"year": 1983, "pop": 15.05}, {"year": 1984, "pop": 15.45}, {"year": 1985, "pop": 15.88}, {"year": 1986, "pop": 16.33}, {"year": 1987, "pop": 16.77}, {"year": 1988, "pop": 17.22}, {"year": 1989, "pop": 17.66}, {"year": 1990, "pop": 18.1}, {"year": 1991, "pop": 18.55}, {"year": 1992, "pop": 19.07}, {"year": 1993, "pop": 19.6}, {"year": 1994, "pop": 20.14}, {"year": 1995, "pop": 20.68}, {"year": 1996, "pop": 21.22}, {"year": 1997, "pop": 21.77}, {"year": 1998, "pop": 22.33}, {"year": 1999, "pop": 22.91}, {"year": 2000, "pop": 23.49}, {"year": 2001, "pop": 24.03}, {"year": 2002, "pop": 24.54}, {"year": 2003, "pop": 25.04}, {"year": 2004, "pop": 25.54}, {"year": 2005, "pop": 26.05}, {"year": 2006, "pop": 26.55}, {"year": 2007, "pop": 27.06}, {"year": 2008, "pop": 27.57}, {"year": 2009, "pop": 28.08}, {"year": 2010, "pop": 28.59}, {"year": 2011, "pop": 29.06}, {"year": 2012, "pop": 29.51}, {"year": 2013, "pop": 30.21}, {"year": 2014, "pop": 30.71}, {"year": 2015, "pop": 31.19}, {"year": 2016, "pop": 31.63}, {"year": 2017, "pop": 32.02}, {"year": 2018, "pop": 32.38}, {"year": 2019, "pop": 32.52}, {"year": 2020, "pop": 32.45}, {"year": 2021, "pop": 32.58}, {"year": 2022, "pop": 32.7}, {"year": 2023, "pop": 33.4}, {"year": 2024, "pop": 34.05}, {"year": 2025, "pop": 34.22}, {"year": 2026, "pop": 34.39}];
+        const ethTrend = {"Bumiputera Melayu": [{"year": 1991, "pop": 9.26}, {"year": 1992, "pop": 9.52}, {"year": 1993, "pop": 9.78}, {"year": 1994, "pop": 10.06}, {"year": 1995, "pop": 10.33}, {"year": 1996, "pop": 10.61}, {"year": 1997, "pop": 10.89}, {"year": 1998, "pop": 11.19}, {"year": 1999, "pop": 11.49}, {"year": 2000, "pop": 11.79}, {"year": 2001, "pop": 12.04}, {"year": 2002, "pop": 12.29}, {"year": 2003, "pop": 12.53}, {"year": 2004, "pop": 12.78}, {"year": 2005, "pop": 13.02}, {"year": 2006, "pop": 13.27}, {"year": 2007, "pop": 13.52}, {"year": 2008, "pop": 13.77}, {"year": 2009, "pop": 14.03}, {"year": 2010, "pop": 14.32}, {"year": 2011, "pop": 14.55}, {"year": 2012, "pop": 14.78}, {"year": 2013, "pop": 15.02}, {"year": 2014, "pop": 15.29}, {"year": 2015, "pop": 15.55}, {"year": 2016, "pop": 15.8}, {"year": 2017, "pop": 16.05}, {"year": 2018, "pop": 16.29}, {"year": 2019, "pop": 16.53}, {"year": 2020, "pop": 16.91}, {"year": 2021, "pop": 17.25}, {"year": 2022, "pop": 17.42}, {"year": 2023, "pop": 17.61}, {"year": 2024, "pop": 17.81}, {"year": 2025, "pop": 17.96}, {"year": 2026, "pop": 18.13}], "Cina": [{"year": 1980, "pop": 4.46}, {"year": 1981, "pop": 4.52}, {"year": 1982, "pop": 4.58}, {"year": 1983, "pop": 4.64}, {"year": 1984, "pop": 4.69}, {"year": 1985, "pop": 4.75}, {"year": 1986, "pop": 4.8}, {"year": 1987, "pop": 4.85}, {"year": 1988, "pop": 4.89}, {"year": 1989, "pop": 4.95}, {"year": 1990, "pop": 4.99}, {"year": 1991, "pop": 5.02}, {"year": 1992, "pop": 5.1}, {"year": 1993, "pop": 5.18}, {"year": 1994, "pop": 5.26}, {"year": 1995, "pop": 5.35}, {"year": 1996, "pop": 5.43}, {"year": 1997, "pop": 5.51}, {"year": 1998, "pop": 5.59}, {"year": 1999, "pop": 5.67}, {"year": 2000, "pop": 5.76}, {"year": 2001, "pop": 5.85}, {"year": 2002, "pop": 5.92}, {"year": 2003, "pop": 5.99}, {"year": 2004, "pop": 6.06}, {"year": 2005, "pop": 6.13}, {"year": 2006, "pop": 6.19}, {"year": 2007, "pop": 6.25}, {"year": 2008, "pop": 6.31}, {"year": 2009, "pop": 6.37}, {"year": 2010, "pop": 6.43}, {"year": 2011, "pop": 6.47}, {"year": 2012, "pop": 6.51}, {"year": 2013, "pop": 6.55}, {"year": 2014, "pop": 6.59}, {"year": 2015, "pop": 6.62}, {"year": 2016, "pop": 6.65}, {"year": 2017, "pop": 6.67}, {"year": 2018, "pop": 6.68}, {"year": 2019, "pop": 6.7}, {"year": 2020, "pop": 6.89}, {"year": 2021, "pop": 6.89}, {"year": 2022, "pop": 6.87}, {"year": 2023, "pop": 6.87}, {"year": 2024, "pop": 6.86}, {"year": 2025, "pop": 6.85}, {"year": 2026, "pop": 6.83}], "Bumiputera Lain": [{"year": 1991, "pop": 1.86}, {"year": 1992, "pop": 1.94}, {"year": 1993, "pop": 2.02}, {"year": 1994, "pop": 2.1}, {"year": 1995, "pop": 2.18}, {"year": 1996, "pop": 2.25}, {"year": 1997, "pop": 2.33}, {"year": 1998, "pop": 2.41}, {"year": 1999, "pop": 2.49}, {"year": 2000, "pop": 2.56}, {"year": 2001, "pop": 2.63}, {"year": 2002, "pop": 2.7}, {"year": 2003, "pop": 2.77}, {"year": 2004, "pop": 2.85}, {"year": 2005, "pop": 2.92}, {"year": 2006, "pop": 3.0}, {"year": 2007, "pop": 3.09}, {"year": 2008, "pop": 3.17}, {"year": 2009, "pop": 3.26}, {"year": 2010, "pop": 3.35}, {"year": 2011, "pop": 3.41}, {"year": 2012, "pop": 3.47}, {"year": 2013, "pop": 3.53}, {"year": 2014, "pop": 3.58}, {"year": 2015, "pop": 3.63}, {"year": 2016, "pop": 3.69}, {"year": 2017, "pop": 3.74}, {"year": 2018, "pop": 3.78}, {"year": 2019, "pop": 3.83}, {"year": 2020, "pop": 3.74}, {"year": 2021, "pop": 3.65}, {"year": 2022, "pop": 3.68}, {"year": 2023, "pop": 3.73}, {"year": 2024, "pop": 3.75}, {"year": 2025, "pop": 3.79}, {"year": 2026, "pop": 3.82}], "Bukan Warganegara": [{"year": 1991, "pop": 0.8}, {"year": 1992, "pop": 0.86}, {"year": 1993, "pop": 0.93}, {"year": 1994, "pop": 0.99}, {"year": 1995, "pop": 1.06}, {"year": 1996, "pop": 1.12}, {"year": 1997, "pop": 1.19}, {"year": 1998, "pop": 1.26}, {"year": 1999, "pop": 1.33}, {"year": 2000, "pop": 1.41}, {"year": 2001, "pop": 1.51}, {"year": 2002, "pop": 1.6}, {"year": 2003, "pop": 1.69}, {"year": 2004, "pop": 1.78}, {"year": 2005, "pop": 1.87}, {"year": 2006, "pop": 1.97}, {"year": 2007, "pop": 2.06}, {"year": 2008, "pop": 2.14}, {"year": 2009, "pop": 2.23}, {"year": 2010, "pop": 2.32}, {"year": 2011, "pop": 2.45}, {"year": 2012, "pop": 2.55}, {"year": 2013, "pop": 2.89}, {"year": 2014, "pop": 3.01}, {"year": 2015, "pop": 3.13}, {"year": 2016, "pop": 3.23}, {"year": 2017, "pop": 3.29}, {"year": 2018, "pop": 3.32}, {"year": 2019, "pop": 3.14}, {"year": 2020, "pop": 2.69}, {"year": 2021, "pop": 2.56}, {"year": 2022, "pop": 2.5}, {"year": 2023, "pop": 2.96}, {"year": 2024, "pop": 3.4}, {"year": 2025, "pop": 3.38}, {"year": 2026, "pop": 3.37}], "India": [{"year": 1980, "pop": 1.19}, {"year": 1981, "pop": 1.21}, {"year": 1982, "pop": 1.24}, {"year": 1983, "pop": 1.26}, {"year": 1984, "pop": 1.28}, {"year": 1985, "pop": 1.3}, {"year": 1986, "pop": 1.32}, {"year": 1987, "pop": 1.35}, {"year": 1988, "pop": 1.37}, {"year": 1989, "pop": 1.39}, {"year": 1990, "pop": 1.41}, {"year": 1991, "pop": 1.41}, {"year": 1992, "pop": 1.44}, {"year": 1993, "pop": 1.47}, {"year": 1994, "pop": 1.5}, {"year": 1995, "pop": 1.53}, {"year": 1996, "pop": 1.56}, {"year": 1997, "pop": 1.59}, {"year": 1998, "pop": 1.63}, {"year": 1999, "pop": 1.66}, {"year": 2000, "pop": 1.7}, {"year": 2001, "pop": 1.72}, {"year": 2002, "pop": 1.75}, {"year": 2003, "pop": 1.77}, {"year": 2004, "pop": 1.8}, {"year": 2005, "pop": 1.82}, {"year": 2006, "pop": 1.84}, {"year": 2007, "pop": 1.86}, {"year": 2008, "pop": 1.88}, {"year": 2009, "pop": 1.9}, {"year": 2010, "pop": 1.92}, {"year": 2011, "pop": 1.94}, {"year": 2012, "pop": 1.95}, {"year": 2013, "pop": 1.97}, {"year": 2014, "pop": 1.98}, {"year": 2015, "pop": 1.99}, {"year": 2016, "pop": 1.99}, {"year": 2017, "pop": 2.0}, {"year": 2018, "pop": 2.01}, {"year": 2019, "pop": 2.01}, {"year": 2020, "pop": 2.0}, {"year": 2021, "pop": 2.0}, {"year": 2022, "pop": 2.0}, {"year": 2023, "pop": 2.0}, {"year": 2024, "pop": 2.01}, {"year": 2025, "pop": 2.01}, {"year": 2026, "pop": 2.01}], "Lain-lain (Warga)": [{"year": 1991, "pop": 0.19}, {"year": 1992, "pop": 0.21}, {"year": 1993, "pop": 0.22}, {"year": 1994, "pop": 0.23}, {"year": 1995, "pop": 0.24}, {"year": 1996, "pop": 0.24}, {"year": 1997, "pop": 0.25}, {"year": 1998, "pop": 0.26}, {"year": 1999, "pop": 0.27}, {"year": 2000, "pop": 0.27}, {"year": 2001, "pop": 0.28}, {"year": 2002, "pop": 0.28}, {"year": 2003, "pop": 0.28}, {"year": 2004, "pop": 0.28}, {"year": 2005, "pop": 0.28}, {"year": 2006, "pop": 0.28}, {"year": 2007, "pop": 0.28}, {"year": 2008, "pop": 0.28}, {"year": 2009, "pop": 0.28}, {"year": 2010, "pop": 0.23}, {"year": 2011, "pop": 0.24}, {"year": 2012, "pop": 0.25}, {"year": 2013, "pop": 0.26}, {"year": 2014, "pop": 0.27}, {"year": 2015, "pop": 0.27}, {"year": 2016, "pop": 0.28}, {"year": 2017, "pop": 0.29}, {"year": 2018, "pop": 0.29}, {"year": 2019, "pop": 0.3}, {"year": 2020, "pop": 0.22}, {"year": 2021, "pop": 0.22}, {"year": 2022, "pop": 0.22}, {"year": 2023, "pop": 0.23}, {"year": 2024, "pop": 0.23}, {"year": 2025, "pop": 0.23}, {"year": 2026, "pop": 0.24}]};
+        const ageTrend = [{"year": 1970, "youth": 4.85, "workforce": 5.68, "elderly": 0.15}, {"year": 1971, "youth": 4.91, "workforce": 5.88, "elderly": 0.16}, {"year": 1972, "youth": 4.98, "workforce": 6.08, "elderly": 0.16}, {"year": 1973, "youth": 5.04, "workforce": 6.28, "elderly": 0.17}, {"year": 1974, "youth": 5.1, "workforce": 6.48, "elderly": 0.19}, {"year": 1975, "youth": 5.17, "workforce": 6.69, "elderly": 0.2}, {"year": 1976, "youth": 5.23, "workforce": 6.9, "elderly": 0.2}, {"year": 1977, "youth": 5.3, "workforce": 7.14, "elderly": 0.2}, {"year": 1978, "youth": 5.37, "workforce": 7.36, "elderly": 0.2}, {"year": 1979, "youth": 5.44, "workforce": 7.6, "elderly": 0.2}, {"year": 1980, "youth": 5.54, "workforce": 7.85, "elderly": 0.42}, {"year": 1981, "youth": 5.62, "workforce": 8.13, "elderly": 0.44}, {"year": 1982, "youth": 5.72, "workforce": 8.4, "elderly": 0.45}, {"year": 1983, "youth": 5.82, "workforce": 8.69, "elderly": 0.46}, {"year": 1984, "youth": 5.93, "workforce": 8.96, "elderly": 0.47}, {"year": 1985, "youth": 6.08, "workforce": 9.23, "elderly": 0.48}, {"year": 1986, "youth": 6.22, "workforce": 9.51, "elderly": 0.5}, {"year": 1987, "youth": 6.37, "workforce": 9.79, "elderly": 0.51}, {"year": 1988, "youth": 6.51, "workforce": 10.08, "elderly": 0.52}, {"year": 1989, "youth": 6.65, "workforce": 10.37, "elderly": 0.53}, {"year": 1990, "youth": 6.77, "workforce": 10.67, "elderly": 0.55}, {"year": 1991, "youth": 6.9, "workforce": 10.97, "elderly": 0.68}, {"year": 1992, "youth": 7.04, "workforce": 11.32, "elderly": 0.71}, {"year": 1993, "youth": 7.19, "workforce": 11.68, "elderly": 0.73}, {"year": 1994, "youth": 7.33, "workforce": 12.06, "elderly": 0.75}, {"year": 1995, "youth": 7.45, "workforce": 12.45, "elderly": 0.78}, {"year": 1996, "youth": 7.57, "workforce": 12.85, "elderly": 0.81}, {"year": 1997, "youth": 7.67, "workforce": 13.27, "elderly": 0.83}, {"year": 1998, "youth": 7.78, "workforce": 13.69, "elderly": 0.86}, {"year": 1999, "youth": 7.89, "workforce": 14.13, "elderly": 0.89}, {"year": 2000, "youth": 8.0, "workforce": 14.56, "elderly": 0.93}, {"year": 2001, "youth": 8.07, "workforce": 14.98, "elderly": 0.98}, {"year": 2002, "youth": 8.1, "workforce": 15.42, "elderly": 1.02}, {"year": 2003, "youth": 8.09, "workforce": 15.88, "elderly": 1.07}, {"year": 2004, "youth": 8.07, "workforce": 16.35, "elderly": 1.12}, {"year": 2005, "youth": 8.04, "workforce": 16.84, "elderly": 1.17}, {"year": 2006, "youth": 8.0, "workforce": 17.33, "elderly": 1.22}, {"year": 2007, "youth": 7.95, "workforce": 17.84, "elderly": 1.27}, {"year": 2008, "youth": 7.9, "workforce": 18.35, "elderly": 1.31}, {"year": 2009, "youth": 7.87, "workforce": 18.85, "elderly": 1.36}, {"year": 2010, "youth": 7.82, "workforce": 19.34, "elderly": 1.43}, {"year": 2011, "youth": 7.79, "workforce": 19.78, "elderly": 1.49}, {"year": 2012, "youth": 7.78, "workforce": 20.17, "elderly": 1.57}, {"year": 2013, "youth": 7.78, "workforce": 20.78, "elderly": 1.65}, {"year": 2014, "youth": 7.77, "workforce": 21.2, "elderly": 1.73}, {"year": 2015, "youth": 7.78, "workforce": 21.59, "elderly": 1.82}, {"year": 2016, "youth": 7.76, "workforce": 21.96, "elderly": 1.91}, {"year": 2017, "youth": 7.73, "workforce": 22.29, "elderly": 2.0}, {"year": 2018, "youth": 7.71, "workforce": 22.58, "elderly": 2.09}, {"year": 2019, "youth": 7.65, "workforce": 22.68, "elderly": 2.19}, {"year": 2020, "youth": 7.77, "workforce": 22.48, "elderly": 2.19}, {"year": 2021, "youth": 7.69, "workforce": 22.6, "elderly": 2.29}, {"year": 2022, "youth": 7.58, "workforce": 22.75, "elderly": 2.36}, {"year": 2023, "youth": 7.57, "workforce": 23.35, "elderly": 2.49}, {"year": 2024, "youth": 7.55, "workforce": 23.89, "elderly": 2.61}, {"year": 2025, "youth": 7.41, "workforce": 24.08, "elderly": 2.74}, {"year": 2026, "youth": 7.29, "workforce": 24.22, "elderly": 2.88}];
+        const genderTrend = [{"year": 1970, "male": 5.52, "female": 5.36, "gap": 0.15}, {"year": 1971, "male": 5.65, "female": 5.51, "gap": 0.15}, {"year": 1972, "male": 5.79, "female": 5.65, "gap": 0.14}, {"year": 1973, "male": 5.93, "female": 5.79, "gap": 0.14}, {"year": 1974, "male": 6.07, "female": 5.94, "gap": 0.13}, {"year": 1975, "male": 6.21, "female": 6.09, "gap": 0.13}, {"year": 1976, "male": 6.35, "female": 6.23, "gap": 0.12}, {"year": 1977, "male": 6.51, "female": 6.39, "gap": 0.12}, {"year": 1978, "male": 6.66, "female": 6.54, "gap": 0.11}, {"year": 1979, "male": 6.81, "female": 6.71, "gap": 0.11}, {"year": 1980, "male": 6.99, "female": 6.89, "gap": 0.1}, {"year": 1981, "male": 7.19, "female": 7.07, "gap": 0.12}, {"year": 1982, "male": 7.39, "female": 7.26, "gap": 0.14}, {"year": 1983, "male": 7.6, "female": 7.45, "gap": 0.15}, {"year": 1984, "male": 7.81, "female": 7.64, "gap": 0.17}, {"year": 1985, "male": 8.03, "female": 7.85, "gap": 0.18}, {"year": 1986, "male": 8.26, "female": 8.07, "gap": 0.2}, {"year": 1987, "male": 8.49, "female": 8.28, "gap": 0.22}, {"year": 1988, "male": 8.73, "female": 8.49, "gap": 0.23}, {"year": 1989, "male": 8.96, "female": 8.71, "gap": 0.25}, {"year": 1990, "male": 9.19, "female": 8.92, "gap": 0.27}, {"year": 1991, "male": 9.42, "female": 9.13, "gap": 0.29}, {"year": 1992, "male": 9.69, "female": 9.38, "gap": 0.31}, {"year": 1993, "male": 9.96, "female": 9.64, "gap": 0.33}, {"year": 1994, "male": 10.24, "female": 9.9, "gap": 0.34}, {"year": 1995, "male": 10.52, "female": 10.16, "gap": 0.36}, {"year": 1996, "male": 10.8, "female": 10.42, "gap": 0.38}, {"year": 1997, "male": 11.08, "female": 10.69, "gap": 0.39}, {"year": 1998, "male": 11.37, "female": 10.96, "gap": 0.41}, {"year": 1999, "male": 11.67, "female": 11.24, "gap": 0.42}, {"year": 2000, "male": 11.97, "female": 11.53, "gap": 0.44}, {"year": 2001, "male": 12.26, "female": 11.77, "gap": 0.48}, {"year": 2002, "male": 12.54, "female": 12.01, "gap": 0.53}, {"year": 2003, "male": 12.81, "female": 12.23, "gap": 0.58}, {"year": 2004, "male": 13.08, "female": 12.46, "gap": 0.62}, {"year": 2005, "male": 13.35, "female": 12.69, "gap": 0.66}, {"year": 2006, "male": 13.63, "female": 12.92, "gap": 0.7}, {"year": 2007, "male": 13.9, "female": 13.15, "gap": 0.75}, {"year": 2008, "male": 14.18, "female": 13.39, "gap": 0.79}, {"year": 2009, "male": 14.46, "female": 13.62, "gap": 0.83}, {"year": 2010, "male": 14.73, "female": 13.86, "gap": 0.87}, {"year": 2011, "male": 14.98, "female": 14.08, "gap": 0.9}, {"year": 2012, "male": 15.22, "female": 14.29, "gap": 0.92}, {"year": 2013, "male": 15.6, "female": 14.61, "gap": 1.0}, {"year": 2014, "male": 15.87, "female": 14.84, "gap": 1.03}, {"year": 2015, "male": 16.11, "female": 15.07, "gap": 1.04}, {"year": 2016, "male": 16.35, "female": 15.29, "gap": 1.06}, {"year": 2017, "male": 16.54, "female": 15.48, "gap": 1.06}, {"year": 2018, "male": 16.72, "female": 15.66, "gap": 1.06}, {"year": 2019, "male": 16.76, "female": 15.76, "gap": 1.01}, {"year": 2020, "male": 16.97, "female": 15.48, "gap": 1.48}, {"year": 2021, "male": 17.0, "female": 15.58, "gap": 1.42}, {"year": 2022, "male": 17.04, "female": 15.66, "gap": 1.38}, {"year": 2023, "male": 17.47, "female": 15.93, "gap": 1.54}, {"year": 2024, "male": 17.88, "female": 16.17, "gap": 1.71}, {"year": 2025, "male": 17.95, "female": 16.27, "gap": 1.68}, {"year": 2026, "male": 18.03, "female": 16.36, "gap": 1.66}];
+        const pyramid2026 = {"categories": ["0-4", "5-9", "10-14", "15-19", "20-24", "25-29", "30-34", "35-39", "40-44", "45-49", "50-54", "55-59", "60-64", "65-69", "70-74", "75-79", "80-84", "85+"], "male": [1.12, 1.27, 1.36, 1.41, 1.71, 1.76, 1.59, 1.5, 1.42, 1.15, 0.91, 0.76, 0.68, 0.56, 0.39, 0.24, 0.11, 0.08], "female": [1.05, 1.21, 1.28, 1.29, 1.41, 1.38, 1.28, 1.32, 1.29, 1.04, 0.88, 0.77, 0.69, 0.58, 0.42, 0.27, 0.14, 0.07]};
+        const dosmProjection = [{"year": 1970, "pop": 10.88}, {"year": 1980, "pop": 13.88}, {"year": 1990, "pop": 18.1}, {"year": 2000, "pop": 23.49}, {"year": 2010, "pop": 28.59}, {"year": 2020, "pop": 32.45}, {"year": 2026, "pop": 34.39}, {"year": 2030, "pop": 36.49}, {"year": 2040, "pop": 39.78}, {"year": 2050, "pop": 41.79}, {"year": 2060, "pop": 42.37}];
+
+        let macroTrendChart, ageShiftChart, detailedPyramidChart, genderGapChart, ethnicDonutChart, projectionChart;
+        let currentTrendMode = 'total';
+
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                themeIcon.className = 'fa-solid fa-sun text-amber-500';
+                themeText.textContent = 'Mod Cerah';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                themeIcon.className = 'fa-solid fa-moon text-indigo-500';
+                themeText.textContent = 'Mod Gelap';
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            // Re-render charts with updated theme colors
+            updateChartColors();
+        }
+
+        function getThemeColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            return {
+                textColor: isDark ? '#94a3b8' : '#475569',
+                gridColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.06)'
+            };
+        }
+
+        function updateChartColors() {
+            const { textColor, gridColor } = getThemeColors();
+            Chart.defaults.color = textColor;
+
+            [macroTrendChart, ageShiftChart, detailedPyramidChart, genderGapChart, ethnicDonutChart, projectionChart].forEach(chart => {
+                if (chart) {
+                    if (chart.options.scales?.x?.grid) chart.options.scales.x.grid.color = gridColor;
+                    if (chart.options.scales?.y?.grid) chart.options.scales.y.grid.color = gridColor;
+                    chart.update();
+                }
+            });
+        }
+
+        // Initialize Charts on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const { textColor } = getThemeColors();
+            Chart.defaults.color = textColor;
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+
+            renderMacroTrendChart();
+            renderAgeShiftChart();
+            renderDetailedPyramidChart();
+            renderGenderGapChart();
+            renderEthnicDonutChart();
+            renderProjectionChart();
+            populateDataTable();
+            updateInteractiveAnalytics();
+        });
+
+        // 1. Macro Trend Chart
+        function renderMacroTrendChart() {
+            const ctx = document.getElementById('macroTrendChart').getContext('2d');
+            const { gridColor } = getThemeColors();
+            macroTrendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: trendData.map(d => d.year),
+                    datasets: [{
+                        label: 'Jumlah Populasi Keseluruhan',
+                        data: trendData.map(d => d.pop),
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        borderWidth: 3,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        x: { grid: { color: gridColor } },
+                        y: { grid: { color: gridColor }, title: { display: true, text: 'Juta Orang' } }
+                    }
+                }
+            });
+        }
+
+        function toggleTrendView(mode) {
+            currentTrendMode = mode;
+            const btnTotal = document.getElementById('btnTrendTotal');
+            const btnBreak = document.getElementById('btnTrendBreakdown');
+
+            if(mode === 'total') {
+                btnTotal.className = "px-2.5 py-1 text-xs font-semibold rounded bg-blue-600 text-white border border-blue-500";
+                btnBreak.className = "px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700";
+                
+                macroTrendChart.data.datasets = [{
+                    label: 'Jumlah Populasi Keseluruhan',
+                    data: trendData.map(d => d.pop),
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    borderWidth: 3
+                }];
+            } else {
+                btnBreak.className = "px-2.5 py-1 text-xs font-semibold rounded bg-blue-600 text-white border border-blue-500";
+                btnTotal.className = "px-2.5 py-1 text-xs font-semibold rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700";
+
+                const colors = {
+                    'Bumiputera Melayu': '#2563eb',
+                    'Cina': '#38bdf8',
+                    'Bumiputera Lain': '#10b981',
+                    'Bukan Warganegara': '#ef4444',
+                    'India': '#f59e0b',
+                    'Lain-lain (Warga)': '#94a3b8'
+                };
+
+                macroTrendChart.data.datasets = Object.keys(ethTrend).map(ethKey => ({
+                    label: ethKey,
+                    data: ethTrend[ethKey].map(d => d.pop),
+                    borderColor: colors[ethKey] || '#94a3b8',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 2
+                }));
+            }
+            macroTrendChart.update();
+        }
+
+        // 2. Age Shift Chart
+        function renderAgeShiftChart() {
+            const ctx = document.getElementById('ageShiftChart').getContext('2d');
+            const { gridColor } = getThemeColors();
+            ageShiftChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ageTrend.map(d => d.year),
+                    datasets: [
+                        { label: 'Belia (0-14)', data: ageTrend.map(d => d.youth), backgroundColor: '#38bdf8' },
+                        { label: 'Pekerja (15-64)', data: ageTrend.map(d => d.workforce), backgroundColor: '#4ade80' },
+                        { label: 'Warga Emas (65+)', data: ageTrend.map(d => d.elderly), backgroundColor: '#fbbf24' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, grid: { color: gridColor }, title: { display: true, text: 'Juta Orang' } }
+                    }
+                }
+            });
+        }
+
+        // 3. Detailed Pyramid
+        function renderDetailedPyramidChart() {
+            const ctx = document.getElementById('detailedPyramidChart').getContext('2d');
+            const { gridColor } = getThemeColors();
+            detailedPyramidChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: pyramid2026.categories,
+                    datasets: [
+                        { label: 'Lelaki', data: pyramid2026.male.map(v => -v), backgroundColor: '#0284c7', borderRadius: 3 },
+                        { label: 'Perempuan', data: pyramid2026.female, backgroundColor: '#ec4899', borderRadius: 3 }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { callbacks: { label: function(c) { return c.dataset.label + ': ' + Math.abs(c.raw) + 'M'; } } }
+                    },
+                    scales: {
+                        x: {
+                            stacked: false,
+                            grid: { color: gridColor },
+                            ticks: { callback: function(val) { return Math.abs(val) + 'M'; } }
+                        },
+                        y: { stacked: true, grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        // 4. Gender Gap Chart
+        function renderGenderGapChart() {
+            const ctx = document.getElementById('genderGapChart').getContext('2d');
+            const { gridColor } = getThemeColors();
+            genderGapChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: genderTrend.map(d => d.year),
+                    datasets: [{
+                        label: 'Lebihan Lelaki (Juta)',
+                        data: genderTrend.map(d => d.gap),
+                        backgroundColor: '#818cf8',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { grid: { color: gridColor }, title: { display: true, text: 'Lebihan Juta Orang' } }
+                    }
+                }
+            });
+        }
+
+        // 5. Ethnic Donut Chart
+        function renderEthnicDonutChart() {
+            const ctx = document.getElementById('ethnicDonutChart').getContext('2d');
+            const latestEth = Object.keys(ethTrend).map(k => ({
+                label: k,
+                pop: ethTrend[k][ethTrend[k].length - 1].pop
+            }));
+
+            ethnicDonutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: latestEth.map(d => d.label),
+                    datasets: [{
+                        data: latestEth.map(d => d.pop),
+                        backgroundColor: ['#2563eb', '#38bdf8', '#10b981', '#ef4444', '#f59e0b', '#94a3b8'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }
+                }
+            });
+        }
+
+        // 6. Projection Chart
+        function renderProjectionChart() {
+            const ctx = document.getElementById('projectionChart').getContext('2d');
+            const { gridColor } = getThemeColors();
+            projectionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dosmProjection.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'Rekod Sejarah (1970-2026)',
+                            data: dosmProjection.map(d => d.year <= 2026 ? d.pop : null),
+                            borderColor: '#38bdf8',
+                            backgroundColor: '#38bdf8',
+                            borderWidth: 3,
+                            pointRadius: 4
+                        },
+                        {
+                            label: 'Unjuran DOSM (2026-2060)',
+                            data: dosmProjection.map(d => d.year >= 2026 ? d.pop : null),
+                            borderColor: '#c084fc',
+                            borderDash: [6, 6],
+                            borderWidth: 3,
+                            pointBackgroundColor: '#c084fc',
+                            pointRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        x: { grid: { color: gridColor } },
+                        y: { grid: { color: gridColor }, title: { display: true, text: 'Juta Orang' } }
+                    }
+                }
+            });
+        }
+
+        // Slider Logic
+        function onSliderChange(val) {
+            const yr = parseInt(val);
+            document.getElementById('projYearDisplay').textContent = yr;
+            document.getElementById('sliderValueText').textContent = 'Tahun ' + yr;
+            
+            const match = dosmProjection.find(d => d.year === yr);
+            if(match) {
+                document.getElementById('projPopDisplay').textContent = match.pop + ' Juta';
+            } else {
+                document.getElementById('projPopDisplay').textContent = '-';
+            }
+        }
+
+        // Data Table Renderer
+        function populateDataTable() {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
+            
+            const decadalYears = [1970, 1980, 1990, 2000, 2010, 2020, 2026];
+            decadalYears.forEach(y => {
+                const t = trendData.find(d => d.year === y)?.pop || 0;
+                const g = genderTrend.find(d => d.year === y);
+                const a = ageTrend.find(d => d.year === y);
+                const ratio = g ? ((g.male / g.female) * 100).toFixed(1) : '-';
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors";
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-blue-600 dark:text-blue-400">${y}</td>
+                    <td class="p-3 font-bold text-slate-900 dark:text-white">${t}M</td>
+                    <td class="p-3">${g ? g.male : '-'}M</td>
+                    <td class="p-3">${g ? g.female : '-'}M</td>
+                    <td class="p-3">${a ? a.youth : '-'}M</td>
+                    <td class="p-3 font-semibold text-emerald-600 dark:text-emerald-400">${a ? a.workforce : '-'}M</td>
+                    <td class="p-3 font-semibold text-amber-600 dark:text-amber-400">${a ? a.elderly : '-'}M</td>
+                    <td class="p-3 font-mono">${ratio}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Dynamic Filter Analytics
+        function updateInteractiveAnalytics() {
+            const yr = parseInt(document.getElementById('yearFilter').value);
+            const curTot = trendData.find(d => d.year === yr)?.pop || 34.39;
+            const curAge = ageTrend.find(d => d.year === yr) || { youth: 7.29, workforce: 24.22, elderly: 2.88 };
+            const curGender = genderTrend.find(d => d.year === yr) || { male: 18.03, female: 16.36 };
+
+            document.getElementById('kpiTotalPop').textContent = curTot + 'M';
+            document.getElementById('kpiWorkforce').textContent = curAge.workforce + 'M';
+            document.getElementById('kpiYouth').textContent = curAge.youth + 'M';
+
+            const youthPct = ((curAge.youth / curTot) * 100).toFixed(1);
+            const agingIndex = ((curAge.elderly / curTot) * 100).toFixed(2);
+            const depRatio = (((curAge.youth + curAge.elderly) / curAge.workforce) * 100).toFixed(1);
+            const sexRatio = ((curGender.male / curGender.female) * 100).toFixed(1);
+
+            document.getElementById('kpiYouthPct').textContent = youthPct + '%';
+            document.getElementById('kpiAgingIndex').textContent = agingIndex + '%';
+            document.getElementById('kpiDepRatio').textContent = depRatio + '%';
+            document.getElementById('kpiGenderRatio').textContent = sexRatio;
+
+            const pct1970 = (((curTot - 10.88) / 10.88) * 100).toFixed(1);
+            document.getElementById('kpiGrowthRate').textContent = `+${pct1970}% berbanding 1970`;
+        }
+    </script>
+</body>
+</html>

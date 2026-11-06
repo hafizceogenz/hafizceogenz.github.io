@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="ms" class="scroll-smooth"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tentang Saya | Muhammad Hafiz Ziqri</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            uniten: {
+              orange: '#F15A22',
+              blue: '#0C308B',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>body { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-50 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo UNITEN & YTN -->
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="flex items-center gap-2 bg-white dark:bg-slate-900/60 p-1.5 rounded-lg border border-slate-200 dark:border-slate-700">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUTkyI-Aq97dzPIaRPKp5D19XYqD6zU2Yb-yCVcMxjQUabgi2IpgaSuO3JXZnAkuOSO22WESd9qoF2Vl321vte2ocn0_U62QWuWJ9KK1gy4f6X0TPvYWcbGyg_CO8tzqGVf937lXTyfxaoe-llQIEgjw8ZQ2LV5l5giwG_DMUxykTqhNAJkcemD6B6LBbyNQrY3NYSO0Cxru4pB7nYtR4VQ0PoBOgIPiRfMXT83dCuA7JmmDykfS5I" alt="UNITEN Logo" class="h-9 w-auto object-contain">
+            <div class="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR9DoWGrIbcGxmIOLKp5gvtPIrSODTp9bozVlcEe3bhndTdPTO9-_-gDP6fylaTLCYSYJLximSoqEtL_AseOt-rvzFncBij_FTMfHyGv9h-WSR1Q4_uGC-T3ek4p91NZFwwziPskuiqIvz3hgACU8Djnv9Elg2U5XCetshMDVcIpzWIYCLOOoTeNIJZf6AC8oEf51CfO6VTvE6h4FqcXXc9a3zkDIueyPGeEd_wyxfWG5k3jS6t3GR" alt="Yayasan Tenaga Nasional Logo" class="h-8 w-auto object-contain">
+          </div>
+          <span class="font-bold text-lg text-uniten-blue dark:text-white hidden sm:inline">Hafiz Ziqri <span class="text-xs text-uniten-orange">@hafizceogenz</span></span>
+        </a>
+        <div class="hidden md:flex items-center space-x-6 font-semibold text-sm">
+          <a href="index.html" class="hover:text-uniten-orange">Utama</a>
+          <a href="about.html" class="text-uniten-orange font-bold border-b-2 border-uniten-orange pb-1">Tentang Saya</a>
+          <a href="experience.html" class="hover:text-uniten-orange">Pengalaman &amp; Projek</a>
+          <a href="publications.html" class="hover:text-uniten-orange">Penerbitan &amp; Anugerah</a>
+          <a href="contact.html" class="hover:text-uniten-orange">Hubungi</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700">
+            <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+            <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white">Tentang Saya</h1>
+        <p class="text-slate-500 dark:text-slate-400 mt-1">Biografi eksekutif, profil biodata peribadi, dan latar belakang akademik UNITEN</p>
+      </div>
+      <div class="flex items-center gap-2 bg-uniten-orange/10 text-uniten-orange px-3.5 py-1.5 rounded-full font-bold text-xs border border-uniten-orange/20">
+        <i class="fas fa-bolt"></i> YTN PRIME Scholar · UNITEN Business School
+      </div>
+    </div>
+
+    <!-- BIOGRAFI & BIODATA GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+      <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
+        <h2 class="text-xl font-bold text-uniten-orange mb-4 flex items-center gap-2">
+          <i class="fas fa-user-tie"></i> Biografi Profesional
+        </h2>
+        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+          Saya merupakan pemegang Biasiswa berprestij <strong>Yayasan Tenaga Nasional (YTN) PRIME</strong> yang kini menuntut dalam <strong>Bachelor in Economics (Energy) (Hons)</strong> di UNITEN Business School, Universiti Tenaga Nasional. Berpegang teguh pada prinsip kepimpinan berprinsip, strategik, berpandangan jauh, dan berani mengambil risiko, saya aktif memimpin inisiatif keusahawanan serta gerakan sukarelawan belia di peringkat kebangsaan.
+        </p>
+        <p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+          Sebagai Pengasas <strong>ZARC Works Enterprise</strong> dan Pengasas Bersama <strong>Geng Scholars Enterprise</strong>, matlamat saya adalah memperkasa generasi muda melalui pendidikan berkualiti, program bimbingan kerjaya, dan projek pemerkasaan komuniti berimpak tinggi termasuk komuniti Orang Asli bersama HeartSpace Malaysia.
+        </p>
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 mt-4 flex items-center gap-3">
+          <div class="text-uniten-blue dark:text-blue-400 text-2xl"><i class="fas fa-quote-left"></i></div>
+          <p class="text-xs sm:text-sm font-semibold italic text-slate-700 dark:text-slate-300">
+            "Lead · Learn · Grow · #DemiUmmah, Membina legasi belia berkemahiran tinggi dan berdaya saing."
+          </p>
+        </div>
+      </div>
+
+      <!-- KAD BIODATA SEBENAR -->
+      <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzdXXOFUOnSBUL6Wob7ol5r9Yz2AiCbpvXsnJko8TTfHP6ath6mHB86X9TPJNudotkhCMrg39GwIQ9L9ByKIcvjirygxei1JSH7zBiiuA_jdqcnL6LQKrUyW5E503X2Erg0g_Hz1JgEmA-sYRgIx8PLFvx8PBrVwOlcEiFNHsZACI8eGB56EEQVpN571GwRn2CxyEjy4gS1bK3AlE_6VaZM0-OfaCJIjB5ubCm03i46WyM6-mYLqKU" alt="Hafiz Ziqri" class="w-14 h-14 rounded-full object-cover border-2 border-uniten-orange">
+            <div>
+              <h3 class="text-lg font-bold text-uniten-blue dark:text-blue-400">Biodata Peribadi</h3>
+              <span class="text-xs text-slate-500">No. Pelajar: EN01087897</span>
+            </div>
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+            <li class=""><strong>Nama Penuh:</strong> Muhammad Hafiz Ziqri Bin Mohd Suhaimi</li>
+            <li class=""><strong>Umur:</strong> 19 Tahun</li>
+            <li class=""><strong>Asal:</strong> Kepala Batas, Pulau Pinang</li>
+            <li class=""><strong>Status:</strong> Pemegang Biasiswa YTN PRIME</li>
+            
+            <li class=""><strong>Emel Rasmi:</strong> m.ziqrionlyone@gmail.com</li>
+          </ul>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center gap-2 text-xs text-slate-500">
+          <i class="fas fa-shield-alt text-emerald-500"></i> Maklumat telah disahkan mengikut rekod rasmi 2026.
+        </div>
+      </div>
+    </div>
+
+    <!-- SEKSYEN RAKAN KERJASAMA & INISIATIF (LOGO SHOWCASE GRID) -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Inisiatif &amp; Rakan Kerjasama</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Pertubuhan dan entiti yang saya pimpin dan bekerjasama secara strategik:</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 items-center">
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUTkyI-Aq97dzPIaRPKp5D19XYqD6zU2Yb-yCVcMxjQUabgi2IpgaSuO3JXZnAkuOSO22WESd9qoF2Vl321vte2ocn0_U62QWuWJ9KK1gy4f6X0TPvYWcbGyg_CO8tzqGVf937lXTyfxaoe-llQIEgjw8ZQ2LV5l5giwG_DMUxykTqhNAJkcemD6B6LBbyNQrY3NYSO0Cxru4pB7nYtR4VQ0PoBOgIPiRfMXT83dCuA7JmmDykfS5I" alt="UNITEN" class="max-h-11 w-auto object-contain">
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">UNITEN</span>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR9DoWGrIbcGxmIOLKp5gvtPIrSODTp9bozVlcEe3bhndTdPTO9-_-gDP6fylaTLCYSYJLximSoqEtL_AseOt-rvzFncBij_FTMfHyGv9h-WSR1Q4_uGC-T3ek4p91NZFwwziPskuiqIvz3hgACU8Djnv9Elg2U5XCetshMDVcIpzWIYCLOOoTeNIJZf6AC8oEf51CfO6VTvE6h4FqcXXc9a3zkDIueyPGeEd_wyxfWG5k3jS6t3GR" alt="Yayasan Tenaga Nasional" class="max-h-10 w-auto object-contain">
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">YTN PRIME</span>
+        </div>
+        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Sfmm7C0kNxD_nH4MUutuMiOaYbjIoesXjCipYnHw1bc-eLOJ5ITa1chcSB73_ka4CG6pIvHMHh636GLl_4k-NkoA6P5HFCFVsFpcOv97xVWGHFzCF_L8osZBI3HbXIyPc5wzhx8nj4awVrL_AFQ_5ngw3qEX8fOhBFzes6CVgySsV7aqWyYRKvNxybDdEVEKSoHEq7El6fzqJ-KSq-qogOY9nlrwEDxHPMiSUOy4vySQ_hkAOLqd" alt="ZARC Works" class="max-h-8 w-auto object-contain">
+          <span class="text-[10px] font-bold text-amber-400 mt-1">ZARC Works</span>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMrAGOElJhVk0s5IP8IxsKVgAPDfUu2UhXH-6NtBU8t2oCJVug3h-yWQyrk5d_oVur9JN8USX8j7UbdEFL6JRiYuxXwlRMzJodah8TNN1UqPcexBqx7VOIQ9I_jwIUU67Caj8mWlittrWInyX6HZUihiFyEwUZgF5Yb3YMeWZ0t9oyx0OFw9CYFzdtGmwLuYXvp5ySJa6xJq1_HyuehkuAwrdInyhyClr5hZx--bIEXhtxHKLMoyAF" alt="Geng Scholars" class="max-h-11 w-auto object-contain">
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">Geng Scholars</span>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsXhk5SgaujK3l5u40CcMmg-0CLUORC7XAf88-4WNLTwHsE9MYw7G13Ze3DggiSAN71Ktw-WmFOEoUTl7kNGtY8DnmKWUY4RbN4g4WvlSBEuZte_N6w2Vw44U-Bj82SWdC8rQEMka0NISlGCRedGX5ZxJSq97YYtZxdj6VKPnAcfnH9A5_qj1j70_74wYZPK05DfhCgB1o9TQ9MfFZlrvDe9bVO-81aDaZnVxXyACUEQQZcx5usV3F" alt="Geng Volunteers" class="max-h-11 w-auto object-contain">
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">Geng Volunteers</span>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfAVJCg_6zbohtgz-8R3PPTpAr6Gx7yxowd5pZ6GTll-XFOSWcuQKWD7ApshoIrp64NHOXDCaRoFZMBguSzDiaO3O6pyEFMaRHG9ulD0cq1j0aC0VwmnpDM-3VVwlKxOwERm25o6sGuhEK1bzfc7d4J5OApzuN9eOrjxu70893qm0ZxVn639KSO3GoCvE1p8wC0WfwGqdOo8g5Z3vIgqrp03CKrN1HA8UkEDqKMlMyJ57xzg6nUTKF" alt="JOMKORA" class="max-h-10 w-auto object-contain">
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">JOMKORA 2026</span>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZTJD1daRGHXGrnLcmbCl7DNLWM0ZHLEcC41-h3ZLK6Ho4-kalidKrkuFZeENNxMSSGI1t1Am2UA6XilpTrAnDqy2_SgF98lu6FYhJkanf-c5vKJ96B82ZZXIwDJHIQvZ9PkJbkjatUbxMx_7UssJWjZoZL6a_Ij6C5oNQOLlDZIQ2E_gKvUxDLMX10HQj73ofYLr_th2LghjuAL98t6-fJ_iv4ZyZsniQEAPbUQ4GKKOtmKpVc3Zh" alt="Persatuan Belia Cendekia Holistik" class="max-h-11 w-auto object-contain">
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">Belia Cendekia</span>
+        </div>
+        <div class="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center h-24 text-center">
+          <span class="px-2 py-1 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-extrabold text-[11px] border border-emerald-300">
+            🌱 ECOGENIUS
+          </span>
+          <span class="text-[10px] font-bold text-slate-600 dark:text-slate-300 mt-1">6x Gold Team</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE PENDIDIKAN -->
+    <section class="mb-14">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Latar Belakang Pendidikan</h2>
+      <div class="space-y-6">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-uniten-orange shadow-sm flex flex-col sm:flex-row justify-between items-start gap-4">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 dark:text-white">Bachelor in Economics (Energy) (Hons)</h3>
+            <p class="text-sm text-uniten-blue dark:text-blue-400 font-semibold">UNITEN Business School, Universiti Tenaga Nasional</p>
+            <p class="text-xs text-slate-500 mt-1">Pemegang Biasiswa YTN PRIME | Tutor Confirm AI (UNITEN Ventures)</p>
+          </div>
+          <span class="text-xs bg-uniten-orange/10 text-uniten-orange font-bold px-3 py-1 rounded-full">Jun 2026 - Kini</span>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-uniten-blue shadow-sm flex flex-col sm:flex-row justify-between items-start gap-4">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 dark:text-white">Foundation in Management (UBS)</h3>
+            <p class="text-sm text-uniten-blue dark:text-blue-400 font-semibold">Universiti Tenaga Nasional (UNITEN)</p>
+            <p class="text-xs text-slate-500 mt-1">CGPA: 4.00 Konsisten | Anugerah Dean's List Kedua-dua Trimester</p>
+          </div>
+          <span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold px-3 py-1 rounded-full">Jun 2025 - Jun 2026</span>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-slate-400 shadow-sm flex flex-col sm:flex-row justify-between items-start gap-4">
+          <div>
+            <h3 class="font-bold text-lg text-slate-900 dark:text-white">Sijil Pelajaran Malaysia (SPM)</h3>
+            <p class="text-sm text-uniten-blue dark:text-blue-400 font-semibold">Maktab Rendah Sains MARA (MRSM) Taiping</p>
+            <p class="text-xs text-slate-500 mt-1">Keputusan SPM: 7A+ 2A | CGPA: 3.85 (Graduan Kelas Pertama)</p>
+          </div>
+          <span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold px-3 py-1 rounded-full">2023 - 2024</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID KEMAHIRAN -->
+    <section>
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-6">Kemahiran Teras &amp; Instrumentasi</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-uniten-orange mb-4 flex items-center gap-2"><i class="fas fa-laptop-code"></i>Kemahiran Teknikal &amp; Digital</h3>
+          <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <li class=""><i class="fas fa-check text-uniten-orange mr-2"></i>Pembangunan Web: HTML5, CSS3, Tailwind CSS, Vanilla JS</li>
+            <li class=""><i class="fas fa-check text-uniten-orange mr-2"></i>Automasi &amp; Skrip: Python, Node.js, Google Apps Script &amp; Sheets</li>
+            <li class=""><i class="fas fa-check text-uniten-orange mr-2"></i>Aplikasi AI &amp; Pembantu Pintar: Claude AI &amp; LLMs, Mr. Z Assistant</li>
+            <li class=""><i class="fas fa-check text-uniten-orange mr-2"></i>Perisian Reka Bentuk: Canva, Tinkercad, 3D Blender</li>
+            <li class=""><i class="fas fa-check text-uniten-orange mr-2"></i>Microsoft Office Suite (Word, Excel, PowerPoint)</li>
+          </ul>
+        </div>
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+          <h3 class="font-bold text-uniten-blue dark:text-blue-400 mb-4 flex items-center gap-2"><i class="fas fa-users"></i>Insaniah, Kepimpinan &amp; Bahasa</h3>
+          <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <li class=""><i class="fas fa-check text-uniten-blue dark:text-blue-400 mr-2"></i>Pengurusan Pergerakan Belia Kebangsaan &amp; Mobilisasi Komuniti</li>
+            <li class=""><i class="fas fa-check text-uniten-blue dark:text-blue-400 mr-2"></i>Komunikasi Strategik Awam, Pengucapan &amp; Rundingan</li>
+            <li class=""><i class="fas fa-check text-uniten-blue dark:text-blue-400 mr-2"></i>Pemikiran Analitikal Ekonomi Tenaga &amp; Penyelidikan Inovasi</li>
+            <li class=""><i class="fas fa-check text-uniten-blue dark:text-blue-400 mr-2"></i>Bahasa: Melayu (Natif), Inggeris (Mahir), Mandarin (Asas)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 py-6 text-center text-sm border-t border-slate-800">
+    <p class="">© 2026 Muhammad Hafiz Ziqri. Berasaskan Tema UNITEN &amp; YTN.</p>
+  </footer>
+
+  <script>
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.setItem('color-theme', 'dark');
+      } else {
+        localStorage.setItem('color-theme', 'light');
+      }
+    });
+    if (localStorage.getItem('color-theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+
+
+
+
+
+</body></html>
