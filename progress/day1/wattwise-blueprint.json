@@ -1,0 +1,1072 @@
+{
+    "name": "TNB Energy Bill Analyst",
+    "flow": [
+        {
+            "id": 1,
+            "module": "ai-local-agent:RunLocalAIAgent",
+            "version": 0,
+            "parameters": {
+                "makeConnectionId": 12617228
+            },
+            "mapper": {
+                "message": "Find the most recent TNB electricity bill or energy-related file in Google Drive, inspect the file type, download PDF bills for analysis, read native Google Docs only with the Docs tool, and prepare the requested Malaysian energy-efficiency analysis. Treat actual TNB bill figures as measured data and clearly label estimates. If the available files do not contain enough information, provide useful advice with explicit assumptions and ask no more than one essential follow-up question.",
+                "outputType": "text",
+                "modelConfig": {
+                    "timeout": 600,
+                    "recursionLimit": 20,
+                    "aiCompactionEnabled": true,
+                    "iterationsFromHistoryCount": 10
+                },
+                "defaultModel": "gemini-3.7-flash",
+                "systemPrompt": "You are an energy efficiency assistant designed for Malaysian households and small-business clients who pay electricity bills to Tenaga Nasional Berhad (TNB). Act as a practical energy advisor by analysing electricity consumption, identifying major energy costs, and recommending realistic ways to reduce electricity bills while conserving energy.\n\nKeep responses concise, practical, and easy to scan. Use short headings, bullet points, simple comparison tables when useful, clear figures in kWh and Malaysian Ringgit (RM), and prioritised recommendations based on impact and effort. Explain kWh as the amount of electricity consumed and explain tariff blocks when first relevant.\n\nUse this structure:\n1. Consumption Summary — state total consumption in kWh, billed amount in RM, and month-to-month changes when available. Calculate percentage change. Distinguish measured bill data from estimates and do not call usage excessive without enough context.\n2. Main Energy Drivers — identify likely contributors such as air conditioning, water heating, refrigeration, lighting, and standby power. When ratings and operating hours are available, estimate consumption using Power (kW) × Operating hours. State assumptions, use ranges where appropriate, and note that actual usage varies due to cycling, efficiency, weather, and behaviour.\n3. Recommended Actions — prioritise one or two meaningful changes. Start with zero-cost habits, then low-cost improvements, then larger investments only when justified by likely savings and payback. Consider Malaysia’s tropical climate, humidity, ventilation, and cooling needs. For each action, explain what to do, likely kWh or RM savings when possible, impact, cost, effort, and comfort or convenience trade-offs. Never guarantee savings.\n4. Simple Monitoring Routine — suggest a lightweight monthly routine tracking only kWh, RM, and percentage change against a realistic target.\n5. Next Step — end every response with exactly one clear, low-effort action.\n\nTool rules:\n- When Drive search returns a PDF or other binary file, use Download Drive file to retrieve its contents for analysis. Do not send PDFs to the Google Docs tool.\n- Use the Google Docs tool only for native Google Docs files.\n- Use TNB data as measured data only when returned by the TNB data tool.\n- Treat Google Drive or Google Docs files as supporting records unless they contain clearly identifiable bill measurements.\n- Distinguish actual bill data from estimated appliance consumption.\n\nTailor advice to busy clients and prefer low-maintenance or automated changes such as air-conditioner timers, scheduled use, automatic shut-off settings, and smart plugs where suitable. Do not require a lengthy questionnaire before giving useful advice. If information is incomplete, state assumptions, explain briefly how the missing kWh or appliance information would improve accuracy, and ask no more than one essential follow-up question.\n\nDo not provide legal, tariff-contract, or safety-critical electrical advice. For unsafe wiring, electrical faults, or work requiring technical expertise, recommend a qualified electrician. Keep recommendations specific to the client’s usage patterns and focus on one or two actions they can implement immediately.",
+                "fallbackEnabled": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0,
+                    "name": "TNB Bill Analyst"
+                },
+                "restore": {
+                    "expect": {
+                        "outputType": {
+                            "mode": "chose",
+                            "label": "Text"
+                        },
+                        "defaultModel": {
+                            "mode": "chose",
+                            "label": "Gemini 3.7 Flash",
+                            "nested": [
+                                {
+                                    "help": "Controls how much reasoning the model performs. Higher effort may improve quality but increases cost and latency.",
+                                    "name": "reasoningEffort",
+                                    "type": "select",
+                                    "label": "Reasoning effort",
+                                    "default": "low",
+                                    "options": [
+                                        {
+                                            "label": "Low",
+                                            "value": "low"
+                                        },
+                                        {
+                                            "label": "Medium",
+                                            "value": "medium"
+                                        },
+                                        {
+                                            "label": "High",
+                                            "value": "high"
+                                        }
+                                    ],
+                                    "advanced": true,
+                                    "mappable": true,
+                                    "required": false
+                                },
+                                {
+                                    "help": "Percentage of the model's maximum output length. Low values risk cutting responses short, while high values avoid that but can cost more. Gemini 3.7 Flash supports up to 65,536 tokens.",
+                                    "name": "tokenLimit",
+                                    "type": "number",
+                                    "label": "Maximum output length (%)",
+                                    "default": 50,
+                                    "advanced": true,
+                                    "required": false,
+                                    "validate": {
+                                        "max": 100,
+                                        "min": 20
+                                    }
+                                },
+                                {
+                                    "help": "If your primary connection fails, a fallback connection using Make’s AI Provider will run the agent instead. This protects against outages, timeouts, rate limits, and expired keys.",
+                                    "name": "fallbackEnabled",
+                                    "type": "boolean",
+                                    "label": "Enable fallback connection",
+                                    "nested": [
+                                        {
+                                            "name": "fallbackConnectionId",
+                                            "type": "account:ai-provider",
+                                            "label": "Fallback connection",
+                                            "options": {
+                                                "nested": {
+                                                    "store": "rpc://RpcGetFallbackModels?teamId={{teamId}}&primaryConnectionId={{makeConnectionId}}&primaryModel={{defaultModel}}&fallbackModel={{fallbackModel}}&primaryProvider=gemini",
+                                                    "domain": "expect"
+                                                }
+                                            },
+                                            "required": true
+                                        }
+                                    ],
+                                    "default": false,
+                                    "advanced": true,
+                                    "required": true
+                                }
+                            ]
+                        }
+                    },
+                    "parameters": {
+                        "makeConnectionId": {
+                            "label": "QAWIY's Gemini AI connection"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "makeConnectionId",
+                        "type": "account:ai-provider,openai-gpt-3,anthropic-claude,gemini-ai-q9zyjp,ai-agent-foundry-openai,ai-agent-foundry-non-openai,mistral-ai,cohere,groq,ai-agent-xai,amazon-bedrock,ai-agent-openai-compatible",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "defaultModel",
+                        "type": "select",
+                        "label": "Model",
+                        "default": "gemini-3.8-flash",
+                        "dynamic": true,
+                        "grouped": true,
+                        "isolated": true,
+                        "mappable": true,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "gemini-4-argon",
+                                "gemini-3.8-flash",
+                                "gemini-3.7-flash",
+                                "gemini-3.6-flash",
+                                "gemini-3.5-flash-lite",
+                                "gemini-3.5-flash",
+                                "gemini-3.1-pro-preview",
+                                "gemini-3.1-flash-lite",
+                                "gemini-3-flash-preview"
+                            ]
+                        },
+                        "isContext": true
+                    },
+                    {
+                        "name": "reasoningEffort",
+                        "type": "select",
+                        "label": "Reasoning effort",
+                        "default": "low",
+                        "advanced": true,
+                        "mappable": true,
+                        "required": false,
+                        "validate": {
+                            "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "tokenLimit",
+                        "type": "number",
+                        "label": "Maximum output length (%)",
+                        "default": 50,
+                        "advanced": true,
+                        "required": false,
+                        "validate": {
+                            "max": 100,
+                            "min": 20
+                        }
+                    },
+                    {
+                        "name": "fallbackEnabled",
+                        "type": "boolean",
+                        "label": "Enable fallback connection",
+                        "default": false,
+                        "advanced": true,
+                        "required": true
+                    },
+                    {
+                        "name": "systemPrompt",
+                        "type": "text",
+                        "label": "Instructions",
+                        "advanced": false,
+                        "editable": true,
+                        "required": false,
+                        "placeholder": "You are an agent specialized in..."
+                    },
+                    {
+                        "name": "message",
+                        "type": "text",
+                        "label": "Input",
+                        "editable": true,
+                        "required": true,
+                        "placeholder": "Tasks or information for the agent to process..."
+                    },
+                    {
+                        "name": "files",
+                        "spec": [
+                            {
+                                "name": "fileName",
+                                "type": "filename",
+                                "label": "File name",
+                                "semantic": "file:name"
+                            },
+                            {
+                                "name": "data",
+                                "type": "buffer",
+                                "label": "Data",
+                                "semantic": "file:data"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Input files",
+                        "labels": {
+                            "add": "Add file",
+                            "item": "File"
+                        },
+                        "mappable": true
+                    },
+                    {
+                        "name": "threadId",
+                        "type": "text",
+                        "label": "Conversation ID",
+                        "advanced": false,
+                        "required": false,
+                        "validate": {
+                            "max": 256
+                        }
+                    },
+                    {
+                        "name": "modelConfig",
+                        "spec": [
+                            {
+                                "name": "recursionLimit",
+                                "type": "number",
+                                "label": "Steps per agent call",
+                                "default": 300,
+                                "advanced": true,
+                                "required": false
+                            },
+                            {
+                                "name": "iterationsFromHistoryCount",
+                                "type": "number",
+                                "label": "Maximum conversation history",
+                                "default": 10,
+                                "advanced": true,
+                                "required": false
+                            },
+                            {
+                                "name": "timeout",
+                                "type": "number",
+                                "label": "Step timeout",
+                                "advanced": true,
+                                "required": false,
+                                "validate": {
+                                    "max": 600,
+                                    "min": 120
+                                }
+                            },
+                            {
+                                "0": "r",
+                                "1": "p",
+                                "2": "c",
+                                "3": ":",
+                                "4": "/",
+                                "5": "/",
+                                "6": "R",
+                                "7": "p",
+                                "8": "c",
+                                "9": "G",
+                                "10": "e",
+                                "11": "t",
+                                "12": "C",
+                                "13": "o",
+                                "14": "m",
+                                "15": "p",
+                                "16": "a",
+                                "17": "c",
+                                "18": "t",
+                                "19": "i",
+                                "20": "o",
+                                "21": "n",
+                                "22": "F",
+                                "23": "i",
+                                "24": "e",
+                                "25": "l",
+                                "26": "d",
+                                "27": "?",
+                                "28": "t",
+                                "29": "e",
+                                "30": "a",
+                                "31": "m",
+                                "32": "I",
+                                "33": "d",
+                                "34": "=",
+                                "35": "{",
+                                "36": "{",
+                                "37": "t",
+                                "38": "e",
+                                "39": "a",
+                                "40": "m",
+                                "41": "I",
+                                "42": "d",
+                                "43": "}",
+                                "44": "}"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Model configuration",
+                        "advanced": true
+                    },
+                    {
+                        "name": "outputType",
+                        "type": "select",
+                        "label": "Response format",
+                        "default": "text",
+                        "advanced": true,
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "text",
+                                "make-schema",
+                                "udt-schema"
+                            ]
+                        }
+                    }
+                ]
+            },
+            "tools": [
+                {
+                    "name": "Retrieve TNB bill data",
+                    "description": "Use when measured TNB bill or electricity-consumption data is needed and the connected endpoint can access it. Treat returned kWh and RM figures as actual data; never invent missing values. Do not use this for estimates based only on appliance ratings.",
+                    "flow": [
+                        {
+                            "id": 2,
+                            "module": "http:MakeRequest",
+                            "version": 4,
+                            "parameters": {
+                                "tlsType": "",
+                                "authenticationType": "noAuth"
+                            },
+                            "mapper": {
+                                "url": "{{1.url}}",
+                                "method": "{{1.method}}",
+                                "headers": "{{1.headers}}",
+                                "timeout": "40",
+                                "shareCookies": false,
+                                "parseResponse": true,
+                                "allowRedirects": true,
+                                "queryParameters": "{{1.queryParameters}}",
+                                "stopOnHttpError": true,
+                                "requestCompressedContent": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 300,
+                                    "y": 250,
+                                    "name": "Get TNB Data"
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "285d16640a643dd5"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "url": {
+                                            "extra": {
+                                                "aiHelp": "Enter the URL of an API endpoint (including the base URL), webhook, or webpage, beginning with `https://`, or map a variable or formula that resolves to an HTTPS URL."
+                                            }
+                                        },
+                                        "method": {
+                                            "mode": "edit",
+                                            "extra": {
+                                                "aiHelp": "Select the HTTP request method."
+                                            }
+                                        },
+                                        "headers": {
+                                            "mode": "edit",
+                                            "extra": {
+                                                "aiHelp": "Add custom headers to provide additional metadata or instructions for the request."
+                                            }
+                                        },
+                                        "contentType": {
+                                            "label": "Empty"
+                                        },
+                                        "shareCookies": {
+                                            "mode": "chose"
+                                        },
+                                        "parseResponse": {
+                                            "mode": "chose"
+                                        },
+                                        "allowRedirects": {
+                                            "mode": "chose"
+                                        },
+                                        "paginationType": {
+                                            "label": "Empty"
+                                        },
+                                        "queryParameters": {
+                                            "mode": "edit",
+                                            "extra": {
+                                                "aiHelp": "Add parameters to specify or customize your request. This is mostly for GET and DELETE methods."
+                                            }
+                                        },
+                                        "stopOnHttpError": {
+                                            "mode": "chose"
+                                        },
+                                        "requestCompressedContent": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "tlsType": {
+                                            "label": "Empty"
+                                        },
+                                        "authenticationType": {
+                                            "label": "No authenticationUse when no credentials are required for the request."
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "authenticationType",
+                                        "type": "select",
+                                        "label": "Authentication type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "noAuth",
+                                                "apiKeyConnection",
+                                                "basicAuthConnection",
+                                                "oAuth",
+                                                "apiKey",
+                                                "basicAuth"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tlsType",
+                                        "type": "select",
+                                        "label": "Transport layer security (TLS)",
+                                        "validate": {
+                                            "enum": [
+                                                "mTls",
+                                                "tls"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "proxyKeychain",
+                                        "type": "keychain:proxy",
+                                        "label": "Proxy"
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "method",
+                                        "type": "select",
+                                        "label": "Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "get",
+                                                "head",
+                                                "post",
+                                                "put",
+                                                "patch",
+                                                "delete",
+                                                "options"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true,
+                                                    "validate": {
+                                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Header"
+                                        },
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "queryParameters",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Parameter"
+                                        },
+                                        "type": "array",
+                                        "label": "Query parameters"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Body content type",
+                                        "validate": {
+                                            "enum": [
+                                                "json",
+                                                "multipart",
+                                                "urlEncoded",
+                                                "custom"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "parseResponse",
+                                        "type": "boolean",
+                                        "label": "Parse response",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "stopOnHttpError",
+                                        "type": "boolean",
+                                        "label": "Return error if HTTP request fails",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "type": "uinteger",
+                                        "label": "Timeout",
+                                        "validate": {
+                                            "max": 300,
+                                            "min": 1
+                                        }
+                                    },
+                                    {
+                                        "name": "allowRedirects",
+                                        "type": "boolean",
+                                        "label": "Allow redirects",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "shareCookies",
+                                        "type": "boolean",
+                                        "label": "Share cookies with other HTTP modules",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requestCompressedContent",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "paginationType",
+                                        "type": "select",
+                                        "label": "Pagination type",
+                                        "validate": {
+                                            "enum": [
+                                                "offsetBased",
+                                                "pageBased",
+                                                "urlBased",
+                                                "tokenBased"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "data",
+                                        "type": "any",
+                                        "label": "Data"
+                                    },
+                                    {
+                                        "name": "statusCode",
+                                        "type": "number",
+                                        "label": "Status Code"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "content-length",
+                                                "type": "text",
+                                                "label": "Content-Length"
+                                            },
+                                            {
+                                                "name": "content-encoding",
+                                                "type": "text",
+                                                "label": "Content-Encoding"
+                                            },
+                                            {
+                                                "name": "content-type",
+                                                "type": "text",
+                                                "label": "Content-Type"
+                                            },
+                                            {
+                                                "name": "server",
+                                                "type": "text",
+                                                "label": "Server"
+                                            },
+                                            {
+                                                "name": "cache-control",
+                                                "type": "text",
+                                                "label": "Cache-Control"
+                                            },
+                                            {
+                                                "name": "set-cookie",
+                                                "spec": {
+                                                    "type": "text"
+                                                },
+                                                "type": "array",
+                                                "label": "Set-Cookie"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Headers"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Find Drive energy files",
+                    "description": "Use to search Google Drive for uploaded TNB bills, appliance records, or client energy documents. Inspect filenames, file types, and dates to identify the most relevant file. Do not treat filenames alone as measured bill data.",
+                    "flow": [
+                        {
+                            "id": 3,
+                            "module": "google-drive:searchForFilesFolders",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": 12616774
+                            },
+                            "mapper": {
+                                "limit": 10,
+                                "select": "map",
+                                "retrieve": "file"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 300,
+                                    "y": 450,
+                                    "name": "Find Drive Files"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "select": {
+                                            "mode": "chose",
+                                            "label": "Enter manually",
+                                            "nested": [
+                                                {
+                                                    "name": "folderId",
+                                                    "type": "text",
+                                                    "label": "Folder ID"
+                                                },
+                                                {
+                                                    "help": "This parameter is required if the folder is located in shared drive.",
+                                                    "name": "sharedDrive",
+                                                    "type": "text",
+                                                    "label": "Shared Drive ID"
+                                                }
+                                            ]
+                                        },
+                                        "retrieve": {
+                                            "mode": "chose",
+                                            "label": "Files"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "label": "QAWIY's Google Drive connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-restricted,google-drive",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Select the Method",
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "map",
+                                                "list"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "folderId",
+                                        "type": "text",
+                                        "label": "Folder ID"
+                                    },
+                                    {
+                                        "name": "sharedDrive",
+                                        "type": "text",
+                                        "label": "Shared Drive ID"
+                                    },
+                                    {
+                                        "name": "retrieve",
+                                        "type": "select",
+                                        "label": "Retrieve",
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "file",
+                                                "folder",
+                                                "file_folder"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "searchType",
+                                        "type": "select",
+                                        "label": "Search",
+                                        "mappable": false,
+                                        "validate": {
+                                            "enum": [
+                                                "title",
+                                                "fulltext",
+                                                "custom"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "limit",
+                                        "type": "uinteger",
+                                        "label": "Limit",
+                                        "default": 10
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Read energy reference document",
+                    "description": "Use only for native Google Docs files after finding one in Drive. Do not use this tool for PDFs or other binary files; use Download Drive file for those. Treat the contents as supporting records or guidance, not automatically as measured TNB bill data.",
+                    "flow": [
+                        {
+                            "id": 4,
+                            "module": "google-docs:getADocument",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 12616140
+                            },
+                            "mapper": {
+                                "filter": "image",
+                                "select": "map",
+                                "document": "{{1.message}}",
+                                "includeTabsContent": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 300,
+                                    "y": 650,
+                                    "name": "Read Energy Guide"
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "8a153434302e7482"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "filter": {
+                                            "label": "Image"
+                                        },
+                                        "select": {
+                                            "label": "By Mapping"
+                                        },
+                                        "document": {
+                                            "extra": {
+                                                "aiHelp": "Document ID",
+                                                "aiInstruction": "Provide the Google Docs document ID returned by the Drive search when the client request requires reading a specific document."
+                                            }
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "QAWIY's Google connection (cendekiaholistik@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Get Content of a Document",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "map",
+                                                "dropdown"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "includeTabsContent",
+                                        "type": "boolean",
+                                        "label": "Include Tabs Content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "filter",
+                                        "type": "select",
+                                        "label": "Filter",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "image",
+                                                "drawing",
+                                                "chart"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "document",
+                                        "type": "text",
+                                        "label": "Document ID",
+                                        "required": true
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Download Drive file",
+                    "description": "Use after finding a relevant file in Google Drive when the agent needs the file contents for analysis. Download PDF bills and other supported files directly; use the Google Docs tool instead for native Google Docs documents. Never treat file metadata alone as bill content.",
+                    "flow": [
+                        {
+                            "id": 5,
+                            "module": "google-drive:getAFile",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": 12616774
+                            },
+                            "mapper": {
+                                "file": "{{1.message}}",
+                                "select": "map",
+                                "formatDrawings": "application/pdf",
+                                "formatDocuments": "application/pdf",
+                                "formatSpreadsheets": "application/pdf",
+                                "formatPresentations": "application/pdf"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 300,
+                                    "y": 850,
+                                    "name": "Download PDF Bill"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "file": {
+                                            "extra": {
+                                                "aiHelp": "File ID",
+                                                "aiInstruction": "Provide the Google Drive file ID returned by the Drive search when the client request requires downloading the selected PDF or other file."
+                                            }
+                                        },
+                                        "select": {
+                                            "mode": "chose",
+                                            "label": "Enter manually",
+                                            "nested": [
+                                                {
+                                                    "name": "file",
+                                                    "type": "text",
+                                                    "label": "File ID",
+                                                    "required": true
+                                                }
+                                            ]
+                                        },
+                                        "formatDrawings": {
+                                            "mode": "chose",
+                                            "label": "PDF"
+                                        },
+                                        "formatDocuments": {
+                                            "mode": "chose",
+                                            "label": "PDF"
+                                        },
+                                        "formatSpreadsheets": {
+                                            "mode": "chose",
+                                            "label": "PDF"
+                                        },
+                                        "formatPresentations": {
+                                            "mode": "chose",
+                                            "label": "PDF"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "label": "QAWIY's Google Drive connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-restricted,google-drive",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "select",
+                                        "type": "select",
+                                        "label": "Enter a File ID",
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "map",
+                                                "value"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "file",
+                                        "type": "text",
+                                        "label": "File ID",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "formatDocuments",
+                                        "type": "select",
+                                        "label": "Convert Google Documents Files to Format",
+                                        "advanced": true,
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                                "application/pdf",
+                                                "application/vnd.oasis.opendocument.text",
+                                                "text/html",
+                                                "text/plain",
+                                                "application/rtf",
+                                                "text/markdown"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatSpreadsheets",
+                                        "type": "select",
+                                        "label": "Convert Google Spreadsheets Files to Format",
+                                        "advanced": true,
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                                "application/x-vnd.oasis.opendocument.spreadsheet",
+                                                "application/pdf",
+                                                "text/csv"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatPresentations",
+                                        "type": "select",
+                                        "label": "Convert Google Slides Files to Format",
+                                        "advanced": true,
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                                                "application/pdf"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "formatDrawings",
+                                        "type": "select",
+                                        "label": "Convert Google Drawings Files to Format",
+                                        "advanced": true,
+                                        "mappable": false,
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "image/jpeg",
+                                                "image/png",
+                                                "image/svg+xml",
+                                                "application/pdf"
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "eu1.make.com",
+        "notes": []
+    }
+}

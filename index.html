@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hafiz Ziqri · @hafizceogenz</title>
-<meta name="description" content="Founder yang mendokumentasikan perjalanan. Gerakan belia, venture dan alat digital oleh Hafiz Ziqri — Geng Volunteers, Geng Scholars, Persatuan Belia Cendekia Holistik.">
+<meta name="description" content="Founder yang mendokumentasikan perjalanan. Gerakan belia, venture, alat digital dan progres AI Hari 1–3 oleh Hafiz Ziqri — Geng Volunteers, Geng Scholars, Persatuan Belia Cendekia Holistik.">
 <meta name="theme-color" content="#060608">
 <script>try{var th=localStorage.getItem("hz-theme");if(th==="light"||th==="dark")document.documentElement.setAttribute("data-theme",th);}catch(e){}</script>
+<script>(function(d){if(!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('motion');setTimeout(function(){if(!window.gsap)d.classList.remove('motion')},2500)}})(document.documentElement);</script>
 <meta property="og:title" content="Hafiz Ziqri · @hafizceogenz">
 <meta property="og:description" content="Founder yang mendokumentasikan perjalanan. Lead · Learn · Grow · #DemiUmmah">
 <meta property="og:type" content="website">
@@ -300,6 +301,236 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* =====================================================================
+   PROGRES HARI 1–3 · DRIVE FOLDERS · MOTION (Lenis + GSAP, ala Glowtide)
+   ===================================================================== */
+:root{--mono:ui-monospace,'SF Mono','JetBrains Mono',Menlo,Consolas,monospace;--expo:cubic-bezier(.16,1,.3,1);
+  --dot:rgba(255,255,255,.085);--fglass:linear-gradient(180deg,rgba(46,44,54,.5),rgba(14,14,18,.86));--frim:rgba(255,255,255,.2);
+  --ftext:#f5f2ea;--fmuted:#a19d93;--fback:#16161c;--fshadow:rgba(0,0,0,.55);--fbtn:linear-gradient(180deg,#f3d27d,#d9a630);--fbtnc:#1a1405}
+html[data-theme=light]{--dot:rgba(30,24,10,.17);--fglass:linear-gradient(180deg,rgba(255,255,255,.46),rgba(255,255,255,.9));--frim:rgba(255,255,255,.95);
+  --ftext:#17140d;--fmuted:#7a7466;--fback:#ecebe7;--fshadow:rgba(60,45,10,.17);--fbtn:linear-gradient(180deg,#3a3a3e,#050505);--fbtnc:#fff}
+main,footer{overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+html.lenis{scroll-behavior:auto}
+.lenis.lenis-stopped{overflow:hidden}
+.lenis.lenis-smooth iframe{pointer-events:auto}
+/* reveal → expo ease, like Glowtide */
+.reveal{transform:translateY(46px);transition:opacity 1.1s var(--expo),transform 1.1s var(--expo)}
+
+/* ---------- island: track (live activity) + folder views ---------- */
+#island[data-state=track]{--w:min(356px,calc(100vw - 20px));--h:50px;--r:27px}
+#island[data-state=folder]{--w:min(1040px,calc(100vw - 20px));--h:min(calc(100dvh - 24px),720px);--r:32px;box-shadow:0 30px 90px rgba(0,0,0,.75),0 0 0 1px rgba(232,184,74,.22)}
+#island[data-state=track]::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 22px rgba(232,184,74,.1)}
+#island[data-state=track] .v-track,#island[data-state=folder] .v-folder{opacity:1;filter:none;transform:none;pointer-events:auto;transition:opacity .3s .14s,filter .35s .14s,transform .5s .1s var(--spring)}
+#island[data-state=menu]{--h:214px}
+.v-track{display:flex;align-items:center;gap:11px;padding:0 16px 0 9px;width:100%;text-align:left}
+.tring{flex:none;width:34px;height:34px;transform:rotate(-90deg)}
+.tring circle{fill:none;stroke-width:3.2}
+.tring .bg{stroke:rgba(255,255,255,.12)}
+.tring .fg{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:94.25;stroke-dashoffset:94.25;transition:stroke-dashoffset .35s var(--ease);filter:drop-shadow(0 0 4px rgba(232,184,74,.6))}
+.v-track .txt{min-width:0;flex:1;display:flex;flex-direction:column;line-height:1.15}
+.v-track b{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v-track small{font-size:10.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v-track .tpct{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);padding:4px 8px;border-radius:99px;background:rgba(232,184,74,.12)}
+.v-track .txt>*{transition:opacity .25s,transform .3s}
+.v-track .txt.swap>*{opacity:0;transform:translateY(5px)}
+.mpills.f3{grid-template-columns:repeat(3,1fr)}
+.pill.fp small{color:var(--green)}
+
+.v-folder{display:flex;flex-direction:column;background:#000}
+.v-folder .btn-b{display:none}
+.v-folder.viewing .btn-b{display:grid}
+.v-folder #fdOpen{display:none}
+.v-folder.viewing #fdOpen{display:inline-flex}
+.v-folder.viewing #fdDrive{display:none}
+.fd-body{position:relative;flex:1;background:#0b0b0f;margin:0 8px 8px;border-radius:0 0 24px 24px;overflow:hidden}
+.fd-grid{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;align-content:start;transition:opacity .35s,transform .6s var(--expo),filter .4s}
+.v-folder.viewing .fd-grid{opacity:0;transform:scale(.94);filter:blur(8px);pointer-events:none}
+.fd-tile{display:flex;flex-direction:column;gap:7px;padding:7px 7px 10px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);text-align:left;opacity:0;transform:translateY(22px) scale(.96);transition:background .2s,border-color .2s}
+#island[data-state=folder] .fd-tile{animation:tileIn .8s var(--expo) forwards;animation-delay:calc(.2s + var(--i) * .03s)}
+@keyframes tileIn{to{opacity:1;transform:none}}
+.fd-tile:hover,.fd-tile:focus-visible{background:rgba(232,184,74,.1);border-color:rgba(232,184,74,.4)}
+.fd-tile .tt{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:#17171d}
+.fd-tile .tt img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--expo)}
+.fd-tile:hover .tt img{transform:scale(1.07)}
+.fd-tile .ty{position:absolute;left:7px;top:7px;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.04em;padding:3px 7px;border-radius:99px;background:rgba(0,0,0,.62);color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.fd-tile .play{position:absolute;inset:0;margin:auto;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.fd-tile .play svg{width:16px;height:16px;fill:#fff;margin-left:2px}
+.fd-tile b{font-size:12px;font-weight:700;color:#f5f2ea;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 3px}
+.fd-tile small{font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 3px;margin-top:-4px}
+.docface{position:absolute;inset:0;background:#fbfaf6;color:#1d1a12;padding:14px 12px;display:flex;flex-direction:column;gap:7px}
+.docface b{font-family:var(--mono);font-size:11px;color:#1d1a12;padding:0}
+.docface i{display:block;height:6px;border-radius:4px;background:#e4e1d9}
+.docface i:nth-child(3){width:86%}.docface i:nth-child(5){width:64%}.docface i:nth-child(7){width:78%}
+.docface.code{background:#121218;color:#9ee6b8}
+.docface.code b{color:#e8b84a}
+.docface.code i{background:rgba(158,230,184,.18)}
+.fd-view{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;transform:scale(1.04);pointer-events:none;transition:opacity .4s .05s,transform .6s var(--expo)}
+.v-folder.viewing .fd-view{opacity:1;transform:none;pointer-events:auto}
+.fd-stage{position:relative;flex:1;min-height:0}
+.fd-stage>img,.fd-stage>video{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:contain;border-radius:14px;animation:mediaIn .6s var(--expo)}
+.fd-stage>iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;animation:mediaIn .6s var(--expo)}
+@keyframes mediaIn{from{opacity:0;transform:scale(.97)}}
+.fd-nav{position:absolute;top:50%;z-index:2;width:44px;height:44px;margin-top:-22px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:transform .35s var(--spring),background .2s}
+.fd-nav:hover{background:rgba(232,184,74,.25);transform:scale(1.08)}
+.fd-nav svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fd-nav.p{left:14px}.fd-nav.n{right:14px}
+.fd-cap{flex:none;display:flex;justify-content:space-between;gap:12px;padding:10px 18px 12px;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+.fd-cap b{color:#f5f2ea;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fd-cap span{font-family:var(--mono);flex:none}
+
+/* ---------- PROGRES section ---------- */
+.prog-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:64px;align-items:start}
+.prog-head{position:sticky;top:104px}
+.prog-head h2{font-size:clamp(30px,4.6vw,56px);font-weight:800;margin:14px 0 20px}
+.statement{font-family:var(--display);font-size:clamp(19px,2vw,24px);line-height:1.38;font-weight:600;letter-spacing:-.01em;color:var(--text)}
+.meter{margin-top:30px;display:flex;align-items:center;gap:18px;padding:18px 20px;border-radius:26px;border:1px solid var(--line);background:var(--fill)}
+.meter svg{flex:none;width:64px;height:64px;transform:rotate(-90deg)}
+.meter circle{fill:none;stroke-width:5}
+.meter .bg{stroke:var(--line2)}
+.meter .fg{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:163.4;stroke-dashoffset:163.4;transition:stroke-dashoffset .3s var(--ease)}
+.meter b{display:block;font-family:var(--display);font-size:28px;font-weight:800;line-height:1}
+.meter span{font-size:13px;color:var(--muted)}
+.meter b span{font-size:inherit;color:inherit}
+.meter .mstats{margin-left:auto;display:flex;gap:16px;text-align:right}
+.meter .mstats b{font-size:20px}
+.meter .mstats span{font-size:11px;display:block}
+.steps-line{position:relative;padding-left:48px}
+.steps-line::before,.steps-fill{content:"";position:absolute;left:15px;top:10px;bottom:46px;width:2px;border-radius:2px}
+.steps-line::before{background:var(--line2)}
+.steps-fill{display:block;background:linear-gradient(var(--gold2),var(--gold));transform-origin:top;transform:scaleY(0);box-shadow:0 0 14px rgba(232,184,74,.7)}
+.step{position:relative;padding-bottom:46px;list-style:none}
+.step::before{content:"";position:absolute;left:-41px;top:4px;width:18px;height:18px;border-radius:50%;background:var(--bg);border:2px solid var(--line2);transition:background .4s,border-color .4s,box-shadow .5s}
+.step.is-lit::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 6px rgba(232,184,74,.14),0 0 22px rgba(232,184,74,.8)}
+.step-day{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);transition:color .4s}
+.step.is-lit .step-day{color:var(--gold)}
+.step-card{margin-top:12px;border:1px solid var(--line);border-radius:30px;background:linear-gradient(180deg,var(--card2),var(--card));overflow:hidden;transition:border-color .5s,box-shadow .5s}
+.step.is-lit .step-card{border-color:rgba(232,184,74,.28);box-shadow:0 30px 60px -30px var(--shadow)}
+.strip{display:flex;gap:6px;height:150px;padding:6px 6px 0}
+.strip>button{position:relative;flex:1;min-width:0;border-radius:20px;overflow:hidden;background:#15151c;transition:flex-grow .7s var(--expo)}
+.strip>button:first-child{border-top-left-radius:24px}.strip>button:last-child{border-top-right-radius:24px}
+.strip>button:hover,.strip>button:focus-visible{flex-grow:2.2}
+.strip img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--expo)}
+.strip>button:hover img{transform:scale(1.06)}
+.strip .play{position:absolute;right:8px;bottom:8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.6)}
+.strip .play svg{width:10px;height:10px;fill:#fff;margin-left:1px}
+.strip .docface{padding:12px 10px}
+.step-body{padding:24px 26px 26px;display:flex;flex-direction:column;gap:13px}
+.step-body h3{font-size:clamp(22px,2.4vw,28px);font-weight:800}
+.step-body p{color:var(--muted);font-size:15px}
+.step-body .minis{margin-top:4px}
+.step-act{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.step-act .btn{padding:11px 18px;font-size:13px}
+
+/* ---------- DRIVE folders (reference: glass folders, files fan out) ---------- */
+.drive{margin-top:70px;position:relative;border:1px solid var(--line);border-radius:38px;padding:54px clamp(20px,4vw,48px) 64px;background:radial-gradient(circle,var(--dot) 1px,transparent 1.5px) 0 0/22px 22px,var(--bg2)}
+.drive-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 30px}
+.drive-h h2{font-size:clamp(28px,3.6vw,44px);font-weight:800;margin-top:12px}
+.drive-h p{color:var(--muted);font-size:15px;max-width:40ch}
+.folders{display:grid;grid-template-columns:repeat(3,1fr);gap:70px clamp(22px,3vw,40px);padding-top:120px}
+.fold{position:relative;aspect-ratio:340/272;cursor:pointer;outline:0;filter:drop-shadow(0 26px 30px var(--fshadow));transition:transform .8s var(--spring);-webkit-tap-highlight-color:transparent}
+.fold:focus-visible .fold-glass{outline:2px solid var(--gold)}
+.fold-back{position:absolute;inset:0;clip-path:url(#clipBack);background:var(--fback);overflow:hidden}
+.fold-back img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1));transition:transform 1.2s var(--expo)}
+.fold-back.tint{background:linear-gradient(140deg,#8a3ffc,#3a0ca3 70%)}
+.fold-back.tint img{mix-blend-mode:multiply}
+.fold-back::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 30%)}
+.fold-files{position:absolute;inset:0}
+.ff{position:absolute;left:19%;top:27%;width:62%;aspect-ratio:1.48;border-radius:14px;overflow:hidden;background:#1a1a20;box-shadow:0 12px 30px rgba(0,0,0,.32),0 0 0 1px rgba(255,255,255,.12);transform-origin:50% 100%;transition:transform .8s var(--spring)}
+.ff>img{width:100%;height:100%;object-fit:cover}
+.ff-top{position:absolute;left:0;right:0;top:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 11px 18px;color:#fff;background:linear-gradient(rgba(0,0,0,.62),transparent);font-size:clamp(11px,1vw,13px);font-weight:700}
+.ff-top b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ff-top small{flex:none;font-family:var(--mono);font-size:9.5px;font-weight:500;opacity:.85}
+.ff.doc{background:#fbfaf6}
+.ff.doc .ff-top{color:#1d1a12;background:none}
+.ff.doc .lines{position:absolute;left:11px;right:11px;top:38px;display:flex;flex-direction:column;gap:8px}
+.ff.doc .lines i{display:block;height:7px;border-radius:4px;background:#e2dfd7}
+.ff.doc .lines i:nth-child(2){width:84%}.ff.doc .lines i:nth-child(4){width:62%}
+.ff.code{background:#111117}
+.ff.code .ff-top{color:#e8b84a;background:none}
+.ff.code .lines i{background:rgba(158,230,184,.2)}
+.ff.mood{background:#101015;display:grid;grid-template-columns:1fr 1fr;gap:3px;padding:3px}
+.ff.mood img{width:100%;height:100%;object-fit:cover;border-radius:9px;min-height:0}
+.ff .play{position:absolute;right:10px;bottom:10px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.3)}
+.ff .play svg{width:10px;height:10px;fill:#fff;margin-left:1px}
+.ff:nth-child(1){transform:translate(-5%,6%) rotate(-3deg)}
+.ff:nth-child(2){transform:translate(1%,3%) rotate(1deg)}
+.ff:nth-child(3){transform:translate(6%,9%) rotate(3deg)}
+.fold-front{position:absolute;left:0;right:0;bottom:0;height:72.43%;transform-origin:50% 100%;transition:transform .8s var(--spring)}
+.fold-glass{position:absolute;inset:0;clip-path:url(#clipFront);background:var(--fglass);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5)}
+.fold-rim{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.fold-rim path{fill:none;stroke:var(--frim);stroke-width:1.3;vector-effect:non-scaling-stroke}
+.fold-chip{position:absolute;left:7%;top:5.5%;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--gold)}
+.fold-lab{position:absolute;left:7.5%;bottom:15%;right:30%;line-height:1.25}
+.fold-lab b{display:block;font-size:clamp(16px,1.7vw,20px);font-weight:700;color:var(--ftext);letter-spacing:-.01em}
+.fold-lab small{display:block;font-family:var(--mono);font-size:clamp(10px,.95vw,12px);color:var(--fmuted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fold-btn{position:absolute;right:6%;bottom:11%;width:17.6%;aspect-ratio:1;border-radius:30%;display:grid;place-items:center;background:var(--fbtn);color:var(--fbtnc);box-shadow:0 12px 22px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3),0 0 0 1px rgba(0,0,0,.15);transition:transform .6s var(--spring)}
+.fold-btn svg{width:42%;height:42%;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;transition:transform .6s var(--spring)}
+.fold.open{transform:translateY(-8px) rotate(-1.6deg)}
+.fold.open .fold-back img{transform:scale(calc(var(--z,1) * 1.08))}
+.fold.open .fold-front{transform:perspective(1100px) rotateX(-16deg)}
+.fold.open .ff:nth-child(1){transform:translate(-24%,-98%) rotate(-9deg)}
+.fold.open .ff:nth-child(2){transform:translate(-8%,-84%) rotate(-4.5deg);transition-delay:.04s}
+.fold.open .ff:nth-child(3){transform:translate(8%,-68%) rotate(-1.5deg);transition-delay:.08s}
+.fold.open .fold-btn{transform:scale(1.06)}
+.fold.open .fold-btn svg{transform:rotate(90deg)}
+.fold:active .fold-btn{transform:scale(.92)}
+.drive-note{margin-top:46px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+
+/* ---------- GALERI (pinned horizontal, Glowtide gallery) ---------- */
+.gal{position:relative}
+.gal-stage{position:relative;overflow-x:auto;overflow-y:hidden;padding:30px 0 50px;scrollbar-width:none}
+.gal-stage::-webkit-scrollbar{display:none}
+html.motion .gal-stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;padding:0;display:flex;align-items:center}
+.gal-track{position:relative;z-index:1;display:flex;align-items:center;gap:clamp(18px,2.4vw,30px);padding:0 max(20px,calc((100vw - 1160px)/2));width:max-content}
+.gal-intro{flex:none;width:min(400px,78vw);margin-right:clamp(10px,3vw,40px)}
+.gal-intro h2{font-size:clamp(32px,4.6vw,58px);font-weight:800;margin:14px 0 16px}
+.gal-intro p{color:var(--muted);font-size:16px}
+.shot{flex:none;margin:0;display:flex;flex-direction:column;gap:12px;cursor:pointer;text-align:left}
+.shot-frame{position:relative;height:min(62vh,580px);border-radius:30px;overflow:hidden;border:1px solid var(--line2);background:var(--card);box-shadow:0 30px 60px -20px var(--shadow);transition:border-color .4s,transform .6s var(--spring)}
+.shot.wide .shot-frame{height:min(44vh,400px)}
+.shot.sm .shot-frame{height:min(50vh,460px)}
+.shot:nth-child(even){align-self:flex-end;margin-bottom:6vh}
+.shot:nth-child(4n+1){align-self:flex-start;margin-top:8vh}
+.shot-frame img{width:100%;height:100%;object-fit:cover}
+.shot:hover .shot-frame,.shot:focus-visible .shot-frame{border-color:rgba(232,184,74,.55);transform:translateY(-6px)}
+.shot figcaption{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding:0 6px}
+.shot figcaption b{color:var(--text);font-weight:600}
+.shot figcaption span{font-family:var(--mono);font-size:11px}
+.gal-orb{position:absolute;z-index:0;width:46vmax;height:46vmax;border-radius:50%;pointer-events:none;filter:blur(30px);opacity:.5}
+.gal-orb-a{top:-10%;left:0;background:radial-gradient(circle,rgba(232,184,74,.28),transparent 62%)}
+.gal-orb-b{bottom:-20%;left:30%;background:radial-gradient(circle,rgba(47,209,139,.14),transparent 62%)}
+.gal-end{flex:none;width:min(320px,70vw);display:flex;flex-direction:column;gap:16px;padding-right:20px}
+.gal-end b{font-family:var(--display);font-size:clamp(24px,2.6vw,32px);line-height:1.1;font-weight:800}
+
+/* footer wordmark (Glowtide ft-mark) */
+.ft-mark-box{overflow:hidden;margin:0 0 26px;pointer-events:none}
+.ft-mark{font-family:var(--display);font-weight:800;font-size:clamp(46px,13.6vw,196px);line-height:.92;letter-spacing:-.045em;text-align:center;background:linear-gradient(180deg,var(--gold2),var(--gold) 55%,transparent 98%);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+
+@media (max-width:960px){
+  .prog-grid{grid-template-columns:1fr;gap:44px}
+  .prog-head{position:relative;top:0}
+  .folders{grid-template-columns:1fr;max-width:420px;margin-inline:auto;gap:150px;padding-top:140px}
+}
+@media (max-width:620px){
+  #island[data-state=menu]{--h:322px}
+  .mpills.f3{grid-template-columns:repeat(3,1fr)}
+  .mpills.f3 .pill:last-child{grid-column:auto}
+  .steps-line{padding-left:36px}
+  .steps-line::before,.steps-fill{left:9px}
+  .step::before{left:-35px;width:16px;height:16px}
+  .strip{height:120px}
+  .step-body{padding:20px}
+  .meter{flex-wrap:wrap}
+  .meter .mstats{margin-left:0;width:100%;justify-content:space-between;text-align:left;padding-top:12px;border-top:1px solid var(--line)}
+  .drive{border-radius:30px;padding-top:40px}
+  .fd-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:9px;padding:10px}
+  .fd-nav{width:38px;height:38px;margin-top:-19px}
+  .shot-frame{height:min(54vh,460px)}
+  .shot.wide .shot-frame{height:min(30vh,260px)}
+}
+@media (prefers-reduced-motion:reduce){.fd-tile{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -317,12 +548,19 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 13.2A8.5 8.5 0 1 1 10.8 3a6.8 6.8 0 0 0 10.2 10.2z"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></symbol>
+  <clipPath id="clipBack" clipPathUnits="objectBoundingBox"><path transform="scale(0.00294118,0.00367647)" d="M0 55Q0 33 22 33H155C178 33 182 0 208 0H318Q340 0 340 22V250Q340 272 318 272H22Q0 272 0 250Z"/></clipPath>
+  <clipPath id="clipFront" clipPathUnits="objectBoundingBox"><path transform="scale(0.00294118,0.00507614)" d="M0 22Q0 0 22 0H118C142 0 146 31 172 31H318Q340 31 340 53V175Q340 197 318 197H22Q0 197 0 175Z"/></clipPath>
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M6 13l6 6 6-6"/></symbol>
 </svg>
 
 <!-- ============ DYNAMIC ISLAND ============ -->
 <div class="backdrop" id="backdrop"></div>
-<div id="island" data-state="boot" role="region" aria-label="Menu navigasi">
+<div id="island" data-lenis-prevent data-state="boot" role="region" aria-label="Menu navigasi">
   <div class="v v-boot" data-view="boot"><i></i></div>
 
   <button class="v v-idle" data-view="idle" id="idleBtn" aria-label="Buka menu">
@@ -336,10 +574,17 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
     <p id="liveTxt"></p>
   </div>
 
+  <button class="v v-track" data-view="track" id="trackBtn" aria-label="Buka folder hari semasa">
+    <svg class="tring" viewBox="0 0 36 36" aria-hidden="true"><circle class="bg" cx="18" cy="18" r="15"/><circle class="fg" id="trackRing" cx="18" cy="18" r="15"/></svg>
+    <span class="txt" id="trackTxt"><b id="trackT">Hari 1/3 · AI Agent</b><small id="trackS">WattWise</small></span>
+    <span class="tpct" id="trackP">0%</span>
+  </button>
+
   <nav class="v v-menu" data-view="menu" aria-label="Menu utama">
     <div class="mrow">
       <a href="#utama" data-sec="utama"><svg><use href="#i-home"/></svg><span data-ms="Utama" data-en="Home">Utama</span></a>
       <a href="#projek" data-sec="projek"><svg><use href="#i-grid"/></svg><span data-ms="Projek" data-en="Projects">Projek</span></a>
+      <a href="#progres" data-sec="progres"><svg><use href="#i-folder"/></svg><span data-ms="Progres" data-en="Progress">Progres</span></a>
       <a href="#impak" data-sec="impak"><svg><use href="#i-chart"/></svg><span data-ms="Impak" data-en="Impact">Impak</span></a>
       <a href="#laman" data-sec="laman"><svg><use href="#i-globe"/></svg><span data-ms="Laman" data-en="Sites">Laman</span></a>
       <a href="#hubungi" data-sec="hubungi"><svg><use href="#i-mail"/></svg><span data-ms="Hubungi" data-en="Contact">Hubungi</span></a>
@@ -352,6 +597,12 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
       <button class="pill" data-src="lab4/index.html" data-title="Portfolio Akademik · UNITEN"><small>LAB 4</small><b>Portfolio UNITEN</b></button>
       <button class="pill" data-src="lab5/index.html" data-title="ARMAGEDDON: Cartoon Warzone"><small>LAB 5</small><b>ARMAGEDDON</b></button>
     </div>
+    <div class="mlab"><span data-ms="Folder Drive · Progres AI Hari 1–3" data-en="Drive folders · AI progress Day 1–3">Folder Drive · Progres AI Hari 1–3</span></div>
+    <div class="mpills f3">
+      <button class="pill fp" data-folder="0"><small data-ms="HARI 1" data-en="DAY 1">HARI 1</small><b>AI Agent</b></button>
+      <button class="pill fp" data-folder="1"><small data-ms="HARI 2" data-en="DAY 2">HARI 2</small><b>AI Video</b></button>
+      <button class="pill fp" data-folder="2"><small data-ms="HARI 3" data-en="DAY 3">HARI 3</small><b>AI Image</b></button>
+    </div>
   </nav>
 
   <div class="v v-preview" data-view="preview">
@@ -363,6 +614,25 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
     <div class="pv-body">
       <div class="pv-load"><div><i></i><span data-ms="Memuatkan projek… Jika kekal kosong, tekan “Buka penuh”." data-en="Loading project… If it stays blank, tap “Open full”.">Memuatkan projek… Jika kekal kosong, tekan “Buka penuh”.</span></div></div>
       <iframe id="pvFrame" title="Pratonton projek" loading="lazy" allow="fullscreen"></iframe>
+    </div>
+  </div>
+
+  <div class="v v-folder" data-view="folder" id="fdView">
+    <div class="pv-bar">
+      <button class="btn-x btn-b" id="fdBack" aria-label="Kembali ke folder"><svg><use href="#i-left"/></svg></button>
+      <div class="ttl"><b id="fdTitle">—</b><small id="fdSub">—</small></div>
+      <a class="btn-s" id="fdDrive" href="#" target="_blank" rel="noopener"><span>Google Drive</span><svg><use href="#i-arrow"/></svg></a>
+      <a class="btn-s" id="fdOpen" href="#" target="_blank" rel="noopener"><span data-ms="Buka penuh" data-en="Open full">Buka penuh</span><svg><use href="#i-arrow"/></svg></a>
+      <button class="btn-x" id="fdClose" aria-label="Tutup folder"><svg><use href="#i-x"/></svg></button>
+    </div>
+    <div class="fd-body">
+      <div class="fd-grid" id="fdGrid"></div>
+      <div class="fd-view">
+        <div class="fd-stage" id="fdStage"></div>
+        <button class="fd-nav p" id="fdPrev" aria-label="Fail sebelum"><svg><use href="#i-left"/></svg></button>
+        <button class="fd-nav n" id="fdNext" aria-label="Fail seterusnya"><svg><use href="#i-right"/></svg></button>
+        <div class="fd-cap"><b id="fdName">—</b><span id="fdCount">1 / 1</span></div>
+      </div>
     </div>
   </div>
 </div>
@@ -578,6 +848,95 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   </div>
 </section>
 
+<!-- ============ PROGRES · HARI 1–3 ============ -->
+<!-- ▼▼ Fail ada dalam folder progress/day1..day3. Pautan Google Drive: isi "drive" dalam blok DATA FOLDER di hujung fail ▼▼ -->
+<section class="sec" id="progres">
+  <div class="wrap">
+    <div class="prog-grid">
+      <div class="prog-head">
+        <span class="eyebrow reveal" data-ms="Progres · Hari 1–3" data-en="Progress · Day 1–3">Progres · Hari 1–3</span>
+        <h2 data-split data-ms="Tiga hari. <em>Tiga kemahiran AI.</em> Satu portfolio." data-en="Three days. <em>Three AI skills.</em> One portfolio.">Tiga hari. <em>Tiga kemahiran AI.</em> Satu portfolio.</h2>
+        <p class="statement" data-light data-ms="Setiap hari berakhir dengan hasil yang boleh dibuka: ejen AI yang membaca bil TNB, iklan video 30 saat untuk jenama kopi, dan 23 visual untuk gerakan yang saya pimpin." data-en="Each day ended with something you can open: an AI agent that reads TNB bills, a 30-second video ad for a coffee brand, and 23 visuals for the movements I lead.">Setiap hari berakhir dengan hasil yang boleh dibuka: ejen AI yang membaca bil TNB, iklan video 30 saat untuk jenama kopi, dan 23 visual untuk gerakan yang saya pimpin.</p>
+        <div class="meter reveal d1">
+          <svg viewBox="0 0 64 64" aria-hidden="true"><circle class="bg" cx="32" cy="32" r="26"/><circle class="fg" id="meterRing" cx="32" cy="32" r="26"/></svg>
+          <div><b><span id="meterDay">3</span> / 3</b><span data-ms="hari selesai" data-en="days complete">hari selesai</span></div>
+          <div class="mstats"><div><b>60</b><span data-ms="fail" data-en="files">fail</span></div><div><b>6</b><span data-ms="video" data-en="videos">video</span></div><div><b>23</b><span data-ms="visual" data-en="visuals">visual</span></div></div>
+        </div>
+      </div>
+      <div class="steps-line" id="stepsLine">
+        <ol class="steps">
+        <li class="step">
+          <span class="step-day" data-ms="Hari 1 · AI Agent" data-en="Day 1 · AI Agent">Hari 1 · AI Agent</span>
+          <article class="step-card" data-reveal>
+            <div class="strip" data-strip="0"></div>
+            <div class="step-body">
+              <h3>WattWise Malaysia</h3>
+              <p data-ms="Ejen penasihat tenaga yang membaca bil TNB dan membalas dalam lima bahagian tetap, berakhir dengan satu langkah seterusnya yang ambil kurang lima minit. Saya bina alirannya di Make.com, tulis prompt dengan rangka CLEAR, dan siapkan kertas cadangan rintis enam bulan." data-en="An energy-advisor agent that reads a TNB bill and replies in five fixed parts, ending with one next step that takes under five minutes. I built the flow on Make.com, wrote the prompt with the CLEAR framework, and finished a six-month pilot proposal.">Ejen penasihat tenaga yang membaca bil TNB dan membalas dalam lima bahagian tetap, berakhir dengan satu langkah seterusnya yang ambil kurang lima minit. Saya bina alirannya di Make.com, tulis prompt dengan rangka CLEAR, dan siapkan kertas cadangan rintis enam bulan.</p>
+              <div class="tags"><span>Make.com</span><span>AI Agent</span><span>CLEAR prompting</span><span>SDG 7</span></div>
+              <div class="minis"><div class="mini"><b><span class="count" data-to="5">5</span></b><span data-ms="bahagian jawapan" data-en="reply sections">bahagian jawapan</span></div><div class="mini"><b><span class="count" data-to="550">550</span></b><span data-ms="pengguna rintis" data-en="pilot users">pengguna rintis</span></div><div class="mini"><b>RM30.8K</b><span data-ms="bajet rintis" data-en="pilot budget">bajet rintis</span></div></div>
+              <div class="step-act"><button class="btn pri" data-folder="0"><svg><use href="#i-folder"/></svg><span data-ms="Buka folder" data-en="Open folder">Buka folder</span></button><button class="btn ghost" data-folder="0" data-file="1"><span data-ms="Baca kertas cadangan" data-en="Read the proposal">Baca kertas cadangan</span><svg><use href="#i-arrow"/></svg></button></div>
+            </div>
+          </article>
+        </li>
+        <li class="step">
+          <span class="step-day" data-ms="Hari 2 · AI Video" data-en="Day 2 · AI Video">Hari 2 · AI Video</span>
+          <article class="step-card" data-reveal>
+            <div class="strip" data-strip="1"></div>
+            <div class="step-body">
+              <h3>Sisa Senja: Senja On Demand</h3>
+              <p data-ms="Iklan pelancaran 30 saat untuk kopi botol Sisa Senja, dalam dua blok 15 saat. Bermula dari papan jenama dan storyboard, kemudian master prompt shot demi shot, sebelum dijana dengan Gemini Veo, Hailuo dan CapCut AI." data-en="A 30-second launch ad for Sisa Senja bottled coffee, built as two 15-second blocks. It started from a brand board and storyboard, then a shot-by-shot master prompt, before generating with Gemini Veo, Hailuo and CapCut AI.">Iklan pelancaran 30 saat untuk kopi botol Sisa Senja, dalam dua blok 15 saat. Bermula dari papan jenama dan storyboard, kemudian master prompt shot demi shot, sebelum dijana dengan Gemini Veo, Hailuo dan CapCut AI.</p>
+              <div class="tags"><span>Gemini Veo</span><span>Hailuo</span><span>CapCut AI</span><span>Storyboard</span><span>9:16</span></div>
+              <div class="minis"><div class="mini"><b><span class="count" data-to="6">6</span></b><span data-ms="klip video" data-en="video clips">klip video</span></div><div class="mini"><b><span class="count" data-to="18">18</span></b><span data-ms="kerangka kunci" data-en="keyframes">kerangka kunci</span></div><div class="mini"><b><span class="count" data-to="30" data-suf="s">30s</span></b><span data-ms="iklan pelancaran" data-en="launch ad">iklan pelancaran</span></div></div>
+              <div class="step-act"><button class="btn pri" data-folder="1"><svg><use href="#i-folder"/></svg><span data-ms="Buka folder" data-en="Open folder">Buka folder</span></button><button class="btn ghost" data-folder="1" data-file="0"><svg><use href="#i-play"/></svg><span data-ms="Tonton iklan" data-en="Watch the ad">Tonton iklan</span></button></div>
+            </div>
+          </article>
+        </li>
+        <li class="step">
+          <span class="step-day" data-ms="Hari 3 · AI Image" data-en="Day 3 · AI Image">Hari 3 · AI Image</span>
+          <article class="step-card" data-reveal>
+            <div class="strip" data-strip="2"></div>
+            <div class="step-body">
+              <h3 data-ms="23 visual, 8 jenama" data-en="23 visuals, 8 brands">23 visual, 8 jenama</h3>
+              <p data-ms="Poster kempen, iklan produk dan identiti logo untuk venture dan gerakan yang saya terlibat: Kerew, GengYTN, Geng Volunteers 2.0, Cendekia × HeartSpace, IYC, YouthQuest AI dan kempen Parlimen Belia. Semuanya sedia diterbitkan." data-en="Campaign posters, product ads and logo identities for the ventures and movements I&#39;m part of: Kerew, GengYTN, Geng Volunteers 2.0, Cendekia × HeartSpace, IYC, YouthQuest AI and a Youth Parliament campaign. All of it ready to publish.">Poster kempen, iklan produk dan identiti logo untuk venture dan gerakan yang saya terlibat: Kerew, GengYTN, Geng Volunteers 2.0, Cendekia × HeartSpace, IYC, YouthQuest AI dan kempen Parlimen Belia. Semuanya sedia diterbitkan.</p>
+              <div class="tags"><span>Poster</span><span data-ms="Iklan produk" data-en="Product ads">Iklan produk</span><span>Logo</span><span data-ms="Kempen" data-en="Campaigns">Kempen</span></div>
+              <div class="minis"><div class="mini"><b><span class="count" data-to="23">23</span></b><span data-ms="visual siap" data-en="finished visuals">visual siap</span></div><div class="mini"><b><span class="count" data-to="8">8</span></b><span data-ms="jenama" data-en="brands">jenama</span></div><div class="mini"><b><span class="count" data-to="7">7</span></b><span data-ms="iklan Kerew" data-en="Kerew ads">iklan Kerew</span></div></div>
+              <div class="step-act"><button class="btn pri" data-folder="2"><svg><use href="#i-folder"/></svg><span data-ms="Buka folder" data-en="Open folder">Buka folder</span></button><a class="btn ghost" href="#galeri"><span data-ms="Lihat galeri" data-en="See the gallery">Lihat galeri</span><svg><use href="#i-down"/></svg></a></div>
+            </div>
+          </article>
+        </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="drive" id="drive">
+      <div class="drive-h">
+        <div><span class="eyebrow" data-ms="Folder Google Drive" data-en="Google Drive folders">Folder Google Drive</span>
+          <h2 data-split data-ms="Semua fail, <em>satu tekan.</em>" data-en="Every file, <em>one tap.</em>">Semua fail, <em>satu tekan.</em></h2></div>
+        <p class="reveal" data-ms="Halakan pada folder untuk intai isinya. Tekan untuk buka semua fail terus dalam island: gambar, video, PDF dan prompt." data-en="Hover a folder to peek inside. Tap to open every file right inside the island: images, videos, PDFs and prompts.">Halakan pada folder untuk intai isinya. Tekan untuk buka semua fail terus dalam island: gambar, video, PDF dan prompt.</p>
+      </div>
+      <div class="folders" id="folders"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALERI HARI 3 ============ -->
+<section class="gal" id="galeri" aria-label="Galeri Hari 3">
+  <div class="gal-stage">
+    <i class="gal-orb gal-orb-a" aria-hidden="true"></i><i class="gal-orb gal-orb-b" aria-hidden="true"></i>
+    <div class="gal-track" id="galTrack">
+      <div class="gal-intro">
+        <span class="eyebrow" data-ms="Hari 3 · AI Image" data-en="Day 3 · AI Image">Hari 3 · AI Image</span>
+        <h2 data-split data-ms="Hari 3, <em>dalam gambar.</em>" data-en="Day 3, <em>in pictures.</em>">Hari 3, <em>dalam gambar.</em></h2>
+        <p data-ms="Dua belas daripada 23 visual. Tekan mana-mana poster untuk buka dalam island." data-en="Twelve of the 23 visuals. Tap any poster to open it inside the island.">Dua belas daripada 23 visual. Tekan mana-mana poster untuk buka dalam island.</p>
+      </div>
+      <div class="gal-end">
+        <b data-ms="Ada 11 lagi dalam folder." data-en="11 more in the folder.">Ada 11 lagi dalam folder.</b>
+        <button class="btn pri" data-folder="2"><svg><use href="#i-folder"/></svg><span data-ms="Buka folder Hari 3" data-en="Open Day 3 folder">Buka folder Hari 3</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ IMPAK ============ -->
 <section class="sec" id="impak">
   <div class="wrap">
@@ -732,8 +1091,14 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
 </section>
 </main>
 
-<footer><div class="wrap"><b>LEAD · LEARN · GROW</b> &nbsp;·&nbsp; #DemiUmmah<br><span id="yr"></span> Hafiz Ziqri · @hafizceogenz</div></footer>
+<footer><div class="ft-mark-box" aria-hidden="true"><p class="ft-mark">hafizceogenz</p></div><div class="wrap"><b>LEAD · LEARN · GROW</b> &nbsp;·&nbsp; #DemiUmmah<br><span id="yr"></span> Hafiz Ziqri · @hafizceogenz</div></footer>
 
+<!-- ▼▼ DATA FOLDER: tukar "drive":"" kepada pautan folder Google Drive anda untuk papar butang Google Drive ▼▼ -->
+<script type="application/json" id="drive-data">[{"id": "day1", "num": 1, "name": "AI Agent", "sub": "WattWise Malaysia", "drive": "", "cover": "progress/day1/make-canvas.webp", "coverPos": "36% 42%", "coverZoom": 2.3, "tint": 1, "fan": [0, 3, 1], "files": [{"n": "Make.com Canvas.png", "t": "img", "src": "progress/day1/make-canvas.webp", "th": "progress/day1/make-canvas-t.webp", "s": "PNG · 64 KB", "w": 1914, "h": 1003}, {"n": "WattWise Proposal.pdf", "t": "pdf", "src": "progress/day1/wattwise-proposal.pdf", "th": "progress/day1/wattwise-proposal-cover-t.webp", "s": "PDF · 273 KB"}, {"n": "CLEAR Mega Prompt.txt", "t": "txt", "src": "progress/day1/clear-mega-prompt.txt", "s": "TXT · 7 KB"}, {"n": "WattWise Blueprint.json", "t": "json", "src": "progress/day1/wattwise-blueprint.json", "s": "JSON · 57 KB"}]}, {"id": "day2", "num": 2, "name": "AI Video", "sub": "Sisa Senja", "drive": "", "cover": "progress/day2/keyframe-753-t.webp", "coverPos": "50% 62%", "coverZoom": 1, "fan": [6, 7, 0], "files": [{"n": "Sisa Senja Ad.mp4", "t": "vid", "src": "progress/day2/sisa-senja-ad.mp4", "th": "progress/day2/sisa-senja-ad-t.webp", "s": "MP4 · 1.3 MB"}, {"n": "Part 2 · Soul & CTA.mp4", "t": "vid", "src": "progress/day2/part2-soul-cta.mp4", "th": "progress/day2/part2-soul-cta-t.webp", "s": "MP4 · 2.1 MB"}, {"n": "Gemini Veo cut.mp4", "t": "vid", "src": "progress/day2/gemini-veo-cut.mp4", "th": "progress/day2/gemini-veo-cut-t.webp", "s": "MP4 · 1.6 MB"}, {"n": "Hailuo · Product hero.mp4", "t": "vid", "src": "progress/day2/hailuo-product-hero.mp4", "th": "progress/day2/hailuo-product-hero-t.webp", "s": "MP4 · 919 KB"}, {"n": "Loop · KOKA.mp4", "t": "vid", "src": "progress/day2/loop-koka.mp4", "th": "progress/day2/loop-koka-t.webp", "s": "MP4 · 429 KB"}, {"n": "Loop · CHOKI.mp4", "t": "vid", "src": "progress/day2/loop-choki.mp4", "th": "progress/day2/loop-choki-t.webp", "s": "MP4 · 247 KB"}, {"n": "Storyboard.jpg", "t": "img", "src": "progress/day2/storyboard.webp", "th": "progress/day2/storyboard-t.webp", "s": "JPG · 230 KB", "w": 1465, "h": 1073}, {"n": "Master Prompt · 30s Ad.pdf", "t": "pdf", "src": "progress/day2/sisa-senja-masterprompt.pdf", "th": "progress/day2/masterprompt-cover-t.webp", "s": "PDF · 474 KB"}, {"n": "Brand board.jpg", "t": "img", "src": "progress/day2/brand-board.webp", "th": "progress/day2/brand-board-t.webp", "s": "JPG · 273 KB", "w": 1600, "h": 900}, {"n": "Bottle line-up.jpg", "t": "img", "src": "progress/day2/bottle-lineup.webp", "th": "progress/day2/bottle-lineup-t.webp", "s": "JPG · 182 KB", "w": 1600, "h": 900}, {"n": "Logo.jpg", "t": "img", "src": "progress/day2/logo.webp", "th": "progress/day2/logo-t.webp", "s": "JPG · 19 KB", "w": 1600, "h": 800}, {"n": "Barista character sheet.jpg", "t": "img", "src": "progress/day2/barista-character-sheet.webp", "th": "progress/day2/barista-character-sheet-t.webp", "s": "JPG · 119 KB", "w": 1195, "h": 1600}, {"n": "Ref · Jetty.jpg", "t": "img", "src": "progress/day2/ref-jetty.webp", "th": "progress/day2/ref-jetty-t.webp", "s": "JPG · 77 KB", "w": 893, "h": 1600}, {"n": "Ref · Kitchen.jpg", "t": "img", "src": "progress/day2/ref-kitchen.webp", "th": "progress/day2/ref-kitchen-t.webp", "s": "JPG · 85 KB", "w": 893, "h": 1600}, {"n": "Ref · Desk night.jpg", "t": "img", "src": "progress/day2/ref-desk-night.webp", "th": "progress/day2/ref-desk-night-t.webp", "s": "JPG · 61 KB", "w": 893, "h": 1600}, {"n": "Keyframe 01.jpg", "t": "img", "src": "progress/day2/keyframe-730.webp", "th": "progress/day2/keyframe-730-t.webp", "s": "JPG · 48 KB", "w": 720, "h": 1280}, {"n": "Keyframe 02.jpg", "t": "img", "src": "progress/day2/keyframe-732.webp", "th": "progress/day2/keyframe-732-t.webp", "s": "JPG · 72 KB", "w": 720, "h": 1280}, {"n": "Keyframe 03.jpg", "t": "img", "src": "progress/day2/keyframe-736.webp", "th": "progress/day2/keyframe-736-t.webp", "s": "JPG · 82 KB", "w": 720, "h": 1280}, {"n": "Keyframe 04.jpg", "t": "img", "src": "progress/day2/keyframe-737.webp", "th": "progress/day2/keyframe-737-t.webp", "s": "JPG · 101 KB", "w": 720, "h": 1280}, {"n": "Keyframe 05.jpg", "t": "img", "src": "progress/day2/keyframe-739.webp", "th": "progress/day2/keyframe-739-t.webp", "s": "JPG · 93 KB", "w": 720, "h": 1280}, {"n": "Keyframe 06.jpg", "t": "img", "src": "progress/day2/keyframe-742.webp", "th": "progress/day2/keyframe-742-t.webp", "s": "JPG · 57 KB", "w": 720, "h": 1280}, {"n": "Keyframe 07.jpg", "t": "img", "src": "progress/day2/keyframe-746.webp", "th": "progress/day2/keyframe-746-t.webp", "s": "JPG · 93 KB", "w": 720, "h": 1280}, {"n": "Keyframe 08.jpg", "t": "img", "src": "progress/day2/keyframe-749.webp", "th": "progress/day2/keyframe-749-t.webp", "s": "JPG · 71 KB", "w": 720, "h": 1280}, {"n": "Keyframe 09.jpg", "t": "img", "src": "progress/day2/keyframe-750.webp", "th": "progress/day2/keyframe-750-t.webp", "s": "JPG · 72 KB", "w": 720, "h": 1280}, {"n": "Keyframe 10.jpg", "t": "img", "src": "progress/day2/keyframe-753.webp", "th": "progress/day2/keyframe-753-t.webp", "s": "JPG · 69 KB", "w": 900, "h": 1600}, {"n": "Keyframe 11.jpg", "t": "img", "src": "progress/day2/keyframe-756.webp", "th": "progress/day2/keyframe-756-t.webp", "s": "JPG · 67 KB", "w": 720, "h": 1280}, {"n": "Keyframe 12.jpg", "t": "img", "src": "progress/day2/keyframe-757.webp", "th": "progress/day2/keyframe-757-t.webp", "s": "JPG · 69 KB", "w": 900, "h": 1600}, {"n": "Keyframe 13.jpg", "t": "img", "src": "progress/day2/keyframe-759.webp", "th": "progress/day2/keyframe-759-t.webp", "s": "JPG · 55 KB", "w": 720, "h": 1280}, {"n": "Keyframe 14.jpg", "t": "img", "src": "progress/day2/keyframe-760.webp", "th": "progress/day2/keyframe-760-t.webp", "s": "JPG · 36 KB", "w": 720, "h": 1280}, {"n": "Keyframe 15.jpg", "t": "img", "src": "progress/day2/keyframe-762.webp", "th": "progress/day2/keyframe-762-t.webp", "s": "JPG · 41 KB", "w": 720, "h": 1280}, {"n": "Keyframe 16.jpg", "t": "img", "src": "progress/day2/keyframe-764.webp", "th": "progress/day2/keyframe-764-t.webp", "s": "JPG · 34 KB", "w": 720, "h": 1280}, {"n": "Keyframe 17.jpg", "t": "img", "src": "progress/day2/keyframe-772.webp", "th": "progress/day2/keyframe-772-t.webp", "s": "JPG · 41 KB", "w": 720, "h": 1280}, {"n": "Keyframe 18.jpg", "t": "img", "src": "progress/day2/keyframe-773.webp", "th": "progress/day2/keyframe-773-t.webp", "s": "JPG · 52 KB", "w": 720, "h": 1280}]}, {"id": "day3", "num": 3, "name": "AI Image", "sub": "Poster · Logo", "drive": "", "cover": "progress/day3/level-up-irl-t.webp", "coverPos": "50% 40%", "coverZoom": 1, "fan": [3, "mood", 7], "files": [{"n": "Mega Komuniti Orang Asli.jpg", "t": "img", "src": "progress/day3/mega-komuniti-orang-asli.webp", "th": "progress/day3/mega-komuniti-orang-asli-t.webp", "s": "JPG · 304 KB", "w": 1122, "h": 1402}, {"n": "Kerew · FOMO.jpg", "t": "img", "src": "progress/day3/kerew-fomo.webp", "th": "progress/day3/kerew-fomo-t.webp", "s": "JPG · 240 KB", "w": 1086, "h": 1448}, {"n": "GengYTN · Logo.jpg", "t": "img", "src": "progress/day3/gengytn-logo.webp", "th": "progress/day3/gengytn-logo-t.webp", "s": "JPG · 77 KB", "w": 1254, "h": 1254}, {"n": "PBMy · Undi DemNas.jpg", "t": "img", "src": "progress/day3/pbmy-undi-demnas.webp", "th": "progress/day3/pbmy-undi-demnas-t.webp", "s": "JPG · 237 KB", "w": 1122, "h": 1402}, {"n": "CG Fiqry.jpg", "t": "img", "src": "progress/day3/cg-fiqry.webp", "th": "progress/day3/cg-fiqry-t.webp", "s": "JPG · 171 KB", "w": 1066, "h": 1600}, {"n": "IYC · Youth Camp.jpg", "t": "img", "src": "progress/day3/iyc-youth-camp.webp", "th": "progress/day3/iyc-youth-camp-t.webp", "s": "JPG · 204 KB", "w": 1122, "h": 1402}, {"n": "GV · Ghaz Victoria.jpg", "t": "img", "src": "progress/day3/ghaz-victoria.webp", "th": "progress/day3/ghaz-victoria-t.webp", "s": "JPG · 164 KB", "w": 900, "h": 1600}, {"n": "YouthQuest · Level Up IRL.jpg", "t": "img", "src": "progress/day3/level-up-irl.webp", "th": "progress/day3/level-up-irl-t.webp", "s": "JPG · 202 KB", "w": 1600, "h": 900}, {"n": "GV 2.0 · Barisan Penggerak.jpg", "t": "img", "src": "progress/day3/gv2-barisan-penggerak.webp", "th": "progress/day3/gv2-barisan-penggerak-t.webp", "s": "JPG · 191 KB", "w": 853, "h": 1280}, {"n": "JomKoRa 2026.jpg", "t": "img", "src": "progress/day3/jomkora-2026.webp", "th": "progress/day3/jomkora-2026-t.webp", "s": "JPG · 366 KB", "w": 1122, "h": 1402}, {"n": "Kerew · Crunchy.jpg", "t": "img", "src": "progress/day3/kerew-crunchy.webp", "th": "progress/day3/kerew-crunchy-t.webp", "s": "JPG · 170 KB", "w": 853, "h": 1280}, {"n": "GengYTN · Pickleball.jpg", "t": "img", "src": "progress/day3/gengytn-pickleball.webp", "th": "progress/day3/gengytn-pickleball-t.webp", "s": "JPG · 84 KB", "w": 1536, "h": 1024}, {"n": "Kerew · Feedback Sebenar.jpg", "t": "img", "src": "progress/day3/kerew-feedback-sebenar.webp", "th": "progress/day3/kerew-feedback-sebenar-t.webp", "s": "JPG · 264 KB", "w": 1024, "h": 1536}, {"n": "Kerew · Setiap Gigitan.jpg", "t": "img", "src": "progress/day3/kerew-setiap-gigitan.webp", "th": "progress/day3/kerew-setiap-gigitan-t.webp", "s": "JPG · 272 KB", "w": 1024, "h": 1536}, {"n": "IYC · G7 Mission.jpg", "t": "img", "src": "progress/day3/iyc-g7-mission.webp", "th": "progress/day3/iyc-g7-mission-t.webp", "s": "JPG · 288 KB", "w": 1024, "h": 1536}, {"n": "Kerew · Tak Boleh Stop.jpg", "t": "img", "src": "progress/day3/kerew-tak-boleh-stop.webp", "th": "progress/day3/kerew-tak-boleh-stop-t.webp", "s": "JPG · 285 KB", "w": 1054, "h": 1492}, {"n": "Kerew · Kisah Kecil.jpg", "t": "img", "src": "progress/day3/kerew-kisah-kecil.webp", "th": "progress/day3/kerew-kisah-kecil-t.webp", "s": "JPG · 258 KB", "w": 1024, "h": 1536}, {"n": "Mega Komuniti · v2.jpg", "t": "img", "src": "progress/day3/mega-komuniti-v2.webp", "th": "progress/day3/mega-komuniti-v2-t.webp", "s": "JPG · 244 KB", "w": 1024, "h": 1280}, {"n": "Kerew · Real Feedback.jpg", "t": "img", "src": "progress/day3/kerew-real-feedback.webp", "th": "progress/day3/kerew-real-feedback-t.webp", "s": "JPG · 204 KB", "w": 853, "h": 1280}, {"n": "GengYTN · Networking Meetup.jpg", "t": "img", "src": "progress/day3/gengytn-networking.webp", "th": "progress/day3/gengytn-networking-t.webp", "s": "JPG · 151 KB", "w": 853, "h": 1280}, {"n": "PBMy · Profil Calon.jpg", "t": "img", "src": "progress/day3/pbmy-profil-calon.webp", "th": "progress/day3/pbmy-profil-calon-t.webp", "s": "JPG · 261 KB", "w": 1122, "h": 1402}, {"n": "DemNas · 8 Teras.jpg", "t": "img", "src": "progress/day3/demnas-8-teras.webp", "th": "progress/day3/demnas-8-teras-t.webp", "s": "JPG · 238 KB", "w": 1122, "h": 1402}, {"n": "DemNas · Reminder Undi.jpg", "t": "img", "src": "progress/day3/demnas-reminder.webp", "th": "progress/day3/demnas-reminder-t.webp", "s": "JPG · 236 KB", "w": 1122, "h": 1402}]}]</script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
 <script>
 (function(){
   'use strict';
@@ -741,23 +1106,73 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 
+  /* ---------- Progres Hari 1–3 · data folder (Google Drive) ---------- */
+  var DRIVE=JSON.parse(document.getElementById('drive-data').textContent);
+  var STRIPS=[[0,1,3,2],[9,0,23,28],[0,1,3,7]];   /* fail yang dipapar dalam jalur kad setiap hari */
+  var GALLERY=[0,1,2,3,4,5,6,7,8,9,10,11];          /* poster Hari 3 dalam galeri melintang */
+  var langVer=0, lenis=null, relight=null, unlight=null;
+  var PLAY='<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>';
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function bi(ms,en){return '<span data-ms="'+ms+'" data-en="'+en+'">'+ms+'</span>'}
+  function docFace(f){var c=f.t==='json'?' code':'';return '<span class="docface'+c+'"><b>'+(f.t==='json'?'{ blueprint }':f.t==='txt'?'CLEAR.txt':'PDF')+'</b><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>'}
+  function fanCard(f,k){
+    var top='<div class="ff-top"><b>'+esc(f.n)+'</b><small>'+esc(f.s)+'</small></div>', d=' data-file="'+k+'"';
+    if(f.t==='pdf'||f.t==='txt') return '<div class="ff doc"'+d+'>'+top+'<div class="lines"><i></i><i></i><i></i><i></i></div></div>';
+    if(f.t==='json') return '<div class="ff code"'+d+'>'+top+'<div class="lines"><i></i><i></i><i></i><i></i></div></div>';
+    return '<div class="ff"'+d+'>'+top+'<img src="'+f.th+'" alt="" loading="lazy" decoding="async">'+(f.t==='vid'?'<span class="play">'+PLAY+'</span>':'')+'</div>';
+  }
+  function moodCard(F){
+    var im=F.files.filter(function(x){return x.t==='img'}).slice(0,4);
+    return '<div class="ff mood"><div class="ff-top"><b>Moodboard</b><small>'+F.files.length+' imej</small></div>'+im.map(function(x){return '<img src="'+x.th+'" alt="" loading="lazy" decoding="async">'}).join('')+'</div>';
+  }
+  var RIM='<svg class="fold-rim" viewBox="0 0 340 197" preserveAspectRatio="none" aria-hidden="true"><path d="M.7 22Q.7 .7 22 .7H118C142 .7 146 31.7 172 31.7H318Q339.3 31.7 339.3 53"/></svg>';
+  var folderEl=document.getElementById('folders');
+  if(folderEl) folderEl.innerHTML=DRIVE.map(function(F,i){
+    var fan=F.fan.map(function(k){return k==='mood'?moodCard(F):fanCard(F.files[k],k)}).join('');
+    return '<div class="fw"><div class="fold" role="button" tabindex="0" data-folder="'+i+'" aria-label="'+F.name+' · '+F.files.length+'" style="--z:'+F.coverZoom+'">'+
+      '<div class="fold-back'+(F.tint?' tint':'')+'"><img src="'+F.cover+'" alt="" loading="lazy" decoding="async" style="object-position:'+F.coverPos+';transform-origin:'+F.coverPos+'"></div>'+
+      '<div class="fold-files">'+fan+'</div>'+
+      '<div class="fold-front"><div class="fold-glass"></div>'+RIM+
+        '<span class="fold-chip">'+bi('HARI '+F.num,'DAY '+F.num)+'</span>'+
+        '<div class="fold-lab"><b>'+esc(F.name)+'</b><small>'+bi(F.files.length+' fail',F.files.length+' files')+' · '+esc(F.sub)+'</small></div>'+
+        '<span class="fold-btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>'+
+      '</div></div></div>';
+  }).join('');
+  document.querySelectorAll('[data-strip]').forEach(function(st){
+    var fi=+st.dataset.strip, F=DRIVE[fi];
+    st.innerHTML=STRIPS[fi].map(function(k){ var f=F.files[k]; if(!f) return '';
+      return '<button data-folder="'+fi+'" data-file="'+k+'" aria-label="'+esc(f.n)+'">'+(f.th?'<img src="'+f.th+'" alt="" loading="lazy" decoding="async">':docFace(f))+(f.t==='vid'?'<span class="play">'+PLAY+'</span>':'')+'</button>';
+    }).join('');
+  });
+  var galTrack=document.getElementById('galTrack');
+  if(galTrack){
+    var F3=DRIVE[2], endEl=galTrack.querySelector('.gal-end');
+    GALLERY.forEach(function(k,n){ var f=F3.files[k]; if(!f) return;
+      var r=f.w/f.h, cls=r>1.25?' wide':(n%3===2?' sm':'');
+      var fig=document.createElement('figure'); fig.className='shot'+cls; fig.tabIndex=0; fig.setAttribute('role','button');
+      fig.dataset.folder='2'; fig.dataset.file=String(k);
+      fig.innerHTML='<div class="shot-frame" style="aspect-ratio:'+f.w+'/'+f.h+'"><img src="'+f.th+'" srcset="'+f.th+' '+Math.round(f.w*Math.min(1,560/Math.max(f.w,f.h)))+'w, '+f.src+' '+f.w+'w" sizes="'+(r>1.25?'62vh':'40vh')+'" width="'+f.w+'" height="'+f.h+'" alt="'+esc(f.n.replace(/\.jpg$/,''))+'" loading="lazy" decoding="async"></div><figcaption><b>'+esc(f.n.replace(/\.jpg$/,''))+'</b><span>'+String(n+1).padStart(2,'0')+'</span></figcaption>';
+      galTrack.insertBefore(fig,endEl);
+    });
+  }
+
   /* ---------- i18n ---------- */
   var lang='ms';
   try{ var sv=localStorage.getItem('hz-lang'); if(sv==='en'||sv==='ms') lang=sv; }catch(e){}
   var S={
-    ms:{sections:{utama:'Utama',projek:'Projek',impak:'Impak',ekosistem:'Platform',laman:'Laman & platform',eksperimen:'Eksperimen',hubungi:'Hubungi'},
-        live:['Assalamualaikum, selamat datang','Geng Volunteers 2.0 · <span>461</span> sukarelawan sah','Terbuka untuk kerjasama & jemputan','Lead · Learn · Grow  <span>#DemiUmmah</span>'],
+    ms:{sections:{utama:'Utama',projek:'Projek',progres:'Progres AI · Hari 1–3',galeri:'Hari 3 · Galeri',impak:'Impak',ekosistem:'Platform',laman:'Laman & platform',eksperimen:'Eksperimen',hubungi:'Hubungi'},
+        live:['Assalamualaikum, selamat datang','Progres AI · <span>Hari 3/3</span> selesai','Baharu: <span>23</span> visual AI dalam folder Hari 3','Geng Volunteers 2.0 · <span>461</span> sukarelawan sah','Terbuka untuk kerjasama & jemputan','Lead · Learn · Grow  <span>#DemiUmmah</span>'],
         aria:'Buka menu', ttl:'Pratonton langsung', theme:{light:'Mod terang <span>aktif</span>',dark:'Mod gelap <span>aktif</span>'}},
-    en:{sections:{utama:'Home',projek:'Projects',impak:'Impact',ekosistem:'Platforms',laman:'Sites & platforms',eksperimen:'Experiments',hubungi:'Contact'},
-        live:['Assalamualaikum, welcome','Geng Volunteers 2.0 · <span>461</span> verified volunteers','Open to partnerships & invitations','Lead · Learn · Grow  <span>#DemiUmmah</span>'],
+    en:{sections:{utama:'Home',projek:'Projects',progres:'AI progress · Day 1–3',galeri:'Day 3 · Gallery',impak:'Impact',ekosistem:'Platforms',laman:'Sites & platforms',eksperimen:'Experiments',hubungi:'Contact'},
+        live:['Assalamualaikum, welcome','AI progress · <span>Day 3/3</span> complete','New: <span>23</span> AI visuals in the Day 3 folder','Geng Volunteers 2.0 · <span>461</span> verified volunteers','Open to partnerships & invitations','Lead · Learn · Grow  <span>#DemiUmmah</span>'],
         aria:'Open menu', ttl:'Live preview', theme:{light:'Light mode <span>on</span>',dark:'Dark mode <span>on</span>'}}
   };
   function applyLang(l){
-    lang=l; document.documentElement.lang=l;
+    lang=l; document.documentElement.lang=l; langVer++; if(unlight) unlight();
     $$('[data-ms]').forEach(function(el){ if(el.dataset.ms===undefined) return; el.innerHTML = el.dataset[l]!==undefined ? el.dataset[l] : el.dataset.ms; });
     $$('#lang span').forEach(function(s){ s.classList.toggle('on', s.dataset.l===l); });
     $('#idleBtn').setAttribute('aria-label',S[l].aria);
-    curSec=null; spy();
+    curSec=null; spy(); if(relight) relight(); if(state==='folder') fdHead(); trackLang=''; if(state==='track') setTrackText(curDay);
     try{ localStorage.setItem('hz-lang',l);}catch(e){}
   }
   /* data-ms for elements whose default markup already is Malay: ensure dataset.ms exists */
@@ -772,6 +1187,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
     if(metaTheme) metaTheme.setAttribute('content',th==='light'?'#f6f3ec':'#060608');
     try{localStorage.setItem('hz-theme',th);}catch(e){}
     if(announce&&typeof showLive==='function') showLive(S[lang].theme[th],2200);
+    if(announce&&relight) setTimeout(relight,40);
   }
   themeBtn.addEventListener('click',function(){ setTheme(curTheme()==='light'?'dark':'light',true); });
   setTheme(curTheme(),false);
@@ -779,13 +1195,14 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   /* ---------- Island ---------- */
   var island=$('#island'), backdrop=$('#backdrop'), idleBtn=$('#idleBtn'), idleSub=$('#idleSub'), liveTxt=$('#liveTxt');
   var views=$$('.v',island), state='boot', quietUntil=0, liveIdx=0, hoverT=null, leaveT=null, menuScrollY=0, liveT=null;
-  var map={boot:'boot',idle:'idle',live:'live',menu:'menu',preview:'preview'};
+  var map={boot:'boot',idle:'idle',live:'live',menu:'menu',preview:'preview',track:'track',folder:'folder'};
   function setState(s){
     state=s; island.dataset.state=s;
     views.forEach(function(v){ var on=v.dataset.view===map[s]; v.inert=!on; v.setAttribute('aria-hidden',on?'false':'true'); });
-    var open = (s==='menu'||s==='preview');
-    backdrop.classList.toggle('on',open); backdrop.classList.toggle('dim',s==='preview');
-    document.body.classList.toggle('lock',s==='preview');
+    var big=(s==='preview'||s==='folder'), open=(s==='menu'||big);
+    backdrop.classList.toggle('on',open); backdrop.classList.toggle('dim',big);
+    document.body.classList.toggle('lock',big);
+    if(lenis){ big?lenis.stop():lenis.start(); }
     if(s==='menu') menuScrollY=window.scrollY;
   }
   function goIdle(){ clearTimeout(liveT); setState('idle'); quietUntil=Date.now()+5000; }
@@ -815,15 +1232,15 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
       if(state==='menu'){ leaveT=setTimeout(function(){ if(state==='menu') goIdle(); },380); }
     });
   }
-  backdrop.addEventListener('click',function(){ state==='preview'?closePreview():goIdle(); });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ if(state==='preview') closePreview(); else if(state==='menu') goIdle(); } });
+  backdrop.addEventListener('click',function(){ state==='preview'?closePreview():state==='folder'?closeFolder():goIdle(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'){ if(state==='preview') closePreview(); else if(state==='folder'){ fdV.classList.contains('viewing')?backToGrid():closeFolder(); } else if(state==='menu') goIdle(); } });
   window.addEventListener('scroll',function(){ if(state==='menu'&&Math.abs(window.scrollY-menuScrollY)>70) goIdle(); },{passive:true});
 
   /* menu links */
   $$('.v-menu a').forEach(function(a){
     a.addEventListener('click',function(e){
       var t=$(a.getAttribute('href')); if(!t) return; e.preventDefault();
-      t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+      if(lenis) lenis.scrollTo(t,{offset:t.id==='utama'?0:-84,duration:1.4}); else t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
       try{history.replaceState(null,'',a.getAttribute('href'));}catch(_){}
       goIdle();
     });
@@ -840,7 +1257,7 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   }
   function closePreview(){ setState('idle'); quietUntil=Date.now()+5000; if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true}); }
   pvClose.addEventListener('click',closePreview);
-  $$('.pill').forEach(function(pl){ pl.addEventListener('click',function(){ openPreview(pl); }); });
+  $$('.pill[data-src]').forEach(function(pl){ pl.addEventListener('click',function(){ openPreview(pl); }); });
   $$('.pcard').forEach(function(card){
     var go=function(){ openPreview(card); };
     $('.js-preview',card).addEventListener('click',go);
@@ -850,11 +1267,11 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
 
   /* ---------- Scroll-spy -> island subtitle ---------- */
   var curSec=null;
-  var secEls=['utama','projek','impak','ekosistem','laman','eksperimen','hubungi'].map(function(id){return document.getElementById(id)});
+  var secEls=['utama','projek','progres','galeri','impak','ekosistem','laman','eksperimen','hubungi'].map(function(id){return document.getElementById(id)});
   function spy(){
     var y=window.innerHeight*0.38, id='utama';
     secEls.forEach(function(s){ if(s&&s.getBoundingClientRect().top<=y) id=s.id; });
-    var navId = (id==='ekosistem')?'impak':(id==='eksperimen')?'laman':id;
+    var navId = (id==='ekosistem')?'impak':(id==='eksperimen')?'laman':(id==='galeri')?'progres':id;
     $$('.v-menu a').forEach(function(a){ a.classList.toggle('on',a.dataset.sec===navId); });
     if(id===curSec) return; curSec=id;
     var txt = id==='utama' ? '@hafizceogenz' : S[lang].sections[id];
@@ -888,6 +1305,193 @@ footer b{color:var(--gold);font-weight:700;letter-spacing:.06em}
   var words=['Leadership','Volunteerism','Scholarships','Entrepreneurship','Technology','Nation-building','Education','Islamic values'];
   $('#track').innerHTML=words.concat(words).map(function(w){return '<span>'+w+'</span>'}).join('');
   $('#yr').textContent='© '+new Date().getFullYear();
+
+
+  /* ---------- Folder Drive dibuka DALAM island ---------- */
+  var fdV=$('#fdView'), fdGrid=$('#fdGrid'), fdStage=$('#fdStage'), fdTitle=$('#fdTitle'), fdSub=$('#fdSub'), fdDrive=$('#fdDrive'), fdOpenA=$('#fdOpen'), fdName=$('#fdName'), fdCount=$('#fdCount');
+  var curF=-1, curI=-1, fdTimer=null;
+  function dayWord(){ return lang==='en'?'Day ':'Hari '; }
+  function tileHTML(f,i){
+    var media=f.th?'<img src="'+f.th+'" alt="" loading="lazy" decoding="async">':docFace(f);
+    return '<button class="fd-tile" style="--i:'+Math.min(i,24)+'" data-i="'+i+'"><span class="tt">'+media+'<span class="ty">'+f.s.split(' · ')[0]+'</span>'+(f.t==='vid'?'<span class="play">'+PLAY+'</span>':'')+'</span><b>'+esc(f.n)+'</b><small>'+esc(f.s)+'</small></button>';
+  }
+  function fdHead(){
+    var F=DRIVE[curF]; if(!F) return;
+    if(fdV.classList.contains('viewing')){ var f=F.files[curI]; fdTitle.textContent=f.n; fdSub.textContent=dayWord()+F.num+' · '+F.name+' · '+f.s; }
+    else { fdTitle.textContent=dayWord()+F.num+' · '+F.name; fdSub.textContent=F.files.length+(lang==='en'?' files · ':' fail · ')+F.sub; }
+  }
+  function clearStage(){ var v=fdStage.querySelector('video'); if(v){ try{v.pause();}catch(e){} v.removeAttribute('src'); } fdStage.innerHTML=''; }
+  function openFolder(fi,file){
+    var F=DRIVE[fi]; if(!F) return;
+    if(state!=='folder'&&state!=='menu') lastFocus=document.activeElement;
+    if(curF!==fi){ fdGrid.innerHTML=F.files.map(tileHTML).join(''); curF=fi; }
+    fdGrid.scrollTop=0; fdDrive.style.display=F.drive?'':'none'; if(F.drive) fdDrive.href=F.drive;
+    clearTimeout(fdTimer); clearStage(); fdV.classList.remove('viewing'); fdHead();
+    clearTimeout(liveT); setState('folder');
+    if(file!=null&&!isNaN(file)) fdTimer=setTimeout(function(){ viewFile(file); },reduce?0:320);
+    else setTimeout(function(){ $('#fdClose').focus({preventScroll:true}); },500);
+  }
+  function viewFile(i){
+    var F=DRIVE[curF], n=F.files.length; curI=(i+n)%n; var f=F.files[curI], el;
+    clearStage();
+    if(f.t==='img'){ el=new Image(); el.decoding='async'; el.alt=f.n; el.src=f.src; }
+    else if(f.t==='vid'){ el=document.createElement('video'); el.controls=true; el.playsInline=true; el.setAttribute('playsinline',''); el.preload='metadata'; if(f.th) el.poster=f.th; el.src=f.src; el.autoplay=true; }
+    else { el=document.createElement('iframe'); el.title=f.n; el.src=f.src; }
+    fdStage.appendChild(el);
+    fdV.classList.add('viewing'); fdOpenA.href=f.src; fdName.textContent=f.n; fdCount.textContent=(curI+1)+' / '+n; fdHead();
+    var nx=F.files[(curI+1)%n]; if(nx&&nx.t==='img'){ (new Image()).src=nx.src; }
+  }
+  function backToGrid(){ clearStage(); fdV.classList.remove('viewing'); fdHead(); var t=fdGrid.querySelector('[data-i="'+curI+'"]'); if(t) t.focus({preventScroll:true}); }
+  function closeFolder(){ clearTimeout(fdTimer); clearStage(); fdV.classList.remove('viewing'); setState('idle'); quietUntil=Date.now()+5000; if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true}); }
+  fdGrid.addEventListener('click',function(e){ var t=e.target.closest('.fd-tile'); if(t) viewFile(+t.dataset.i); });
+  $('#fdBack').addEventListener('click',backToGrid);
+  $('#fdClose').addEventListener('click',closeFolder);
+  $('#fdPrev').addEventListener('click',function(){ viewFile(curI-1); });
+  $('#fdNext').addEventListener('click',function(){ viewFile(curI+1); });
+  var sx=null;
+  fdStage.addEventListener('touchstart',function(e){ sx=e.touches[0].clientX; },{passive:true});
+  fdStage.addEventListener('touchend',function(e){ if(sx==null) return; var dx=e.changedTouches[0].clientX-sx; sx=null; if(Math.abs(dx)>50&&!fdStage.querySelector('video,iframe')) viewFile(curI+(dx<0?1:-1)); },{passive:true});
+  document.addEventListener('keydown',function(e){
+    if(state==='folder'&&fdV.classList.contains('viewing')&&(e.key==='ArrowRight'||e.key==='ArrowLeft')&&!(e.target&&e.target.tagName==='VIDEO')){ e.preventDefault(); viewFile(curI+(e.key==='ArrowRight'?1:-1)); }
+    if((e.key==='Enter'||e.key===' ')&&e.target&&e.target.matches&&e.target.matches('.fold,.shot')){ e.preventDefault(); e.target.click(); }
+  });
+  /* semua [data-folder] di laman (kad folder, jalur, galeri, butang, pill menu) buka island */
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('[data-folder]'); if(!el) return;
+    e.preventDefault();
+    var fl=e.target.closest('[data-file]'), file=(fl&&el.contains(fl))?+fl.dataset.file:null;
+    openFolder(+el.dataset.folder,file);
+  });
+  /* hover / tap: fail "keluar" dari folder */
+  $$('.fold').forEach(function(fo){
+    if(fine){ fo.addEventListener('mouseenter',function(){ fo.classList.add('open'); }); fo.addEventListener('mouseleave',function(){ fo.classList.remove('open'); }); }
+    fo.addEventListener('focus',function(){ fo.classList.add('open'); }); fo.addEventListener('blur',function(){ fo.classList.remove('open'); });
+  });
+  if(!fine&&'IntersectionObserver' in window){
+    var fio=new IntersectionObserver(function(es){ es.forEach(function(en){ en.target.classList.toggle('open',en.isIntersecting); }); },{rootMargin:'-34% 0px -34% 0px'});
+    $$('.fold').forEach(function(f){ fio.observe(f); });
+  }
+
+  /* ---------- Garis masa + island "live activity" ---------- */
+  var TRACK={ms:[['Hari 1/3 · AI Agent','WattWise · ejen bil TNB'],['Hari 2/3 · AI Video','Sisa Senja · iklan 30s'],['Hari 3/3 · AI Image','23 visual · 8 jenama']],
+             en:[['Day 1/3 · AI Agent','WattWise · TNB bill agent'],['Day 2/3 · AI Video','Sisa Senja · 30s ad'],['Day 3/3 · AI Image','23 visuals · 8 brands']]};
+  var stepsLine=$('#stepsLine'), steps=$$('.step',stepsLine), sFill=document.createElement('i');
+  sFill.className='steps-fill'; sFill.setAttribute('aria-hidden','true'); stepsLine.appendChild(sFill);
+  var meterRing=$('#meterRing'), meterDay=$('#meterDay'), trackRing=$('#trackRing'), trackT=$('#trackT'), trackS=$('#trackS'), trackP=$('#trackP'), trackTxt=$('#trackTxt');
+  var curDay=0, trackLang='';
+  function setTrackText(d){
+    var t=TRACK[lang][Math.max(0,d-1)]; if(!t) return;
+    if(trackLang===lang+d) return; trackLang=lang+d;
+    trackTxt.classList.add('swap');
+    setTimeout(function(){ trackT.textContent=t[0]; trackS.textContent=t[1]; trackTxt.classList.remove('swap'); },150);
+  }
+  function stepsUpdate(){
+    var r=stepsLine.getBoundingClientRect(), vh=window.innerHeight, start=vh*0.62, len=Math.max(1,r.height-56);
+    var p=Math.max(0,Math.min(1,(start-r.top-10)/len)), lit=0;
+    sFill.style.transform='scaleY('+p.toFixed(4)+')';
+    steps.forEach(function(li){ var on=li.getBoundingClientRect().top+14<=start||p>=1; li.classList.toggle('is-lit',on); if(on) lit++; });
+    meterRing.style.strokeDashoffset=(163.36*(1-p)).toFixed(2);
+    if(lit!==curDay){ curDay=lit; meterDay.textContent=lit; }
+    var inView=r.top<vh*0.72&&r.bottom>vh*0.3&&lit>0;
+    if(inView&&(state==='idle'||state==='track')){
+      if(state!=='track'){ clearTimeout(liveT); setState('track'); }
+      setTrackText(lit);
+      trackRing.style.strokeDashoffset=(94.25*(1-p)).toFixed(2);
+      trackP.textContent=Math.round(p*100)+'%';
+    } else if(!inView&&state==='track'){ setState('idle'); }
+  }
+  window.addEventListener('scroll',stepsUpdate,{passive:true}); window.addEventListener('resize',stepsUpdate);
+  island.addEventListener('click',function(){ if(state==='track') openFolder(Math.max(0,curDay-1),null); });
+  stepsUpdate();
+  setInterval(function(){ if(state==='idle'&&!document.hidden) stepsUpdate(); },700);
+
+  /* ---------- Motion: Lenis + GSAP (ScrollTrigger, SplitText) — ala Glowtide ---------- */
+  var root2=document.documentElement;
+  var motion=root2.classList.contains('motion')&&window.gsap&&window.ScrollTrigger;
+  if(!motion) root2.classList.remove('motion');
+  if(motion){ (function(){
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({autoRefreshEvents:'visibilitychange,DOMContentLoaded,load,resize'});
+    var hasSplit=!!window.SplitText; if(hasSplit) gsap.registerPlugin(SplitText);
+    if(window.Lenis){ lenis=new Lenis({lerp:0.1}); lenis.on('scroll',ScrollTrigger.update); gsap.ticker.add(function(t){ lenis.raf(t*1000); }); gsap.ticker.lagSmoothing(0); }
+    var vh0=window.innerHeight, desk=window.matchMedia('(min-width:761px)');
+    var below=function(el){ return el.getBoundingClientRect().top>vh0; };
+    var fontsReady=document.fonts?document.fonts.ready:Promise.resolve();
+    var onEnter=function(els,fn,margin){ if(!els.length) return; var o=new IntersectionObserver(function(en){ var hit=en.filter(function(x){return x.isIntersecting}).map(function(x){return x.target}); hit.forEach(function(t){o.unobserve(t)}); if(hit.length) fn(hit); },{rootMargin:margin||'0px 0px -8% 0px'}); els.forEach(function(el){o.observe(el)}); };
+    var plain=function(els){ els.forEach(function(el){ el.classList.remove('reveal','in','d1','d2','d3'); el.style.transition='none'; }); };
+    var DONE='transform,opacity,visibility,transition';
+    var cssVar=function(n){ return getComputedStyle(root2).getPropertyValue(n).trim(); };
+
+    /* anchor links → Lenis */
+    document.addEventListener('click',function(e){
+      if(e.defaultPrevented) return; var a=e.target.closest('a[href^="#"]'); if(!a||island.contains(a)) return;
+      var t=document.getElementById(a.getAttribute('href').slice(1)); if(!t) return;
+      e.preventDefault(); lenis?lenis.scrollTo(t,{offset:t.id==='utama'||t.id==='galeri'?0:-84,duration:1.4}):t.scrollIntoView({behavior:'smooth'});
+    });
+
+    /* tajuk: baris naik dari topeng (data-split) */
+    var splits=$$('[data-split]').filter(below);
+    if(hasSplit&&splits.length) fontsReady.then(function(){ onEnter(splits,function(els){ els.forEach(function(el,i){
+      var lv=langVer, s=SplitText.create(el,{type:'lines',mask:'lines'});
+      gsap.from(s.lines,{yPercent:108,duration:1.1,ease:'expo.out',stagger:0.09,delay:i*0.1,onComplete:function(){ if(lv===langVer) s.revert(); }});
+    }); },'0px 0px 4% 0px'); });
+
+    /* kenyataan: perkataan "menyala" ikut scroll (data-light) */
+    var lightTw=[], lightSp=[];
+    unlight=function(){ lightTw.forEach(function(t){ if(t.scrollTrigger) t.scrollTrigger.kill(); t.kill(); }); lightSp.forEach(function(s){ s.revert(); }); lightTw=[]; lightSp=[]; };
+    relight=function(){ if(!hasSplit) return; unlight();
+      $$('[data-light]').forEach(function(el){ var s=SplitText.create(el,{type:'words'}); lightSp.push(s);
+        lightTw.push(gsap.fromTo(s.words,{opacity:0.16,color:cssVar('--gold')},{opacity:1,color:cssVar('--text'),ease:'none',stagger:0.12,scrollTrigger:{trigger:el,start:'top 84%',end:'bottom 52%',scrub:true}}));
+      }); };
+
+    /* kad: naik expo (data-reveal) */
+    var reveals=$$('[data-reveal]').filter(below);
+    if(reveals.length){ gsap.set(reveals,{autoAlpha:0,y:46}); onEnter(reveals,function(els){ gsap.to(els,{autoAlpha:1,y:0,duration:1.1,ease:'expo.out',stagger:0.08,clearProps:'transform'}); }); }
+
+    /* hero: scrub semasa scroll keluar */
+    var hero=$('.hero'), stage=$('#stage'), left=$('.hero .grid>div');
+    if(stage){ stage.classList.remove('reveal','d2'); gsap.from(stage,{autoAlpha:0,y:60,duration:1.5,ease:'expo.out',delay:0.25}); }
+    var htl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:hero,start:'top top',end:'bottom top',scrub:true}});
+    if(left) htl.to(left,{yPercent:-14,opacity:0.12,ease:'power1.in'},0);
+    if(stage) htl.to(stage,{yPercent:16,scale:0.92,rotation:-2.5},0);
+
+    /* thumbnail projek: dedah dari tengah (Glowtide people-frame) */
+    var th=$$('.pcard .thumb').filter(below);
+    if(th.length){ gsap.set(th,{clipPath:'inset(32% 32% 32% 32% round 48px)'}); onEnter(th,function(els){ gsap.to(els,{clipPath:'inset(0% 0% 0% 0% round 0px)',duration:1.5,ease:'expo.out',stagger:0.1,clearProps:'clipPath'}); }); }
+
+    /* impak: pop elastik (Glowtide facts) */
+    var cells=$$('.bento .cell').filter(below);
+    if(cells.length){ plain(cells); gsap.set(cells,{scale:0.6,y:70,autoAlpha:0}); onEnter([$('.bento')],function(){ gsap.to(cells,{scale:1,y:0,autoAlpha:1,duration:1.3,ease:'elastic.out(1, 0.7)',stagger:0.1,onComplete:function(){ gsap.set(cells,{clearProps:DONE}); }}); }); }
+
+    /* ekosistem + laman: luncur masuk (Glowtide visit slabs) */
+    [['.eco','.ecard'],['.sites','.site']].forEach(function(p){
+      var g=$(p[0]); if(!g) return; var it=$$(p[1],g).filter(below); if(!it.length) return;
+      plain(it); gsap.set(it,{x:function(){return desk.matches?150:60},y:30,rotation:3,autoAlpha:0});
+      onEnter([g],function(){ gsap.to(it,{x:0,y:0,rotation:0,autoAlpha:1,duration:1.3,ease:'expo.out',stagger:0.12,onComplete:function(){ gsap.set(it,{clearProps:DONE}); }}); });
+    });
+
+    /* folder: naik & berpusing masuk ikut scroll */
+    $$('.fw').forEach(function(w,i){
+      gsap.fromTo(w,{y:150,rotation:(i-1)*7,opacity:0},{y:0,rotation:0,opacity:1,ease:'power2.out',scrollTrigger:{trigger:w,start:'top 98%',end:'top 58%',scrub:true}});
+    });
+
+    /* galeri Hari 3: pin + melintang (Glowtide gallery) */
+    var gal=$('#galeri'), gst=gal&&$('.gal-stage',gal), trk=$('#galTrack');
+    if(gal&&gst&&trk){
+      var dist=function(){ return Math.max(0,trk.scrollWidth-gst.clientWidth); };
+      var setH=function(){ gal.style.height=(dist()+window.innerHeight)+'px'; };
+      ScrollTrigger.addEventListener('refreshInit',setH); setH();
+      var gtl=gsap.timeline({defaults:{ease:'none'},scrollTrigger:{trigger:gal,start:'top top',end:'bottom bottom',scrub:true,invalidateOnRefresh:true}});
+      gtl.to(trk,{x:function(){return -dist()},duration:1},0);
+      var gi=$$('.shot-frame img',trk); if(gi.length){ gsap.set(gi,{scale:1.2}); gtl.fromTo(gi,{xPercent:-7},{xPercent:7,duration:1},0); }
+      $$('.gal-orb',gal).forEach(function(o,i){ gtl.fromTo(o,{x:function(){return window.innerWidth*(0.3+i*0.25)}},{x:function(){return -window.innerWidth*(0.6+i*0.3)},duration:1},0); });
+    }
+
+    /* footer wordmark */
+    var mk=$('.ft-mark'); if(mk) gsap.fromTo(mk,{yPercent:60},{yPercent:0,ease:'none',scrollTrigger:{trigger:'footer',start:'top bottom',end:'bottom bottom',scrub:true}});
+
+    window.addEventListener('load',function(){ ScrollTrigger.refresh(); });
+  })(); }
 
   applyLang(lang);
 })();
